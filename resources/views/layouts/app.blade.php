@@ -221,7 +221,7 @@
             <main class="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto">
                 <!-- Alerts / Flash Messages -->
                 @if(session('success'))
-                    <div class="mb-6 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-200 flex items-center justify-between shadow-lg shadow-emerald-950/20">
+                    <div id="flash-success-marker" data-has-change="true" class="mb-6 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-200 flex items-center justify-between shadow-lg shadow-emerald-950/20">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
                                 <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

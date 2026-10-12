@@ -4,7 +4,10 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "deploy:rules": "firebase.cmd deploy --only firestore:rules,database",
+        "firebase:login": "firebase.cmd login",
+        "firebase:status": "firebase.cmd projects:list"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",

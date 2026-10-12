@@ -256,15 +256,15 @@ export const FirebaseSync = {
             if (online) {
                 pill.innerHTML = `
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Firebase: Aktif</span>
+                    <span>Firebase: Auto-Sync Aktif</span>
                 `;
-                pill.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
+                pill.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
             } else {
                 pill.innerHTML = `
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                    <span>Firebase: Offline</span>
+                    <span>Firebase: Menghubungkan...</span>
                 `;
-                pill.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30";
+                pill.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30";
             }
         }
     }
@@ -277,10 +277,19 @@ if (typeof window !== "undefined") {
     window.realtimeDb = rtdb;
     window.FirebaseSync = FirebaseSync;
 
-    // Run health check on page load & initialize listeners
-    document.addEventListener("DOMContentLoaded", () => {
-        FirebaseSync.testConnection();
+    // Run health check, realtime listener, and AUTOMATIC SYNC on page load
+    document.addEventListener("DOMContentLoaded", async () => {
+        await FirebaseSync.testConnection();
         FirebaseSync.initRealtimeListeners();
+
+        // JIKA ADA TRANSAKSI / PERUBAHAN DATA (DITANDAI FLASH MESSAGE), OTOMATIS UPLOAD KE FIREBASE!
+        const changeMarker = document.getElementById('flash-success-marker');
+        if (changeMarker) {
+            console.log("⚡ Mendeteksi perubahan data lokal, mengunggah otomatis ke Cloud Firestore...");
+            setTimeout(async () => {
+                await FirebaseSync.syncAllToFirestore();
+            }, 600);
+        }
     });
 }
 
