@@ -1,0 +1,99 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper Functions untuk Autentikasi dan Role
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Mendapatkan data user dari dokumen users/{userId}
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // Mengecek apakah user adalah Administrator
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'admin' || 
+        getUserData().role == 'admin'
+      );
+    }
+
+    // Mengecek apakah user adalah Pegawai (atau Admin)
+    function isPegawai() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'pegawai' || 
+        getUserData().role == 'pegawai' || 
+        isAdmin()
+      );
+    }
+
+    // ==============================================================
+    // 1. Koleksi Pengguna (Users)
+    // ==============================================================
+    match /users/{userId} {
+      // User dapat membaca profilnya sendiri, Admin dapat membaca & mengelola semua user
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // ==============================================================
+    // 2. Koleksi Bahan Baku Gudang (Items)
+    // ==============================================================
+    match /items/{itemId} {
+      // Seluruh staf (Admin & Pegawai) dapat melihat data stok bahan
+      allow read: if isPegawai();
+
+      // Tambah & hapus bahan baku hanya boleh dilakukan oleh Admin
+      allow create, delete: if isAdmin();
+
+      // Update stok: Admin boleh ubah apa saja, Pegawai hanya boleh update saat transaksi mutasi
+      allow update: if isPegawai();
+    }
+
+    // ==============================================================
+    // 3. Koleksi Kategori & Supplier
+    // ==============================================================
+    match /categories/{categoryId} {
+      allow read: if isPegawai();
+      allow write: if isAdmin();
+    }
+
+    match /suppliers/{supplierId} {
+      allow read: if isPegawai();
+      allow write: if isAdmin();
+    }
+
+    // ==============================================================
+    // 4. Koleksi Transaksi Stok (Stok Masuk, Keluar, Opname)
+    // ==============================================================
+    match /stock_transactions/{transactionId} {
+      // Semua staf dapat melihat riwayat transaksi mutasi
+      allow read: if isPegawai();
+
+      // Pegawai dan Admin dapat mencatat stok masuk / stok keluar baru
+      allow create: if isPegawai() && 
+        request.resource.data.keys().hasAll(['transaction_code', 'type', 'date']) &&
+        request.resource.data.type in ['in', 'out', 'adjustment'];
+
+      // Transaksi yang sudah masuk tidak boleh diubah/dihapus sembarangan demi audit trail
+      allow update, delete: if isAdmin();
+
+      // Sub-koleksi rincian barang per transaksi
+      match /items/{itemSubId} {
+        allow read: if isPegawai();
+        allow create: if isPegawai();
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // ==============================================================
+    // 5. Default Fallback
+    // ==============================================================
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
