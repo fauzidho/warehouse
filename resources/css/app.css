@@ -6,6 +6,42 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-coffee-50: #fbf8f5;
+    --color-coffee-100: #f5efe8;
+    --color-coffee-200: #e8dccf;
+    --color-coffee-300: #d6c0a8;
+    --color-coffee-400: #be9d7c;
+    --color-coffee-500: #a87e56;
+    --color-coffee-600: #8c6443;
+    --color-coffee-700: #714e36;
+    --color-coffee-800: #573c2a;
+    --color-coffee-900: #3e2b1f;
+    --color-coffee-950: #22160f;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #18181b;
+}
+::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #52525b;
+}
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+        color: black !important;
+    }
 }

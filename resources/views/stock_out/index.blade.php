@@ -1,0 +1,141 @@
+@extends('layouts.app')
+
+@section('title', 'Stok Keluar')
+@section('page-title', 'Stok Keluar (Pemakaian Bahan)')
+@section('page-subtitle', 'Pencatatan pemakaian bahan di bar barista, kitchen, dan waste')
+
+@section('content')
+<div class="space-y-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="text-xl font-extrabold text-white tracking-tight">Riwayat Stok Keluar & Pemakaian Bar</h2>
+            <p class="text-xs text-zinc-400">Pengeluaran biji kopi, susu, sirup untuk operasional atau bahan rusak.</p>
+        </div>
+
+        <a href="{{ route('stock-out.create') }}"
+            class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-amber-950/40 transition-all self-start sm:self-auto">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/>
+            </svg>
+            Catat Pengeluaran Bahan
+        </a>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-4 sm:p-5">
+        <form method="GET" action="{{ route('stock-out.index') }}" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div class="lg:col-span-2">
+                <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Cari Kode Transaksi, Alasan, atau No Req</label>
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cth: OUT-2026..., Pemakaian Bar, REQ-..."
+                    class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-4 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all">
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Dari Tanggal</label>
+                <input type="date" name="start_date" value="{{ request('start_date') }}"
+                    class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-amber-500">
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Sampai Tanggal</label>
+                <div class="flex gap-2">
+                    <input type="date" name="end_date" value="{{ request('end_date') }}"
+                        class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-amber-500">
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold shrink-0">
+                        Filter
+                    </button>
+                    @if(request()->hasAny(['search', 'start_date', 'end_date']))
+                        <a href="{{ route('stock-out.index') }}" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 text-xs shrink-0 flex items-center justify-center">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead>
+                    <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 font-semibold uppercase tracking-wider text-[10px]">
+                        <th class="py-3.5 px-4">No Transaksi & Tanggal</th>
+                        <th class="py-3.5 px-4">Tujuan / Alasan Pengeluaran</th>
+                        <th class="py-3.5 px-4">Rincian Bahan Keluar</th>
+                        <th class="py-3.5 px-4 text-center">Jumlah Item</th>
+                        <th class="py-3.5 px-4 text-right">Estimasi Biaya</th>
+                        <th class="py-3.5 px-4">Diajukan Oleh</th>
+                        <th class="py-3.5 px-4 text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-800/60">
+                    @forelse($transactions as $tx)
+                        <tr class="hover:bg-zinc-850/50 transition-colors">
+                            <td class="py-4 px-4 font-mono">
+                                <div class="font-bold text-amber-400">{{ $tx->transaction_code }}</div>
+                                <div class="text-[11px] text-zinc-400 font-sans">{{ $tx->date->translatedFormat('d M Y') }}</div>
+                            </td>
+
+                            <td class="py-4 px-4">
+                                <div class="font-semibold text-white">{{ $tx->destination_or_reason }}</div>
+                                @if($tx->reference_number)
+                                    <div class="text-[11px] text-zinc-400 font-mono">Requisisi: {{ $tx->reference_number }}</div>
+                                @endif
+                            </td>
+
+                            <td class="py-4 px-4">
+                                <div class="space-y-0.5">
+                                    @foreach($tx->items->take(2) as $ti)
+                                        <div class="text-zinc-300">
+                                            &bull; {{ $ti->item->name ?? 'Item' }}
+                                            <span class="text-amber-400 font-bold">({{ $ti->quantity }} {{ $ti->item->unit ?? '' }})</span>
+                                        </div>
+                                    @endforeach
+                                    @if($tx->items->count() > 2)
+                                        <div class="text-[10px] text-zinc-500">+{{ $tx->items->count() - 2 }} item lainnya</div>
+                                    @endif
+                                </div>
+                            </td>
+
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-300 font-bold text-[11px]">
+                                    {{ $tx->items->count() }} Jenis
+                                </span>
+                            </td>
+
+                            <td class="py-4 px-4 text-right font-bold text-zinc-300">
+                                Rp {{ number_format($tx->total_cost, 0, ',', '.') }}
+                            </td>
+
+                            <td class="py-4 px-4">
+                                <div class="text-zinc-300 font-medium">{{ $tx->user->name ?? '-' }}</div>
+                                <div class="text-[10px] text-zinc-500">{{ $tx->user->role ?? '' }}</div>
+                            </td>
+
+                            <td class="py-4 px-4 text-right">
+                                <a href="{{ route('stock-out.show', $tx) }}"
+                                    class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-semibold transition-all">
+                                    Lihat Bukti
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="py-12 text-center text-zinc-500">
+                                Belum ada riwayat pengeluaran bahan baku.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($transactions->hasPages())
+            <div class="p-4 border-t border-zinc-800">
+                {{ $transactions->links() }}
+            </div>
+        @endif
+    </div>
+</div>
+@endsection
