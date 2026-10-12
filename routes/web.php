@@ -64,5 +64,10 @@ Route::middleware('auth')->group(function () {
 
         // User Management
         Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'destroy']);
+
+        // Firebase Cloud Center & Sync
+        Route::get('/firebase', [\App\Http\Controllers\FirebaseController::class, 'index'])->name('firebase.index');
+        Route::get('/firebase/export', [\App\Http\Controllers\FirebaseController::class, 'exportData'])->name('firebase.export');
+        Route::post('/firebase/import', [\App\Http\Controllers\FirebaseController::class, 'importData'])->name('firebase.import');
     });
 });

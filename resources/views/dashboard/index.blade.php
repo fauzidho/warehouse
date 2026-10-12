@@ -51,6 +51,31 @@
         </div>
     </div>
 
+    @if($totalItems == 0)
+        <!-- Onboarding Fresh State -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-amber-950/30 via-zinc-900 to-zinc-900 border border-amber-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 text-xl font-bold">
+                    🔥
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-white">Database Bersih (Siap Digunakan)</h3>
+                    <p class="text-xs text-zinc-400 mt-0.5">Seluruh data dummy telah dibersihkan. Anda dapat mulai menambahkan bahan baku riil atau menyinkronkan data langsung dengan Google Cloud Firestore.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 self-start md:self-auto shrink-0">
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('items.create') }}" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs transition-all">
+                        + Tambah Bahan Pertama
+                    </a>
+                @endif
+                <a href="{{ route('firebase.index') }}" class="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 font-bold text-xs transition-all">
+                    Buka Firebase Center &rarr;
+                </a>
+            </div>
+        </div>
+    @endif
+
     <!-- 4 KPI Summary Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <!-- Card 1: Total Bahan Baku -->

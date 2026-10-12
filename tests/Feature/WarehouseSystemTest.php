@@ -72,7 +72,16 @@ class WarehouseSystemTest extends TestCase
     public function test_stock_in_increases_item_quantity(): void
     {
         $pegawai = User::where('role', 'pegawai')->first();
-        $item = Item::first();
+        $cat = Category::create(['name' => 'Kopi Test', 'slug' => 'kopi-test']);
+        $item = Item::create([
+            'category_id' => $cat->id,
+            'sku' => 'TEST-01',
+            'name' => 'Biji Kopi Test',
+            'unit' => 'kg',
+            'minimum_stock' => 5,
+            'current_stock' => 10,
+            'cost_price' => 100000,
+        ]);
         $initialStock = floatval($item->current_stock);
 
         $response = $this->actingAs($pegawai)->post('/stock-in', [
@@ -98,7 +107,16 @@ class WarehouseSystemTest extends TestCase
     public function test_stock_out_decreases_item_quantity(): void
     {
         $pegawai = User::where('role', 'pegawai')->first();
-        $item = Item::first();
+        $cat = Category::create(['name' => 'Kopi Test 2', 'slug' => 'kopi-test-2']);
+        $item = Item::create([
+            'category_id' => $cat->id,
+            'sku' => 'TEST-02',
+            'name' => 'Biji Kopi Test 2',
+            'unit' => 'kg',
+            'minimum_stock' => 5,
+            'current_stock' => 15,
+            'cost_price' => 100000,
+        ]);
         $initialStock = floatval($item->current_stock);
 
         $response = $this->actingAs($pegawai)->post('/stock-out', [
@@ -123,7 +141,16 @@ class WarehouseSystemTest extends TestCase
     public function test_stock_out_fails_if_quantity_exceeds_stock(): void
     {
         $pegawai = User::where('role', 'pegawai')->first();
-        $item = Item::first();
+        $cat = Category::create(['name' => 'Kopi Test 3', 'slug' => 'kopi-test-3']);
+        $item = Item::create([
+            'category_id' => $cat->id,
+            'sku' => 'TEST-03',
+            'name' => 'Biji Kopi Test 3',
+            'unit' => 'kg',
+            'minimum_stock' => 5,
+            'current_stock' => 5,
+            'cost_price' => 100000,
+        ]);
 
         $excessQuantity = floatval($item->current_stock) + 99999;
 
