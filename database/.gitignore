@@ -1,1 +1,1 @@
-*.sqlite*
+# allow database.sqlite to be tracked for Vercel deployment

@@ -20,8 +20,10 @@ $targetDb = '/tmp/database.sqlite';
 
 if (file_exists($sourceDb) && !file_exists($targetDb)) {
     copy($sourceDb, $targetDb);
+    chmod($targetDb, 0666);
 } elseif (!file_exists($targetDb)) {
     touch($targetDb);
+    chmod($targetDb, 0666);
 }
 
 putenv("DB_DATABASE={$targetDb}");
