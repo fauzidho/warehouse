@@ -1,6 +1,6 @@
 <?php
 
-// Prepare writable directories in /tmp for Vercel's serverless read-only filesystem
+// 1. Siapkan direktori writable di /tmp untuk sistem file serverless Vercel (read-only)
 $directories = [
     '/tmp/storage/app/public',
     '/tmp/storage/framework/views',
@@ -16,14 +16,20 @@ foreach ($directories as $dir) {
     }
 }
 
-// Runtime temporary SQLite cache in /tmp
+// 2. Siapkan SQLite Database di /tmp
+$sourceDb = __DIR__ . '/../database/database.sqlite';
 $targetDb = '/tmp/database.sqlite';
+
 if (!file_exists($targetDb)) {
-    touch($targetDb);
+    if (file_exists($sourceDb) && filesize($sourceDb) > 0) {
+        copy($sourceDb, $targetDb);
+    } else {
+        touch($targetDb);
+    }
     chmod($targetDb, 0666);
 }
 
-// Override critical env vars for Vercel serverless environment
+// 3. Konfigurasi Environment khusus Serverless Vercel
 $envOverrides = [
     'LARAVEL_STORAGE_PATH' => '/tmp/storage',
     'VIEW_COMPILED_PATH'   => '/tmp/storage/framework/views',
@@ -40,5 +46,5 @@ foreach ($envOverrides as $key => $value) {
     $_SERVER[$key] = $value;
 }
 
-// Forward Vercel serverless requests to Laravel's public entrypoint
+// 4. Teruskan request ke Laravel public entrypoint
 require __DIR__ . '/../public/index.php';

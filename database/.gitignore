@@ -1,2 +1,2 @@
-*.sqlite
 *.sqlite-journal
+# database.sqlite diikutkan untuk deployment awal Vercel
