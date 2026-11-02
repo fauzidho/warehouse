@@ -7,15 +7,18 @@
     }
   },
   "buildCommand": "npm run build",
-  "outputDirectory": "public",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/build/(.*)",
-      "destination": "/build/$1"
+      "src": "/build/(.*)",
+      "dest": "/build/$1"
     },
     {
-      "source": "/(.*)",
-      "destination": "/api/index.php"
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|map))",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
     }
   ]
 }
