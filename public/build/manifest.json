@@ -1,6 +1,10 @@
 {
+  "_firebase-vendor-JMJsw78M.js": {
+    "file": "assets/firebase-vendor-JMJsw78M.js",
+    "name": "firebase-vendor"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-Csph1RQv.css",
+    "file": "assets/app-DUX7clCE.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -9,9 +13,21 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-D8SAyRd5.js",
+    "file": "assets/app-BuS5KDQM.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/firebase.js"
+    ]
+  },
+  "resources/js/firebase.js": {
+    "file": "assets/firebase-DEkJLVfQ.js",
+    "name": "firebase",
+    "src": "resources/js/firebase.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "_firebase-vendor-JMJsw78M.js"
+    ]
   }
 }

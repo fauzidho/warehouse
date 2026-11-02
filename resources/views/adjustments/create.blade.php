@@ -5,7 +5,17 @@
 @section('page-subtitle', 'Masukkan hasil hitung fisik untuk rekonsiliasi dan penyesuaian otomatis stok')
 
 @section('content')
-<div class="max-w-5xl mx-auto space-y-6">
+<div class="max-w-5xl mx-auto space-y-5">
+    <!-- Helper Guidance for Staff -->
+    <div class="p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/20 flex items-start gap-3">
+        <div class="w-7 h-7 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="text-xs text-zinc-300">
+            <span class="font-bold text-white">Petunjuk Stock Opname Fisik:</span> Hitung jumlah fisik riil di rak penyimpanan/chiller. Masukkan angka hasil hitungan ke kolom <strong class="text-white">Hitung Fisik</strong>. Sistem otomatis menghitung selisih (surplus atau defisit) dan membuat Berita Acara Rekonsiliasi resmi.
+        </div>
+    </div>
+
     <!-- Category Filter Bar -->
     <div class="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

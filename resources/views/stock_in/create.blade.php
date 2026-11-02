@@ -5,7 +5,17 @@
 @section('page-subtitle', 'Pencatatan pasokan bahan baku yang masuk ke gudang')
 
 @section('content')
-<div class="max-w-5xl mx-auto">
+<div class="max-w-5xl mx-auto space-y-5">
+    <!-- Helper Guidance for Staff -->
+    <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 flex items-start gap-3">
+        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="text-xs text-zinc-300">
+            <span class="font-bold text-white">Petunjuk Penerimaan Barang:</span> Masukkan nomor faktur atau surat jalan dari supplier. Anda dapat menambahkan lebih dari satu item sekaligus. Harga beli satuan terisi otomatis dari data master namun dapat diedit sesuai faktur riil pengiriman.
+        </div>
+    </div>
+
     <form action="{{ route('stock-in.store') }}" method="POST" id="stockInForm" class="space-y-6">
         @csrf
 

@@ -15,4 +15,20 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+    build: {
+        chunkSizeWarningLimit: 800,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    // Pisahkan Firebase SDK ke chunk terpisah
+                    // sehingga tidak dimuat pada halaman yang tidak membutuhkannya
+                    'firebase-vendor': [
+                        'firebase/app',
+                        'firebase/firestore',
+                        'firebase/database',
+                    ],
+                },
+            },
+        },
+    },
 });

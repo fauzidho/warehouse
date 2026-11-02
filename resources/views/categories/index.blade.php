@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Kategori Bahan')
-@section('page-title', 'Master Kategori Bahan Baku')
-@section('page-subtitle', 'Pengelompokan biji kopi, dairy, sirup konsentrat, bubuk, dan perlengkapan')
+@section('page-title', 'Kategori Bahan')
+@section('page-subtitle', 'Kelompokkan bahan baku berdasarkan jenis — kopi, susu, sirup, kemasan')
 
 @section('content')
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -30,8 +30,8 @@
                     class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl p-3 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all"></textarea>
             </div>
 
-            <button type="submit"
-                class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 shadow-lg shadow-amber-950/40 transition-all">
+            <button type="submit" id="catSubmitBtn"
+                class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 shadow-lg shadow-amber-950/30 transition-all active:scale-[0.98]">
                 Simpan Kategori
             </button>
         </form>
@@ -89,4 +89,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector('form[action="{{ route('categories.store') }}"]').addEventListener('submit', function() {
+        const btn = document.getElementById('catSubmitBtn');
+        if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
+    });
+</script>
 @endsection

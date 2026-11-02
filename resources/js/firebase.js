@@ -5,15 +5,14 @@ import {
     doc, 
     setDoc, 
     getDocs, 
-    onSnapshot, 
     serverTimestamp,
     query,
     orderBy,
     limit 
 } from "firebase/firestore";
-import { getDatabase, ref, set as rtdbSet, onValue } from "firebase/database";
+import { getDatabase, ref, set as rtdbSet } from "firebase/database";
 
-// Firebase Configuration Toko Kopi
+// Firebase Configuration
 export const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDSfrl6WclAYdSoPtxsFt1Pvh5N2NReqMw",
     authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "toko-kopi-8abbd.firebaseapp.com",
@@ -24,89 +23,100 @@ export const firebaseConfig = {
     appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:1076301234300:web:8fc39d721282f5ec70c9f9"
 };
 
-// Initialize App
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const rtdb = getDatabase(app);
+// Initialize App (lazy - hanya diinisialisasi jika diperlukan)
+let _app = null;
+let _db = null;
+let _rtdb = null;
 
-// Helper Toast Notification
-function showLiveToast(title, message, type = 'info') {
-    let container = document.getElementById('firebase-toast-container');
+function getApp() {
+    if (!_app) _app = initializeApp(firebaseConfig);
+    return _app;
+}
+
+function getDb() {
+    if (!_db) _db = getFirestore(getApp());
+    return _db;
+}
+
+function getRtdb() {
+    if (!_rtdb) _rtdb = getDatabase(getApp());
+    return _rtdb;
+}
+
+// Toast Notification (hanya untuk halaman backup)
+function showBackupToast(title, message, type = 'info') {
+    let container = document.getElementById('backup-toast-container');
     if (!container) {
         container = document.createElement('div');
-        container.id = 'firebase-toast-container';
-        container.className = 'fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none';
+        container.id = 'backup-toast-container';
+        container.style.cssText = 'position:fixed;bottom:1.25rem;right:1.25rem;z-index:50;display:flex;flex-direction:column;gap:0.5rem;max-width:360px;pointer-events:none;';
         document.body.appendChild(container);
     }
 
+    const colors = {
+        success: { bg: 'rgba(6,78,59,0.95)', border: 'rgba(16,185,129,0.4)', text: '#d1fae5' },
+        warning: { bg: 'rgba(69,26,3,0.95)', border: 'rgba(245,158,11,0.4)', text: '#fef3c7' },
+        info:    { bg: 'rgba(24,24,27,0.95)', border: 'rgba(63,63,70,0.8)', text: '#e4e4e7' },
+    };
+    const c = colors[type] || colors.info;
+
     const toast = document.createElement('div');
-    toast.className = `p-3.5 rounded-xl border shadow-xl backdrop-blur-xl pointer-events-auto transform transition-all duration-300 translate-y-2 opacity-0 flex items-start gap-3 text-xs ${
-        type === 'success' 
-            ? 'bg-emerald-950/90 border-emerald-500/40 text-emerald-200' 
-            : type === 'warning'
-            ? 'bg-amber-950/90 border-amber-500/40 text-amber-200'
-            : 'bg-zinc-900/90 border-zinc-700/80 text-zinc-200'
-    }`;
+    toast.style.cssText = `background:${c.bg};border:1px solid ${c.border};color:${c.text};padding:0.875rem;border-radius:0.75rem;box-shadow:0 20px 40px rgba(0,0,0,0.4);pointer-events:auto;display:flex;align-items:flex-start;gap:0.75rem;font-size:0.75rem;transform:translateY(0.5rem);opacity:0;transition:all 0.3s ease;`;
 
     toast.innerHTML = `
-        <div class="w-5 h-5 rounded-md bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 font-bold text-[10px]">🔥</div>
-        <div class="flex-1">
-            <div class="font-bold tracking-tight text-white">${title}</div>
-            <div class="text-[11px] text-zinc-300 mt-0.5">${message}</div>
+        <div style="flex:1">
+            <div style="font-weight:700;color:#fff;margin-bottom:2px">${title}</div>
+            <div style="font-size:0.6875rem;opacity:0.85">${message}</div>
         </div>
-        <button onclick="this.parentElement.remove()" class="text-zinc-400 hover:text-white">&times;</button>
+        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer;padding:0;opacity:0.6;font-size:1rem;line-height:1">&times;</button>
     `;
 
     container.appendChild(toast);
-    setTimeout(() => {
-        toast.classList.remove('translate-y-2', 'opacity-0');
-    }, 50);
+    requestAnimationFrame(() => {
+        toast.style.transform = 'translateY(0)';
+        toast.style.opacity = '1';
+    });
 
     setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(0.5rem)';
         setTimeout(() => toast.remove(), 400);
     }, 5000);
 }
 
-// Global Firebase Sync & Realtime Manager
+// Global Firebase Sync Manager
 export const FirebaseSync = {
-    app,
-    db,
-    rtdb,
-
-    // 1. Health check & test write to Firestore
+    // 1. Health check - hanya panggil manual dari halaman backup
     async testConnection() {
         try {
+            const db = getDb();
+            const rtdb = getRtdb();
             const testRef = doc(db, "_health", "connection_test");
             await setDoc(testRef, {
                 status: "connected",
                 app: "Gudang Half Kopi",
-                projectId: firebaseConfig.projectId,
                 timestamp: serverTimestamp(),
-                userAgent: navigator.userAgent
             });
 
-            // Also test Realtime Database
             const rtdbRef = ref(rtdb, "health/status");
             await rtdbSet(rtdbRef, {
                 online: true,
                 updatedAt: new Date().toISOString()
             });
 
-            this.updateNavbarStatus(true);
-            showLiveToast("Firebase Terkoneksi", "Koneksi ke Firestore & Realtime DB aktif!", "success");
-            return { success: true, message: "Koneksi ke Firestore & Realtime DB berhasil!" };
+            showBackupToast("Koneksi Berhasil", "Server cadangan data aktif dan siap digunakan.", "success");
+            return { success: true };
         } catch (error) {
-            console.error("Firebase Connection Error:", error);
-            this.updateNavbarStatus(false);
-            showLiveToast("Gagal Terkoneksi", error.message, "warning");
+            console.warn("Backup server not reachable:", error.message);
+            showBackupToast("Mode Lokal", "Sistem berjalan normal dalam mode penyimpanan lokal.", "warning");
             return { success: false, error: error.message };
         }
     },
 
-    // 2. Upload local database to Cloud Firestore
+    // 2. Upload data lokal ke Cloud (manual trigger saja)
     async syncAllToFirestore() {
         try {
+            const db = getDb();
             const res = await fetch('/firebase/export');
             const result = await res.json();
             if (!result.data) throw new Error("Gagal mengambil data lokal.");
@@ -114,37 +124,29 @@ export const FirebaseSync = {
             const { items, categories, suppliers, transactions } = result.data;
             let count = 0;
 
-            // Categories
             for (const cat of categories) {
                 await setDoc(doc(db, "categories", String(cat.id)), {
-                    id: cat.id,
-                    name: cat.name,
-                    slug: cat.slug,
+                    id: cat.id, name: cat.name, slug: cat.slug,
                     description: cat.description || "",
                     updatedAt: serverTimestamp()
                 });
                 count++;
             }
 
-            // Suppliers
             for (const sup of suppliers) {
                 await setDoc(doc(db, "suppliers", String(sup.id)), {
-                    id: sup.id,
-                    name: sup.name,
+                    id: sup.id, name: sup.name,
                     contact_person: sup.contact_person || "",
-                    phone: sup.phone || "",
-                    email: sup.email || "",
+                    phone: sup.phone || "", email: sup.email || "",
                     address: sup.address || "",
                     updatedAt: serverTimestamp()
                 });
                 count++;
             }
 
-            // Items
             for (const item of items) {
                 await setDoc(doc(db, "items", String(item.id)), {
-                    id: item.id,
-                    name: item.name,
+                    id: item.id, name: item.name,
                     category_id: item.category_id,
                     category_name: item.category ? item.category.name : "",
                     unit: item.unit,
@@ -157,13 +159,10 @@ export const FirebaseSync = {
                 count++;
             }
 
-            // Transactions
             for (const tx of transactions) {
                 await setDoc(doc(db, "stock_transactions", String(tx.transaction_code)), {
-                    id: tx.id,
-                    transaction_code: tx.transaction_code,
-                    type: tx.type,
-                    date: tx.date,
+                    id: tx.id, transaction_code: tx.transaction_code,
+                    type: tx.type, date: tx.date,
                     destination_or_reason: tx.destination_or_reason,
                     total_cost: Number(tx.total_cost),
                     updatedAt: serverTimestamp()
@@ -171,33 +170,29 @@ export const FirebaseSync = {
                 count++;
             }
 
-            showLiveToast("Sinkronisasi Selesai", `Berhasil mengunggah ${count} dokumen ke Cloud Firestore.`, "success");
+            showBackupToast("Pencadangan Selesai", `${count} data berhasil dicadangkan ke server cloud.`, "success");
             return { success: true, count };
         } catch (error) {
             console.error("Sync Error:", error);
-            showLiveToast("Gagal Sinkronisasi", error.message, "warning");
+            showBackupToast("Pencadangan Gagal", error.message, "warning");
             return { success: false, error: error.message };
         }
     },
 
-    // 3. Pull data from Cloud Firestore into local database
+    // 3. Tarik data dari Cloud ke lokal
     async pullFromFirestore() {
         try {
-            // Fetch categories
+            const db = getDb();
             const catSnap = await getDocs(collection(db, "categories"));
             const categories = catSnap.docs.map(d => d.data());
 
-            // Fetch suppliers
             const supSnap = await getDocs(collection(db, "suppliers"));
             const suppliers = supSnap.docs.map(d => d.data());
 
-            // Fetch items
             const itemSnap = await getDocs(collection(db, "items"));
             const items = itemSnap.docs.map(d => d.data());
 
-            // Post to backend import endpoint
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') 
-                || (window.Laravel && window.Laravel.csrfToken);
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
             const res = await fetch('/firebase/import', {
                 method: 'POST',
@@ -209,88 +204,22 @@ export const FirebaseSync = {
             });
 
             const json = await res.json();
-            showLiveToast("Impor Firestore Berhasil", json.message || "Data lokal telah diperbarui.", "success");
+            showBackupToast("Pemulihan Data Berhasil", "Data inventori telah diperbarui dari server cadangan.", "success");
             setTimeout(() => window.location.reload(), 1500);
             return json;
         } catch (error) {
             console.error("Pull Error:", error);
-            showLiveToast("Gagal Impor Firestore", error.message, "warning");
+            showBackupToast("Pemulihan Terkendala", error.message, "warning");
             return { success: false, error: error.message };
         }
     },
-
-    // 4. Real-time listeners for live updates across devices
-    initRealtimeListeners() {
-        // Listen to live transactions
-        try {
-            const txQuery = query(collection(db, "stock_transactions"), orderBy("updatedAt", "desc"), limit(5));
-            let initialLoad = true;
-
-            onSnapshot(txQuery, (snapshot) => {
-                if (initialLoad) {
-                    initialLoad = false;
-                    return;
-                }
-
-                snapshot.docChanges().forEach((change) => {
-                    if (change.type === "added" || change.type === "modified") {
-                        const data = change.doc.data();
-                        showLiveToast(
-                            "Mutasi Stok Realtime 🔥",
-                            `Transaksi ${data.transaction_code || ''} (${data.type === 'in' ? 'Stok Masuk' : 'Stok Keluar'}) baru saja diperbarui di Cloud Firestore.`,
-                            "info"
-                        );
-                    }
-                });
-            }, (err) => {
-                console.warn("Firestore realtime snapshot notice:", err.message);
-            });
-        } catch (e) {
-            console.warn("Listeners init warning:", e);
-        }
-    },
-
-    updateNavbarStatus(online) {
-        const pill = document.getElementById('firebaseStatusPill');
-        if (pill) {
-            if (online) {
-                pill.innerHTML = `
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Cloud: Aktif ✓</span>
-                `;
-                pill.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
-            } else {
-                pill.innerHTML = `
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                    <span>Cloud: Menghubungkan...</span>
-                `;
-                pill.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30";
-            }
-        }
-    }
 };
 
-// Expose globally
+// Expose globally - TANPA auto-run koneksi di setiap halaman
 if (typeof window !== "undefined") {
-    window.firebaseApp = app;
-    window.firestoreDb = db;
-    window.realtimeDb = rtdb;
     window.FirebaseSync = FirebaseSync;
-
-    // Run health check, realtime listener, and AUTOMATIC SYNC on page load
-    document.addEventListener("DOMContentLoaded", async () => {
-        await FirebaseSync.testConnection();
-        FirebaseSync.initRealtimeListeners();
-
-        // JIKA ADA TRANSAKSI / PERUBAHAN DATA (DITANDAI FLASH MESSAGE), OTOMATIS UPLOAD KE FIREBASE!
-        const changeMarker = document.getElementById('flash-success-marker');
-        if (changeMarker) {
-            console.log("⚡ Mendeteksi perubahan data lokal, mengunggah otomatis ke Cloud Firestore...");
-            setTimeout(async () => {
-                await FirebaseSync.syncAllToFirestore();
-            }, 600);
-        }
-    });
+    // TIDAK ada auto testConnection(), TIDAK ada initRealtimeListeners() otomatis
+    // Hal ini menghilangkan 3 operasi network berat yang memperlambat setiap halaman
 }
 
 export default FirebaseSync;

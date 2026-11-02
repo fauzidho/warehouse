@@ -1,284 +1,494 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-zinc-950 text-zinc-100 antialiased">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') - Gudang Half Kopi</title>
+    <title>@yield('title', 'Dashboard') — Gudang Half Kopi</title>
+    <meta name="description" content="Sistem Manajemen Gudang & Inventori Half Kopi">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body {
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body {
+            height: 100%;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #09090b;
+            color: #f4f4f5;
+        }
+
+        /* ─── ROOT LAYOUT ─── */
+        .layout {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ─── SIDEBAR ─── */
+        #sidebar {
+            width: 264px;
+            min-width: 264px;
+            height: 100vh;
+            background: #18181b;
+            border-right: 1px solid rgba(63,63,70,0.7);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        /* MOBILE: sidebar jadi fixed overlay */
+        @media (max-width: 1023px) {
+            #sidebar {
+                position: fixed;
+                top: 0; left: 0; bottom: 0;
+                z-index: 200;
+                transform: translateX(-100%);
+            }
+            #sidebar.open { transform: translateX(0); }
+            .hamburger { display: flex !important; }
+        }
+        @media (min-width: 1024px) {
+            .hamburger { display: none !important; }
+        }
+
+        /* ─── SIDEBAR INNER ─── */
+        .sidebar-brand {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(63,63,70,0.6);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+        .sidebar-user {
+            padding: 0.625rem 0.875rem;
+            flex-shrink: 0;
+        }
+        .sidebar-nav {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0.5rem 0.75rem;
+        }
+        .sidebar-nav::-webkit-scrollbar { width: 3px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+        .sidebar-footer {
+            padding: 0.75rem;
+            border-top: 1px solid rgba(63,63,70,0.6);
+            flex-shrink: 0;
+        }
+
+        /* ─── NAV LINKS ─── */
+        .nav-section-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: #52525b;
+            padding: 0.875rem 0.5rem 0.3rem;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.45rem 0.65rem;
+            border-radius: 7px;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: #a1a1aa;
+            text-decoration: none;
+            position: relative;
+            margin-bottom: 2px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .nav-link:hover { background: rgba(39,39,42,0.7); color: #e4e4e7; }
+        .nav-link.active { background: rgba(217,119,6,0.12); color: #f59e0b; font-weight: 600; }
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%;
+            transform: translateY(-50%);
+            width: 3px; height: 55%;
+            background: #f59e0b;
+            border-radius: 0 3px 3px 0;
+        }
+        .nav-link.active-green { background: rgba(16,185,129,0.09); color: #34d399; font-weight: 600; }
+        .nav-link.active-green::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#34d399; border-radius:0 3px 3px 0; }
+        .nav-link.active-amber { background: rgba(245,158,11,0.09); color: #fbbf24; font-weight: 600; }
+        .nav-link.active-amber::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#fbbf24; border-radius:0 3px 3px 0; }
+        .nav-link.active-cyan { background: rgba(6,182,212,0.09); color: #67e8f9; font-weight: 600; }
+        .nav-link.active-cyan::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#67e8f9; border-radius:0 3px 3px 0; }
+        .nav-link.active-violet { background: rgba(139,92,246,0.1); color: #c4b5fd; font-weight: 600; }
+        .nav-link.active-violet::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#c4b5fd; border-radius:0 3px 3px 0; }
+        .nav-link svg { flex-shrink: 0; }
+        .nav-link .sub { margin-left: auto; font-size: 10px; color: #52525b; }
+
+        /* ─── MAIN AREA ─── */
+        .main-area {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ─── TOPBAR ─── */
+        .topbar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 1.25rem;
+            height: 54px;
+            min-height: 54px;
+            background: rgba(24,24,27,0.9);
+            border-bottom: 1px solid rgba(63,63,70,0.7);
+            backdrop-filter: blur(12px);
+            flex-shrink: 0;
+        }
+
+        /* ─── CONTENT SCROLL ─── */
+        .content-scroll {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .content-scroll::-webkit-scrollbar { width: 4px; }
+        .content-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+
+        /* ─── OVERLAY (mobile) ─── */
+        #overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            z-index: 199;
+        }
+
+        /* ─── PAGE ANIMATION ─── */
+        .page-body { animation: fadeUp 0.18s ease-out; }
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(5px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        /* ─── PRINT ─── */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .layout { display: block; height: auto; overflow: visible; }
+            #sidebar { display: none !important; }
+            .main-area { height: auto; overflow: visible; }
+            .content-scroll { overflow: visible; }
         }
     </style>
 </head>
-<body class="h-full bg-zinc-950 text-zinc-100 selection:bg-amber-600 selection:text-white">
-    <div class="min-h-full flex flex-col lg:flex-row">
-        <!-- Sidebar Desktop -->
-        <aside class="w-full lg:w-72 bg-zinc-900/90 border-r border-zinc-800/80 backdrop-blur-xl flex flex-col shrink-0">
-            <!-- Brand Header -->
-            <div class="p-5 border-b border-zinc-800/80 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-900/40 border border-amber-400/30">
-                        <svg class="w-6 h-6 text-zinc-950" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3" />
-                        </svg>
+<body>
+
+{{-- Mobile Overlay --}}
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<div class="layout">
+
+    {{-- ═══════════════════════════
+         SIDEBAR (ONE, not doubled)
+         ═══════════════════════════ --}}
+    <aside id="sidebar">
+
+        {{-- Brand --}}
+        <div class="sidebar-brand">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+                <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(217,119,6,0.3);flex-shrink:0;">
+                    <svg style="width:20px;height:20px;" fill="none" stroke="#09090b" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/>
+                    </svg>
+                </div>
+                <div>
+                    <div style="font-weight:800;font-size:13px;color:#fff;letter-spacing:-0.02em;display:flex;align-items:center;gap:5px;">
+                        HALF KOPI
+                        <span style="font-size:9px;padding:1px 5px;border-radius:4px;background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);font-weight:700;">WMS</span>
                     </div>
-                    <div>
-                        <div class="font-extrabold text-base tracking-tight text-white flex items-center gap-1.5">
-                            HALF KOPI <span class="text-xs px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-semibold border border-amber-500/20">GUDANG</span>
-                        </div>
-                        <div class="text-[11px] text-zinc-400 font-medium">Sistem Inventori Kedai Kopi</div>
-                    </div>
+                    <div style="font-size:10px;color:#71717a;margin-top:1px;">Sistem Manajemen Gudang</div>
                 </div>
             </div>
+            <button class="hamburger" onclick="closeSidebar()"
+                    style="display:none;padding:5px;border-radius:7px;background:none;border:none;color:#71717a;cursor:pointer;line-height:0;">
+                <svg style="width:17px;height:17px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
 
-            <!-- User Status Card -->
-            <div class="p-4 mx-4 my-3 rounded-xl bg-zinc-800/50 border border-zinc-700/40">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2.5 truncate">
-                        <div class="w-8 h-8 rounded-lg bg-zinc-700 flex items-center justify-center font-bold text-xs text-amber-400 border border-zinc-600">
-                            {{ substr(auth()->user()->name, 0, 1) }}
-                        </div>
-                        <div class="truncate">
-                            <div class="text-xs font-semibold text-zinc-200 truncate">{{ auth()->user()->name }}</div>
-                            <div class="text-[11px] text-zinc-400 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                                {{ auth()->user()->isAdmin() ? 'Administrator' : 'Staff / Barista' }}
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        @if(auth()->user()->isAdmin())
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/30">
-                                ADMIN
-                            </span>
-                        @else
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-                                PEGAWAI
-                            </span>
-                        @endif
+        {{-- User Card --}}
+        <div class="sidebar-user">
+            <div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.65rem;border-radius:9px;background:rgba(39,39,42,0.45);border:1px solid rgba(63,63,70,0.3);">
+                <div style="width:30px;height:30px;border-radius:7px;background:rgba(245,158,11,0.14);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#f59e0b;flex-shrink:0;">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-size:11px;font-weight:600;color:#e4e4e7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</div>
+                    <div style="font-size:10px;color:#71717a;display:flex;align-items:center;gap:3px;margin-top:1px;">
+                        <span style="width:5px;height:5px;border-radius:50%;background:#34d399;display:inline-block;flex-shrink:0;"></span>
+                        {{ auth()->user()->isAdmin() ? 'Administrator' : 'Pegawai' }}
                     </div>
                 </div>
-            </div>
-
-            <!-- Navigation Links -->
-            <nav class="flex-1 px-3 py-2 space-y-6 overflow-y-auto">
-                <!-- Utama -->
-                <div class="space-y-1">
-                    <div class="px-3 text-[10px] font-bold uppercase tracking-wider text-zinc-500">Menu Utama</div>
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('dashboard') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                        </svg>
-                        <span>Dashboard</span>
-                    </a>
-                    <a href="{{ route('items.index') }}" class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('items.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <div class="flex items-center gap-3">
-                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                            </svg>
-                            <span>Bahan Baku (Katalog)</span>
-                        </div>
-                        @if(($globalLowStockCount ?? 0) > 0)
-                            <span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40">
-                                {{ $globalLowStockCount }}
-                            </span>
-                        @endif
-                    </a>
-                </div>
-
-                <!-- Operasional Transaksi -->
-                <div class="space-y-1">
-                    <div class="px-3 text-[10px] font-bold uppercase tracking-wider text-zinc-500">Operasional Stok</div>
-                    <a href="{{ route('stock-in.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('stock-in.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                        </svg>
-                        <span>Stok Masuk (Penerimaan)</span>
-                    </a>
-                    <a href="{{ route('stock-out.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('stock-out.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-                        </svg>
-                        <span>Stok Keluar (Pemakaian Bar)</span>
-                    </a>
-                    <a href="{{ route('adjustments.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('adjustments.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-                        </svg>
-                        <span>Stock Opname (Fisik)</span>
-                    </a>
-                </div>
-
-                <!-- Laporan -->
-                <div class="space-y-1">
-                    <div class="px-3 text-[10px] font-bold uppercase tracking-wider text-zinc-500">Laporan & Audit</div>
-                    <a href="{{ route('reports.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('reports.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                        <span>Laporan Mutasi & Nilai Stok</span>
-                    </a>
-                </div>
-
-                <!-- Master Data (Admin Only) -->
                 @if(auth()->user()->isAdmin())
-                <div class="space-y-1 pt-2 border-t border-zinc-800/60">
-                    <div class="px-3 text-[10px] font-bold uppercase tracking-wider text-amber-500/80 flex items-center justify-between">
-                        <span>Akses Admin</span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                    </div>
-                    <a href="{{ route('categories.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('categories.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-                        </svg>
-                        <span>Kategori Bahan</span>
-                    </a>
-                    <a href="{{ route('suppliers.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('suppliers.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                        <span>Supplier & Vendor</span>
-                    </a>
-                    <a href="{{ route('users.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('users.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                        </svg>
-                        <span>Manajemen Pengguna</span>
-                    </a>
-                    <a href="{{ route('firebase.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('firebase.*') ? 'bg-amber-600 text-white shadow-md shadow-amber-900/30 font-semibold' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60' }}">
-                        <span class="text-amber-400 font-bold shrink-0">🔥</span>
-                        <span>Firebase Cloud Sync</span>
-                    </a>
-
-                </div>
+                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);font-weight:700;flex-shrink:0;">ADMIN</span>
+                @else
+                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2);font-weight:700;flex-shrink:0;">STAFF</span>
                 @endif
-            </nav>
-
-            <!-- Bottom Logout -->
-            <div class="p-4 border-t border-zinc-800/80">
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-zinc-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                        </svg>
-                        Keluar (Logout)
-                    </button>
-                </form>
             </div>
-        </aside>
+        </div>
 
-        <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-w-0 bg-zinc-950">
-            <!-- Top Navbar -->
-            <header class="no-print h-16 bg-zinc-900/60 border-b border-zinc-800/80 backdrop-blur-xl px-6 flex items-center justify-between sticky top-0 z-30">
-                <div class="flex items-center gap-3">
-                    <h1 class="text-base font-bold text-white tracking-tight">@yield('page-title', 'Dashboard')</h1>
-                    <span class="text-zinc-600 hidden sm:inline">•</span>
-                    <span class="text-xs text-zinc-400 hidden sm:inline">@yield('page-subtitle', 'Sistem Manajemen Gudang & Stok Bahan')</span>
+        {{-- Navigation (SCROLLABLE) --}}
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-label">Menu Utama</div>
+
+            <a href="{{ route('dashboard') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Dashboard
+            </a>
+
+            <a href="{{ route('items.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('items.*') ? 'active' : '' }}"
+               style="justify-content:space-between;">
+                <span style="display:flex;align-items:center;gap:0.6rem;">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                    Katalog Bahan Baku
+                </span>
+                @if(($globalLowStockCount ?? 0) > 0)
+                    <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:9999px;background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.3);">{{ $globalLowStockCount }}</span>
+                @endif
+            </a>
+
+            <div class="nav-section-label">Operasional</div>
+
+            <a href="{{ route('stock-in.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('stock-in.*') ? 'active-green' : '' }}" style="justify-content:space-between;">
+                <span style="display:flex;align-items:center;gap:0.6rem;">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    Stok Masuk
+                </span>
+                <span class="sub">Penerimaan</span>
+            </a>
+
+            <a href="{{ route('stock-out.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('stock-out.*') ? 'active-amber' : '' }}" style="justify-content:space-between;">
+                <span style="display:flex;align-items:center;gap:0.6rem;">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+                    Stok Keluar
+                </span>
+                <span class="sub">Pemakaian</span>
+            </a>
+
+            <a href="{{ route('adjustments.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('adjustments.*') ? 'active-cyan' : '' }}" style="justify-content:space-between;">
+                <span style="display:flex;align-items:center;gap:0.6rem;">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                    Stock Opname
+                </span>
+                <span class="sub">Hitung Fisik</span>
+            </a>
+
+            <div class="nav-section-label">Laporan</div>
+
+            <a href="{{ route('reports.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('reports.*') ? 'active-violet' : '' }}">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Laporan & Mutasi
+            </a>
+
+            @if(auth()->user()->isAdmin())
+            <div class="nav-section-label" style="color:rgba(217,119,6,0.55);border-top:1px solid rgba(39,39,42,0.6);padding-top:0.875rem;margin-top:0.5rem;">Pengaturan Admin</div>
+
+            <a href="{{ route('categories.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                Kategori Bahan
+            </a>
+
+            <a href="{{ route('suppliers.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Supplier & Vendor
+            </a>
+
+            <a href="{{ route('users.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                Manajemen Pengguna
+            </a>
+
+            <a href="{{ route('firebase.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
+               class="nav-link {{ request()->routeIs('firebase.*') ? 'active' : '' }}">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                Cadangan Data
+            </a>
+            @endif
+
+        </nav>
+
+        {{-- Logout --}}
+        <div class="sidebar-footer">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit"
+                        style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.5rem;border-radius:8px;font-size:12px;font-weight:600;color:#71717a;background:none;border:1px solid transparent;cursor:pointer;transition:all 0.15s;"
+                        onmouseover="this.style.color='#f87171';this.style.background='rgba(239,68,68,0.07)';this.style.borderColor='rgba(239,68,68,0.15)';"
+                        onmouseout="this.style.color='#71717a';this.style.background='none';this.style.borderColor='transparent';">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Keluar dari Sistem
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    {{-- ═══════════════
+         MAIN AREA
+         ═══════════════ --}}
+    <div class="main-area">
+
+        {{-- Topbar --}}
+        <header class="topbar no-print">
+            <button class="hamburger" onclick="openSidebar()"
+                    style="display:none;padding:7px;border-radius:8px;background:none;border:none;color:#a1a1aa;cursor:pointer;line-height:0;flex-shrink:0;"
+                    onmouseover="this.style.background='rgba(39,39,42,0.8)';this.style.color='#e4e4e7';"
+                    onmouseout="this.style.background='none';this.style.color='#a1a1aa';">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+
+            <div style="flex:1;min-width:0;">
+                <div style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    @yield('page-title', 'Dashboard')
                 </div>
-
-                <div class="flex items-center gap-3">
-                    <!-- Shortcut Actions -->
-                    <a href="{{ route('stock-in.create') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20 transition-all">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        Stok Masuk
-                    </a>
-                    <a href="{{ route('stock-out.create') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 border border-amber-500/20 transition-all">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/>
-                        </svg>
-                        Pemakaian Bar
-                    </a>
-                    <a href="{{ route('adjustments.create') }}" class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20 transition-all">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                        </svg>
-                        Stock Opname
-                    </a>
-
-                    <!-- Live Firebase Status Pill -->
-                    <a href="{{ route('firebase.index') }}" id="firebaseStatusPill" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:border-amber-500/40 transition-all cursor-pointer" title="Status Koneksi Cloud (Klik untuk buka Firebase Center)">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                        <span>Cloud: Menghubungkan...</span>
-                    </a>
-
-                    <!-- Status Indicator -->
-                    <div class="px-3 py-1 rounded-full bg-zinc-800 text-zinc-300 text-[11px] font-medium border border-zinc-700/60 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        <span>{{ now()->translatedFormat('d M Y') }}</span>
-                    </div>
+                <div style="font-size:10px;color:#71717a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" class="hidden-xs">
+                    @yield('page-subtitle', 'Sistem Manajemen Gudang')
                 </div>
-            </header>
+            </div>
 
-            <!-- Main Body Container -->
-            <main class="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto">
-                <!-- Alerts / Flash Messages -->
-                @if(session('success'))
-                    <div id="flash-success-marker" data-has-change="true" class="mb-6 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-200 flex items-center justify-between shadow-lg shadow-emerald-950/20">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
-                                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium">{{ session('success') }}</span>
-                        </div>
-                        <button onclick="this.parentElement.remove()" class="text-emerald-400 hover:text-emerald-200">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
-                    </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                <a href="{{ route('stock-in.create') }}"
+                   style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:600;background:rgba(16,185,129,0.1);color:#34d399;border:1px solid rgba(16,185,129,0.2);text-decoration:none;transition:all 0.15s;white-space:nowrap;"
+                   class="btn-desktop">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    Stok Masuk
+                </a>
+                <a href="{{ route('stock-out.create') }}"
+                   style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:600;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);text-decoration:none;transition:all 0.15s;white-space:nowrap;"
+                   class="btn-desktop">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+                    Stok Keluar
+                </a>
+
+                @if(($globalLowStockCount ?? 0) > 0)
+                    <a href="{{ route('items.index', ['status'=>'low']) }}"
+                       style="display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;background:rgba(244,63,94,0.1);color:#fb7185;border:1px solid rgba(244,63,94,0.2);text-decoration:none;"
+                       class="btn-desktop">
+                        ⚠ {{ $globalLowStockCount }} Restock
+                    </a>
                 @endif
 
-                @if(session('error'))
-                    <div class="mb-6 p-4 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-200 flex items-center justify-between shadow-lg shadow-rose-950/20">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-rose-500/20 flex items-center justify-center shrink-0">
-                                <svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium">{{ session('error') }}</span>
-                        </div>
-                        <button onclick="this.parentElement.remove()" class="text-rose-400 hover:text-rose-200">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
-                    </div>
-                @endif
+                <div style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;background:rgba(39,39,42,0.7);color:#a1a1aa;font-size:11px;border:1px solid rgba(63,63,70,0.5);" class="btn-desktop">
+                    <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    {{ now()->translatedFormat('d M Y') }}
+                </div>
+            </div>
+        </header>
 
-                @if(session('warning'))
-                    <div class="mb-6 p-4 rounded-xl bg-amber-950/40 border border-amber-500/30 text-amber-200 flex items-center justify-between shadow-lg shadow-amber-950/20">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center shrink-0">
-                                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <span class="text-sm font-medium">{{ session('warning') }}</span>
-                        </div>
-                        <button onclick="this.parentElement.remove()" class="text-amber-400 hover:text-amber-200">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                        </button>
+        {{-- Flash Messages --}}
+        @if(session('success') || session('error') || session('warning'))
+        <div style="padding:10px 20px 0;" class="no-print">
+            @if(session('success'))
+                <div id="flash-ok" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(5,46,22,0.6);border:1px solid rgba(16,185,129,0.2);color:#6ee7b7;font-size:12px;font-weight:500;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <svg width="14" height="14" fill="none" stroke="#34d399" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        {{ session('success') }}
                     </div>
-                @endif
+                    <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#34d399;cursor:pointer;opacity:0.6;font-size:16px;line-height:1;padding:0 2px;">&times;</button>
+                </div>
+            @endif
+            @if(session('error'))
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(76,5,25,0.6);border:1px solid rgba(244,63,94,0.2);color:#fca5a5;font-size:12px;font-weight:500;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <svg width="14" height="14" fill="none" stroke="#f87171" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        {{ session('error') }}
+                    </div>
+                    <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#f87171;cursor:pointer;opacity:0.6;font-size:16px;line-height:1;padding:0 2px;">&times;</button>
+                </div>
+            @endif
+            @if(session('warning'))
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(69,26,3,0.6);border:1px solid rgba(245,158,11,0.2);color:#fde68a;font-size:12px;font-weight:500;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <svg width="14" height="14" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        {{ session('warning') }}
+                    </div>
+                    <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#f59e0b;cursor:pointer;opacity:0.6;font-size:16px;line-height:1;padding:0 2px;">&times;</button>
+                </div>
+            @endif
+        </div>
+        @endif
 
+        {{-- Page Content --}}
+        <div class="content-scroll">
+            <main class="page-body" style="padding:1.5rem 1.75rem;max-width:1280px;width:100%;margin:0 auto;">
                 @yield('content')
             </main>
-
-            <!-- Footer -->
-            <footer class="no-print border-t border-zinc-800/80 py-5 px-8 text-center text-xs text-zinc-500">
-                &copy; {{ date('Y') }} <strong class="text-zinc-300">Gudang Half Kopi</strong>. Sistem Inventori Bahan & Supply Chain Kedai Kopi.
+            <footer class="no-print" style="padding:0.75rem 1.75rem;border-top:1px solid rgba(63,63,70,0.6);font-size:11px;color:#52525b;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-weight:700;color:#71717a;">HALF KOPI WMS</span>
+                    <span>•</span>
+                    <span>Sistem Manajemen Inventori Gudang</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#34d399;display:inline-block;"></span>Sistem Aktif</span>
+                    <span>•</span>
+                    <span>&copy; {{ date('Y') }} Half Kopi Enterprise</span>
+                </div>
             </footer>
         </div>
-    </div>
 
-    @stack('scripts')
+    </div>{{-- end .main-area --}}
+
+</div>{{-- end .layout --}}
+
+<style>
+    @media (max-width: 767px) {
+        .btn-desktop { display: none !important; }
+        main { padding: 1rem !important; }
+    }
+</style>
+
+<script>
+    function openSidebar() {
+        document.getElementById('sidebar').classList.add('open');
+        document.getElementById('overlay').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    // Auto-dismiss success flash after 5s
+    setTimeout(function() {
+        var el = document.getElementById('flash-ok');
+        if (el) { el.style.transition='opacity 0.4s'; el.style.opacity='0'; setTimeout(function(){el.remove();},400); }
+    }, 5000);
+</script>
+
+@stack('scripts')
 </body>
 </html>

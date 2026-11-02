@@ -32,32 +32,49 @@
         <input type="hidden" name="category_id" id="hiddenCategory" value="{{ $categoryId }}">
         <input type="hidden" name="type" id="hiddenType" value="{{ $type }}">
 
-        {{-- Tab Jenis: Tombol besar yang mudah dipilih --}}
+        {{-- Tab Jenis: Tombol besar modern dengan ikon SVG --}}
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
             <button type="button" onclick="setType('')"
-                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border text-center {{ $type === '' ? 'bg-zinc-700 text-white border-zinc-500' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
-                <div class="text-lg mb-0.5">🗂️</div>
-                Semua Transaksi
+                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border flex flex-col items-center justify-center gap-1.5 {{ $type === '' ? 'bg-zinc-800 text-white border-zinc-500 shadow-md' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
+                <svg class="w-5 h-5 {{ $type === '' ? 'text-white' : 'text-zinc-400' }}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                </svg>
+                <span>Semua Transaksi</span>
             </button>
             <button type="button" onclick="setType('in')"
-                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border text-center {{ $type === 'in' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
-                <div class="text-lg mb-0.5">📦</div>
-                Stok Masuk
+                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border flex flex-col items-center justify-center gap-1.5 {{ $type === 'in' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-md' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
+                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+                <span>Stok Masuk</span>
             </button>
             <button type="button" onclick="setType('out')"
-                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border text-center {{ $type === 'out' ? 'bg-amber-500/20 text-amber-300 border-amber-500/50' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
-                <div class="text-lg mb-0.5">☕</div>
-                Pemakaian Bar
+                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border flex flex-col items-center justify-center gap-1.5 {{ $type === 'out' ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-md' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                </svg>
+                <span>Pemakaian Bar</span>
             </button>
             <button type="button" onclick="setType('adjustment')"
-                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border text-center {{ $type === 'adjustment' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
-                <div class="text-lg mb-0.5">📋</div>
-                Opname Fisik
+                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border flex flex-col items-center justify-center gap-1.5 {{ $type === 'adjustment' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-md' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
+                <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <span>Opname Fisik</span>
             </button>
         </div>
 
-        {{-- Filter Tanggal & Kategori --}}
-        <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-4">
+        {{-- Filter Tanggal & Kategori dengan Preset Cepat --}}
+        <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-zinc-800/80">
+                <span class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Filter Periode & Kategori</span>
+                <div class="flex items-center gap-1.5 text-xs">
+                    <span class="text-zinc-500 text-[11px]">Preset Cepat:</span>
+                    <button type="button" onclick="setPreset('today')" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-medium transition-all">Hari Ini</button>
+                    <button type="button" onclick="setPreset('week')" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-medium transition-all">7 Hari Terakhir</button>
+                    <button type="button" onclick="setPreset('month')" class="px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[11px] font-medium transition-all">Bulan Ini</button>
+                </div>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div>
                     <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Dari Tanggal</label>
@@ -158,7 +175,10 @@
                                 @elseif($tx->type === 'out')
                                     <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">☕ Pemakaian</span>
                                 @else
-                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">📋 Opname</span>
+                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                        Opname
+                                    </span>
                                 @endif
                             </td>
                             <td class="py-3.5 px-4">
@@ -209,6 +229,31 @@
         document.getElementById('hiddenCategory').value = document.getElementById('inputCategory').value;
         document.getElementById('hiddenStart').value = document.getElementById('inputStart').value;
         document.getElementById('hiddenEnd').value = document.getElementById('inputEnd').value;
+        document.getElementById('reportForm').submit();
+    }
+
+    function setPreset(range) {
+        const today = new Date();
+        const formatDate = (d) => d.toISOString().split('T')[0];
+
+        let start, end = formatDate(today);
+
+        if (range === 'today') {
+            start = end;
+        } else if (range === 'week') {
+            const weekAgo = new Date();
+            weekAgo.setDate(today.getDate() - 6);
+            start = formatDate(weekAgo);
+        } else if (range === 'month') {
+            const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+            start = formatDate(monthStart);
+        }
+
+        document.getElementById('inputStart').value = start;
+        document.getElementById('inputEnd').value = end;
+        document.getElementById('hiddenStart').value = start;
+        document.getElementById('hiddenEnd').value = end;
+        document.getElementById('hiddenCategory').value = document.getElementById('inputCategory').value;
         document.getElementById('reportForm').submit();
     }
 </script>

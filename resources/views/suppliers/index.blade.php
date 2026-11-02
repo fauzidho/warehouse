@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Supplier & Vendor')
-@section('page-title', 'Master Data Supplier')
-@section('page-subtitle', 'Pemasok biji kopi, susu segar, sirup perasa, dan kemasan kedai')
+@section('page-title', 'Supplier & Vendor')
+@section('page-subtitle', 'Kelola data pemasok bahan baku, kontak PIC, dan riwayat pembelian')
 
 @section('content')
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -49,8 +49,8 @@
                     class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl p-3 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all"></textarea>
             </div>
 
-            <button type="submit"
-                class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 shadow-lg shadow-amber-950/40 transition-all">
+            <button type="submit" id="supSubmitBtn"
+                class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 shadow-lg shadow-amber-950/30 transition-all active:scale-[0.98]">
                 Simpan Supplier
             </button>
         </form>
@@ -132,3 +132,12 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.querySelector('form[action="{{ route('suppliers.store') }}"]')?.addEventListener('submit', function() {
+        const btn = document.getElementById('supSubmitBtn');
+        if (btn) { btn.disabled = true; btn.textContent = 'Menyimpan...'; }
+    });
+</script>
+@endpush
