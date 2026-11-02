@@ -5,10 +5,10 @@
 @section('page-subtitle', 'Ringkasan stok & aktivitas gudang hari ini')
 
 @section('content')
-<div class="space-y-6">
+<div class="dashboard-page">
 
     {{-- Welcome Banner --}}
-    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-amber-950/30 border border-zinc-800 p-5 sm:p-7">
+    <div class="dashboard-welcome relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-amber-950/30 border border-zinc-800 p-5 sm:p-7">
         <div class="absolute right-0 top-0 bottom-0 w-2/5 bg-gradient-to-l from-amber-600/6 to-transparent pointer-events-none"></div>
         <div class="relative flex flex-col md:flex-row md:items-center justify-between gap-5">
             <div class="space-y-1.5">
@@ -45,7 +45,7 @@
     </div>
 
     {{-- Panduan Cepat (untuk pegawai baru) --}}
-    <div class="bg-zinc-900/50 border border-zinc-800/70 rounded-2xl p-5">
+    <div class="dashboard-guide bg-zinc-900/50 border border-zinc-800/70 rounded-2xl p-5">
         <div class="flex items-center gap-2.5 mb-4">
             <div class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -81,7 +81,7 @@
     </div>
 
     @if($totalItems == 0)
-        <div class="p-5 rounded-2xl bg-amber-950/20 border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="dashboard-empty p-5 rounded-2xl bg-amber-950/20 border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-4">
                 <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
@@ -100,9 +100,9 @@
     @endif
 
     {{-- 4 KPI Cards --}}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="dashboard-kpis grid grid-cols-2 lg:grid-cols-4 gap-4">
         {{-- Total Bahan --}}
-        <div class="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+        <div class="dashboard-kpi p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Bahan Baku</span>
                 <div class="w-8 h-8 rounded-lg bg-blue-500/8 text-blue-400 flex items-center justify-center border border-blue-500/15">
@@ -117,7 +117,7 @@
         </div>
 
         {{-- Valuasi Stok --}}
-        <div class="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+        <div class="dashboard-kpi p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Nilai Stok</span>
                 <div class="w-8 h-8 rounded-lg bg-amber-500/8 text-amber-400 flex items-center justify-center border border-amber-500/15">
@@ -131,7 +131,7 @@
         </div>
 
         {{-- Stok Menipis --}}
-        <div class="p-5 rounded-2xl bg-zinc-900/70 border {{ $lowStockItems->count() > 0 ? 'border-rose-500/25' : 'border-zinc-800' }} transition-all">
+        <div class="dashboard-kpi p-5 rounded-2xl bg-zinc-900/70 border {{ $lowStockItems->count() > 0 ? 'border-rose-500/25' : 'border-zinc-800' }} transition-all">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-[10px] font-bold {{ $lowStockItems->count() > 0 ? 'text-rose-400' : 'text-zinc-500' }} uppercase tracking-wider">Perlu Restock</span>
                 <div class="w-8 h-8 rounded-lg bg-rose-500/8 text-rose-400 flex items-center justify-center border border-rose-500/15">
@@ -152,7 +152,7 @@
         </div>
 
         {{-- Aktivitas Hari Ini --}}
-        <div class="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+        <div class="dashboard-kpi p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Aktivitas Hari Ini</span>
                 <div class="w-8 h-8 rounded-lg bg-emerald-500/8 text-emerald-400 flex items-center justify-center border border-emerald-500/15">
@@ -172,10 +172,10 @@
     </div>
 
     {{-- Alert Panels: Stok Menipis & Kadaluarsa --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div class="dashboard-alerts grid grid-cols-1 lg:grid-cols-2 gap-5">
 
         {{-- Stok Menipis --}}
-        <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-5">
+        <div class="dashboard-panel bg-zinc-900/70 border border-zinc-800 rounded-2xl p-5">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
                     @if($lowStockItems->count() > 0)
@@ -217,7 +217,7 @@
                     @endforeach
                 </div>
             @else
-                <div class="py-10 text-center space-y-2">
+                <div class="dashboard-empty-state py-10 text-center space-y-2">
                     <svg class="w-10 h-10 mx-auto text-emerald-400/50" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <div class="text-xs font-semibold text-zinc-300">Semua Stok Aman</div>
                     <div class="text-[11px] text-zinc-500">Tidak ada bahan baku yang berada di bawah batas minimum.</div>
@@ -226,7 +226,7 @@
         </div>
 
         {{-- Kadaluarsa --}}
-        <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-5">
+        <div class="dashboard-panel bg-zinc-900/70 border border-zinc-800 rounded-2xl p-5">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full {{ $expiringBatches->count() > 0 ? 'bg-amber-500' : 'bg-zinc-600' }}"></span>
@@ -257,7 +257,7 @@
                     @endforeach
                 </div>
             @else
-                <div class="py-10 text-center space-y-2">
+                <div class="dashboard-empty-state py-10 text-center space-y-2">
                     <svg class="w-10 h-10 mx-auto text-zinc-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     <div class="text-xs font-semibold text-zinc-300">Tidak Ada Batch Kritis</div>
                     <div class="text-[11px] text-zinc-500">Semua batch masih memiliki masa simpan yang cukup.</div>
@@ -267,7 +267,7 @@
     </div>
 
     {{-- Riwayat Transaksi Terbaru --}}
-    <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl">
+    <div class="dashboard-recent bg-zinc-900/70 border border-zinc-800 rounded-2xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 border-b border-zinc-800/80">
             <div>
                 <h3 class="text-sm font-bold text-white">Riwayat Transaksi Terbaru</h3>
@@ -302,7 +302,7 @@
                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border {{ $badge['bg'] }} mb-1">
                                     {{ $badge['label'] }}
                                 </span>
-                                <div class="text-zinc-300 font-medium truncate max-w-[180px]">{{ $tx->destination_or_reason }}</div>
+                                <div class="text-zinc-300 font-medium max-w-[180px]">{{ $tx->destination_or_reason }}</div>
                             </td>
                             <td class="py-3.5 px-4 hidden md:table-cell">
                                 <div class="space-y-0.5">

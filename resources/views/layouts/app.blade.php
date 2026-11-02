@@ -11,11 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; }
         html, body {
             height: 100%;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #09090b;
+            background: #0c0a09;
             color: #f4f4f5;
         }
 
@@ -23,6 +23,7 @@
         .layout {
             display: flex;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
         }
 
@@ -31,8 +32,8 @@
             width: 264px;
             min-width: 264px;
             height: 100vh;
-            background: #18181b;
-            border-right: 1px solid rgba(63,63,70,0.7);
+            background: #151210;
+            border-right: 1px solid rgba(82,68,54,0.55);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -136,6 +137,7 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
         }
 
@@ -144,11 +146,12 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 0 1.25rem;
-            height: 54px;
-            min-height: 54px;
-            background: rgba(24,24,27,0.9);
-            border-bottom: 1px solid rgba(63,63,70,0.7);
+            padding: 0 1.75rem;
+            height: auto;
+            min-height: 64px;
+            padding-block: 0.6rem;
+            background: rgba(21,18,16,0.92);
+            border-bottom: 1px solid rgba(82,68,54,0.55);
             backdrop-filter: blur(12px);
             flex-shrink: 0;
         }
@@ -188,6 +191,15 @@
             #sidebar { display: none !important; }
             .main-area { height: auto; overflow: visible; }
             .content-scroll { overflow: visible; }
+        }
+
+        @media (max-width: 767px) {
+            .topbar { padding: 0.6rem 1rem; height: auto; min-height: 58px; }
+            .sidebar-brand { padding: 0.875rem; }
+            .page-content { padding: 1rem !important; }
+            .page-footer { padding: 0.75rem 1rem !important; }
+            .flash-messages { padding: 0.75rem 1rem 0 !important; }
+            .hidden-xs { display: none !important; }
         }
     </style>
 </head>
@@ -234,7 +246,7 @@
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
                 <div style="flex:1;min-width:0;">
-                    <div style="font-size:11px;font-weight:600;color:#e4e4e7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ auth()->user()->name }}</div>
+                    <div style="font-size:11px;font-weight:600;color:#e4e4e7;overflow-wrap:anywhere;">{{ auth()->user()->name }}</div>
                     <div style="font-size:10px;color:#71717a;display:flex;align-items:center;gap:3px;margin-top:1px;">
                         <span style="width:5px;height:5px;border-radius:50%;background:#34d399;display:inline-block;flex-shrink:0;"></span>
                         {{ auth()->user()->isAdmin() ? 'Administrator' : 'Pegawai' }}
@@ -370,10 +382,10 @@
             </button>
 
             <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                <div style="font-size:13px;font-weight:700;color:#fff;overflow-wrap:anywhere;">
                     @yield('page-title', 'Dashboard')
                 </div>
-                <div style="font-size:10px;color:#71717a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" class="hidden-xs">
+                <div style="font-size:10px;color:#71717a;overflow-wrap:anywhere;" class="hidden-xs">
                     @yield('page-subtitle', 'Sistem Manajemen Gudang')
                 </div>
             </div>
@@ -409,7 +421,7 @@
 
         {{-- Flash Messages --}}
         @if(session('success') || session('error') || session('warning'))
-        <div style="padding:10px 20px 0;" class="no-print">
+        <div style="padding:10px 20px 0;" class="no-print flash-messages">
             @if(session('success'))
                 <div id="flash-ok" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(5,46,22,0.6);border:1px solid rgba(16,185,129,0.2);color:#6ee7b7;font-size:12px;font-weight:500;">
                     <div style="display:flex;align-items:center;gap:8px;">
@@ -442,10 +454,10 @@
 
         {{-- Page Content --}}
         <div class="content-scroll">
-            <main class="page-body" style="padding:1.5rem 1.75rem;max-width:1280px;width:100%;margin:0 auto;">
+            <main class="page-body page-content" style="padding:1.75rem 2rem;max-width:1440px;width:100%;margin:0 auto;">
                 @yield('content')
             </main>
-            <footer class="no-print" style="padding:0.75rem 1.75rem;border-top:1px solid rgba(63,63,70,0.6);font-size:11px;color:#52525b;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+            <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid rgba(82,68,54,0.45);font-size:11px;color:#71717a;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span style="font-weight:700;color:#71717a;">HALF KOPI WMS</span>
                     <span>•</span>
@@ -466,7 +478,6 @@
 <style>
     @media (max-width: 767px) {
         .btn-desktop { display: none !important; }
-        main { padding: 1rem !important; }
     }
 </style>
 

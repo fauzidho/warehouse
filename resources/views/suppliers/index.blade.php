@@ -93,7 +93,7 @@
                                 <div class="text-[11px] text-zinc-400 font-mono">{{ $sup->phone ?: '-' }}</div>
                             </td>
 
-                            <td class="py-3.5 px-4 text-zinc-400 max-w-xs truncate">
+                            <td class="py-3.5 px-4 text-zinc-400 max-w-xs">
                                 {{ $sup->address ?: '-' }}
                             </td>
 

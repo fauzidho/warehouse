@@ -26,9 +26,291 @@
 ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
 ::-webkit-scrollbar-thumb:hover { background: #52525b; }
 
-/* ============= SMOOTH TRANSITIONS ============= */
-*, *::before, *::after {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+/* ============= APPLICATION UI POLISH ============= */
+.layout main :where(.flex, .grid) > * {
+    min-width: 0;
+}
+
+.layout main :where(p, span, a, button, label, td, th, li, strong, em, h1, h2, h3, h4, h5, h6, div, pre, code) {
+    overflow-wrap: anywhere;
+}
+
+.layout main .truncate {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: normal !important;
+}
+
+.layout main [class~="text-[9px]"] {
+    font-size: 11px !important;
+    line-height: 1.45;
+}
+
+.layout main :is([class~="text-[10px]"], [class~="text-[11px]"]) {
+    font-size: 12px !important;
+    line-height: 1.45;
+}
+
+.layout main [class~="text-zinc-500"] {
+    color: #a1a1aa;
+}
+
+.layout main [class~="text-zinc-600"] {
+    color: #8d8d96;
+}
+
+.layout main :where(input, select, textarea, button, table, .overflow-x-auto) {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.layout main :where(td, th) {
+    white-space: normal;
+}
+
+.layout main :where(.overflow-x-auto) {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+}
+
+.layout {
+    background:
+        radial-gradient(ellipse at 82% 0%, rgb(120 53 15 / 0.09), transparent 34rem),
+        #0c0a09;
+}
+
+.layout main {
+    color: #e7e5e4;
+}
+
+.layout main h1,
+.layout main h2,
+.layout main h3 {
+    letter-spacing: -0.025em;
+}
+
+.layout main :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]), select, textarea) {
+    min-height: 2.625rem;
+    border-color: rgb(82 82 91 / 0.72);
+    border-radius: 0.75rem;
+    background-color: #111113;
+    color: #f4f4f5;
+    font-size: 0.8125rem;
+    transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.layout main textarea {
+    min-height: 5.5rem;
+}
+
+.layout main :is(input, select, textarea)::placeholder {
+    color: #71717a;
+}
+
+.layout main :is(input, select, textarea):focus {
+    border-color: #d97706;
+    background-color: #141210;
+    box-shadow: 0 0 0 3px rgb(245 158 11 / 0.14);
+}
+
+.layout :is(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid #f59e0b;
+    outline-offset: 2px;
+}
+
+.layout main table {
+    font-variant-numeric: tabular-nums;
+}
+
+.layout main table thead th {
+    color: #a1a1aa;
+    letter-spacing: 0.075em;
+}
+
+.layout main table tbody tr {
+    transition: background-color 150ms ease;
+}
+
+.layout main > .space-y-6,
+.layout main > .space-y-5 {
+    padding-bottom: 0.5rem;
+}
+
+@media (max-width: 767px) {
+    .layout main table {
+        min-width: 680px;
+    }
+
+    .layout main > .space-y-6,
+    .layout main > .space-y-5 {
+        gap: 1rem;
+    }
+}
+
+/* ============= DASHBOARD LAYOUT ============= */
+.dashboard-page {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+}
+
+.dashboard-page > * {
+    margin-block: 0 !important;
+}
+
+.dashboard-welcome {
+    min-height: 158px;
+    padding: 1.75rem 2rem;
+    border-color: rgb(120 83 48 / 0.55);
+    background-image: linear-gradient(112deg, rgb(28 25 23 / 0.98) 0%, rgb(28 25 23 / 0.94) 56%, rgb(69 35 14 / 0.62) 100%);
+    box-shadow: 0 16px 38px rgb(0 0 0 / 0.16);
+}
+
+.dashboard-welcome h2 {
+    font-size: clamp(1.5rem, 2vw, 1.875rem);
+    line-height: 1.2;
+}
+
+.dashboard-welcome p {
+    font-size: 0.875rem;
+    line-height: 1.65;
+}
+
+.dashboard-welcome .relative.flex {
+    min-height: 102px;
+}
+
+.dashboard-guide {
+    padding: 1.375rem;
+    background: linear-gradient(145deg, rgb(24 24 27 / 0.92), rgb(20 18 16 / 0.88));
+}
+
+.dashboard-guide h3 {
+    font-size: 0.9rem;
+}
+
+.dashboard-guide .grid > a {
+    min-height: 104px;
+    padding: 1rem;
+    background-color: rgb(12 10 9 / 0.62);
+}
+
+.dashboard-guide .grid > a span:last-child {
+    font-size: 0.8125rem;
+}
+
+.dashboard-guide .grid > a p {
+    color: #a1a1aa;
+    font-size: 0.75rem;
+    line-height: 1.6;
+}
+
+.dashboard-empty {
+    min-height: 96px;
+    padding: 1.25rem 1.5rem;
+    align-items: center;
+    background: linear-gradient(100deg, rgb(69 35 14 / 0.38), rgb(39 25 17 / 0.58));
+}
+
+.dashboard-kpis {
+    gap: 1rem;
+}
+
+.dashboard-kpi {
+    min-height: 146px;
+    padding: 1.25rem;
+    border-color: rgb(63 63 70 / 0.72);
+    background: linear-gradient(145deg, rgb(24 24 27 / 0.98), rgb(18 17 17 / 0.96));
+    box-shadow: 0 8px 22px rgb(0 0 0 / 0.12);
+}
+
+.dashboard-kpi > div:first-child > span {
+    color: #a1a1aa;
+    font-size: 0.7rem;
+}
+
+.dashboard-kpi > div:nth-child(2) {
+    margin-top: 0.75rem;
+    font-size: 1.875rem;
+    line-height: 1.15;
+}
+
+.dashboard-kpi:nth-child(2) > div:nth-child(2) {
+    font-size: clamp(1.2rem, 1.55vw, 1.6rem);
+    overflow-wrap: anywhere;
+}
+
+.dashboard-kpi > div:last-child {
+    margin-top: 0.5rem;
+}
+
+.dashboard-alerts {
+    gap: 1rem;
+}
+
+.dashboard-panel {
+    min-height: 220px;
+    padding: 1.375rem;
+    border-color: rgb(63 63 70 / 0.72);
+    background: linear-gradient(145deg, rgb(24 24 27 / 0.98), rgb(18 17 17 / 0.96));
+}
+
+.dashboard-panel h3 {
+    font-size: 0.9rem;
+}
+
+.dashboard-empty-state {
+    min-height: 138px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-empty-state > div:last-child {
+    max-width: 26rem;
+    font-size: 0.75rem;
+    line-height: 1.55;
+}
+
+.dashboard-recent {
+    overflow: hidden;
+    border-color: rgb(63 63 70 / 0.72);
+    background: linear-gradient(145deg, rgb(24 24 27 / 0.98), rgb(18 17 17 / 0.96));
+}
+
+.dashboard-recent > div:first-child {
+    padding: 1.25rem 1.5rem;
+    background: rgb(24 24 27 / 0.7);
+}
+
+.dashboard-recent h3 {
+    font-size: 1rem;
+}
+
+.dashboard-recent table {
+    min-width: 760px;
+}
+
+.dashboard-recent th {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    background: rgb(24 24 27 / 0.5);
+    font-size: 0.67rem;
+}
+
+.dashboard-recent td {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+}
+
+@media (max-width: 767px) {
+    .dashboard-page { gap: 1rem; }
+    .dashboard-welcome { padding: 1.25rem; }
+    .dashboard-welcome .relative.flex { min-height: 0; }
+    .dashboard-guide { padding: 1rem; }
+    .dashboard-kpi { min-height: 130px; padding: 1rem; }
+    .dashboard-panel { min-height: 200px; padding: 1rem; }
 }
 
 /* ============= PAGINATOR STYLING ============= */
@@ -93,12 +375,6 @@ nav[role="navigation"] span[aria-disabled="true"] span {
     font-size: 0.75rem;
     border: 1px solid rgb(39 39 42 / 0.5);
     cursor: not-allowed;
-}
-
-/* ============= FORM INPUT FOCUS RING ============= */
-input:focus, select:focus, textarea:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
 }
 
 /* ============= TABLE ROW HOVER ============= */

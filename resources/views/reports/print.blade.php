@@ -10,6 +10,7 @@
             font-size: 11px;
             color: #111;
             margin: 20px;
+            min-width: 0;
         }
         .header {
             border-bottom: 2px solid #222;
@@ -18,6 +19,8 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         .brand {
             font-size: 20px;
@@ -45,11 +48,14 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            table-layout: fixed;
         }
         th, td {
             border: 1px solid #ccc;
             padding: 6px 8px;
             text-align: left;
+            overflow-wrap: anywhere;
+            word-break: normal;
         }
         th {
             background-color: #f2ede8;
@@ -72,9 +78,26 @@
         .signature-space {
             height: 60px;
         }
+        .table-wrap {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        @media screen and (max-width: 700px) {
+            body { margin: 12px; }
+            .header { flex-direction: column; }
+            .title { text-align: left; }
+            table { min-width: 900px; }
+            .signatures { gap: 16px; }
+            .signature-box { width: min(200px, 48%); }
+        }
+        @page { size: landscape; margin: 10mm; }
         @media print {
             .no-print { display: none; }
             body { margin: 10mm; }
+            .table-wrap { overflow: visible; }
+            table { min-width: 0; font-size: 9px; }
+            th, td { padding: 4px; }
         }
     </style>
 </head>
@@ -100,6 +123,7 @@
         </div>
     </div>
 
+    <div class="table-wrap">
     <table>
         <thead>
             <tr>
@@ -152,6 +176,7 @@
             </tr>
         </tfoot>
     </table>
+    </div>
 
     <div class="signatures">
         <div class="signature-box">

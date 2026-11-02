@@ -201,7 +201,7 @@
                                 Rp {{ number_format($rec->subtotal, 0, ',', '.') }}
                             </td>
                             <td class="py-3.5 px-4 text-zinc-400 max-w-[180px]">
-                                <span class="truncate block" title="{{ $rec->notes ?: $tx->destination_or_reason }}">
+                                <span class="block" title="{{ $rec->notes ?: $tx->destination_or_reason }}">
                                     {{ $rec->notes ?: $tx->destination_or_reason ?: '-' }}
                                 </span>
                             </td>
