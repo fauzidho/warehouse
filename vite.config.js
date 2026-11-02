@@ -7,6 +7,8 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
+            publicDirectory: 'public',
+            buildDirectory: 'build',
         }),
         tailwindcss(),
     ],
@@ -16,12 +18,13 @@ export default defineConfig({
         },
     },
     build: {
+        outDir: 'public/build',
+        emptyOutDir: true,
         chunkSizeWarningLimit: 800,
         rollupOptions: {
             output: {
                 manualChunks: {
                     // Pisahkan Firebase SDK ke chunk terpisah
-                    // sehingga tidak dimuat pada halaman yang tidak membutuhkannya
                     'firebase-vendor': [
                         'firebase/app',
                         'firebase/firestore',
