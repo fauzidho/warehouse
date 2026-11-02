@@ -3,7 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "vite build && node -e \"const fs=require('fs'); fs.rmSync('dist',{recursive:true,force:true}); fs.mkdirSync('dist/build',{recursive:true}); fs.cpSync('public/build','dist/build',{recursive:true}); ['favicon.ico','robots.txt'].forEach(f => { if(fs.existsSync('public/'+f)) fs.copyFileSync('public/'+f, 'dist/'+f); });\"",
         "dev": "vite",
         "deploy:rules": "firebase.cmd deploy --only firestore:rules,database",
         "firebase:login": "firebase.cmd login",
