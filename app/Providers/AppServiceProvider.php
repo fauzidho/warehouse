@@ -21,6 +21,11 @@ class AppServiceProvider extends ServiceProvider
     {
         \Illuminate\Pagination\Paginator::useTailwind();
 
+        // Force HTTPS in production / Vercel to prevent Mixed Content blocking of CSS/JS
+        if (app()->environment('production') || env('VERCEL') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Ensure sqlite database file exists if sqlite is configured
         if (config('database.default') === 'sqlite') {
             $sqlitePath = config('database.connections.sqlite.database');
