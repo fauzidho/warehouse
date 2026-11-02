@@ -14,14 +14,9 @@ foreach ($directories as $dir) {
     }
 }
 
-// Ensure SQLite database file is writable in /tmp
-$sourceDb = __DIR__ . '/../database/database.sqlite';
+// Runtime temporary SQLite cache in /tmp (All persistent data is stored in Firebase Cloud Firestore)
 $targetDb = '/tmp/database.sqlite';
-
-if (file_exists($sourceDb) && !file_exists($targetDb)) {
-    copy($sourceDb, $targetDb);
-    chmod($targetDb, 0666);
-} elseif (!file_exists($targetDb)) {
+if (!file_exists($targetDb)) {
     touch($targetDb);
     chmod($targetDb, 0666);
 }
