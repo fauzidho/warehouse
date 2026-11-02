@@ -140,33 +140,33 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-xs">
+                    <table class="w-full text-xs" style="min-width:500px;">
                         <thead>
                             <tr class="border-b border-zinc-800 text-zinc-500 font-semibold uppercase tracking-wider text-[10px]">
-                                <th class="py-3 px-4 text-left">Pengguna</th>
-                                <th class="py-3 px-4 text-center">Role</th>
-                                <th class="py-3 px-4 text-left hidden sm:table-cell">Kontak</th>
-                                <th class="py-3 px-4 text-center">Status</th>
-                                <th class="py-3 px-4 text-right">Aksi</th>
+                                <th class="py-3 px-4 text-left" style="width:35%;">Pengguna</th>
+                                <th class="py-3 px-4 text-center" style="width:15%;">Role</th>
+                                <th class="py-3 px-4 text-left hidden sm:table-cell" style="width:20%;">Kontak</th>
+                                <th class="py-3 px-4 text-center" style="width:15%;">Status</th>
+                                <th class="py-3 px-4 text-right" style="width:15%;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-800/50">
                             @forelse($users as $u)
                                 <tr class="hover:bg-zinc-800/20 transition-colors">
-                                    <td class="py-3.5 px-4">
+                                    <td class="py-3.5 px-4" style="max-width:0;">
                                         <div class="flex items-center gap-2.5">
                                             <div class="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center text-xs font-bold
                                                 {{ $u->role === 'admin' ? 'text-amber-400' : 'text-emerald-400' }} shrink-0 border border-zinc-700">
                                                 {{ strtoupper(substr($u->name, 0, 1)) }}
                                             </div>
-                                            <div>
-                                                <div class="font-semibold text-white text-xs flex items-center gap-1.5">
-                                                    {{ $u->name }}
+                                            <div class="min-w-0">
+                                                <div class="font-semibold text-white text-xs flex items-center gap-1.5 overflow-hidden">
+                                                    <span class="overflow-hidden text-ellipsis whitespace-nowrap">{{ $u->name }}</span>
                                                     @if($u->id === auth()->id())
-                                                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold">Anda</span>
+                                                        <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold shrink-0">Anda</span>
                                                     @endif
                                                 </div>
-                                                <div class="text-[11px] text-zinc-500">{{ $u->email }}</div>
+                                                <div class="text-[11px] text-zinc-500 overflow-hidden text-ellipsis whitespace-nowrap">{{ $u->email }}</div>
                                             </div>
                                         </div>
                                     </td>

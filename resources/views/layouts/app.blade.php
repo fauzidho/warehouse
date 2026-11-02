@@ -161,10 +161,42 @@
             flex: 1;
             min-height: 0;
             overflow-y: auto;
-            overflow-x: hidden;
+            overflow-x: auto;
         }
-        .content-scroll::-webkit-scrollbar { width: 4px; }
+        .content-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
         .content-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+
+        /* ─── TEXT OVERFLOW GLOBAL FIXES ─── */
+        table { min-width: 0; }
+        td, th {
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+        /* Kolom tabel dengan teks panjang */
+        .td-truncate {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        /* Semua teks yang melebihi container */
+        .text-clamp-1 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .text-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        /* Dashboard KPI — nilai Rupiah agar tidak melebar */
+        .dashboard-kpi .text-lg,
+        .dashboard-kpi .text-2xl {
+            word-break: break-all;
+            overflow-wrap: anywhere;
+        }
 
         /* ─── OVERLAY (mobile) ─── */
         #overlay {
@@ -177,8 +209,7 @@
         }
 
         /* ─── PAGE ANIMATION ─── */
-        .page-body { animation: fadeUp 0.18s ease-out; }
-        @keyframes fadeUp {
+        .page-body { animation: fadeUp 0.18s ease-out; }        @keyframes fadeUp {
             from { opacity:0; transform:translateY(5px); }
             to   { opacity:1; transform:translateY(0); }
         }
@@ -197,9 +228,11 @@
             .topbar { padding: 0.6rem 1rem; height: auto; min-height: 58px; }
             .sidebar-brand { padding: 0.875rem; }
             .page-content { padding: 1rem !important; }
-            .page-footer { padding: 0.75rem 1rem !important; }
+            .page-footer { padding: 0.75rem 1rem !important; flex-direction: column; align-items: flex-start !important; gap: 0.25rem !important; }
             .flash-messages { padding: 0.75rem 1rem 0 !important; }
             .hidden-xs { display: none !important; }
+            /* Tabel responsive di mobile */
+            .overflow-x-auto { -webkit-overflow-scrolling: touch; }
         }
     </style>
 </head>

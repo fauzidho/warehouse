@@ -75,16 +75,16 @@
     <!-- Items Grid / Table -->
     <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
+            <table class="w-full text-left text-xs" style="min-width:700px;">
                 <thead>
                     <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 font-semibold uppercase tracking-wider text-[10px]">
-                        <th class="py-3.5 px-4">Bahan Baku</th>
-                        <th class="py-3.5 px-4">Kategori</th>
-                        <th class="py-3.5 px-4 text-center">Stok Saat Ini</th>
-                        <th class="py-3.5 px-4 text-center">Batas Min</th>
-                        <th class="py-3.5 px-4 text-center">Status</th>
-                        <th class="py-3.5 px-4 text-right">Harga Beli</th>
-                        <th class="py-3.5 px-4 text-right">Aksi</th>
+                        <th class="py-3.5 px-4" style="width:25%;">Bahan Baku</th>
+                        <th class="py-3.5 px-4" style="width:17%;">Kategori</th>
+                        <th class="py-3.5 px-4 text-center" style="width:12%;">Stok Saat Ini</th>
+                        <th class="py-3.5 px-4 text-center" style="width:12%;">Batas Min</th>
+                        <th class="py-3.5 px-4 text-center" style="width:10%;">Status</th>
+                        <th class="py-3.5 px-4 text-right" style="width:13%;">Harga Beli</th>
+                        <th class="py-3.5 px-4 text-right" style="width:11%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-zinc-800/60">
@@ -95,16 +95,16 @@
                         @endphp
                         <tr class="hover:bg-zinc-850/50 transition-colors">
                             <!-- Name -->
-                            <td class="py-4 px-4">
-                                <div class="font-bold text-white text-sm">{{ $item->name }}</div>
+                            <td class="py-4 px-4" style="max-width:0;">
+                                <div class="font-bold text-white text-sm overflow-hidden text-ellipsis whitespace-nowrap" title="{{ $item->name }}">{{ $item->name }}</div>
                                 <div class="text-[11px] text-zinc-400 font-mono flex items-center gap-2 mt-0.5">
                                     <span>Satuan: <strong class="text-zinc-300 font-sans">{{ $item->unit }}</strong></span>
                                 </div>
                             </td>
 
                             <!-- Category -->
-                            <td class="py-4 px-4">
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-medium bg-zinc-800 text-zinc-300 border border-zinc-700/60">
+                            <td class="py-4 px-4" style="max-width:0;">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-medium bg-zinc-800 text-zinc-300 border border-zinc-700/60 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
                                     {{ $item->category->name }}
                                 </span>
                             </td>

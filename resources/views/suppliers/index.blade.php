@@ -68,33 +68,33 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
+            <table class="w-full text-left text-xs" style="min-width:600px;">
                 <thead>
                     <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 font-semibold uppercase tracking-wider text-[10px]">
-                        <th class="py-3 px-4">Nama Vendor</th>
-                        <th class="py-3 px-4">Kontak Person</th>
-                        <th class="py-3 px-4">Alamat</th>
-                        <th class="py-3 px-4 text-center">Riwayat PO</th>
-                        <th class="py-3 px-4 text-right">Aksi</th>
+                        <th class="py-3 px-4" style="width:25%;">Nama Vendor</th>
+                        <th class="py-3 px-4" style="width:20%;">Kontak Person</th>
+                        <th class="py-3 px-4" style="width:30%;">Alamat</th>
+                        <th class="py-3 px-4 text-center" style="width:12%;">Riwayat PO</th>
+                        <th class="py-3 px-4 text-right" style="width:13%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-zinc-800/60">
                     @forelse($suppliers as $sup)
                         <tr class="hover:bg-zinc-850/50 transition-colors">
-                            <td class="py-3.5 px-4">
-                                <div class="font-bold text-white text-sm">{{ $sup->name }}</div>
+                            <td class="py-3.5 px-4" style="max-width:0;">
+                                <div class="font-bold text-white text-sm overflow-hidden text-ellipsis whitespace-nowrap" title="{{ $sup->name }}">{{ $sup->name }}</div>
                                 @if($sup->email)
-                                    <div class="text-[11px] text-zinc-400">{{ $sup->email }}</div>
+                                    <div class="text-[11px] text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap" title="{{ $sup->email }}">{{ $sup->email }}</div>
                                 @endif
                             </td>
 
-                            <td class="py-3.5 px-4">
-                                <div class="text-zinc-200 font-semibold">{{ $sup->contact_person ?: '-' }}</div>
-                                <div class="text-[11px] text-zinc-400 font-mono">{{ $sup->phone ?: '-' }}</div>
+                            <td class="py-3.5 px-4" style="max-width:0;">
+                                <div class="text-zinc-200 font-semibold overflow-hidden text-ellipsis whitespace-nowrap">{{ $sup->contact_person ?: '-' }}</div>
+                                <div class="text-[11px] text-zinc-400 font-mono overflow-hidden text-ellipsis whitespace-nowrap">{{ $sup->phone ?: '-' }}</div>
                             </td>
 
-                            <td class="py-3.5 px-4 text-zinc-400 max-w-xs">
-                                {{ $sup->address ?: '-' }}
+                            <td class="py-3.5 px-4 text-zinc-400" style="max-width:0;">
+                                <div class="overflow-hidden" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;" title="{{ $sup->address }}">{{ $sup->address ?: '-' }}</div>
                             </td>
 
                             <td class="py-3.5 px-4 text-center">

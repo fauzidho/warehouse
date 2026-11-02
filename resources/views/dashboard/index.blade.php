@@ -14,10 +14,10 @@
             <div class="space-y-1.5">
                 <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-500/8 border border-amber-500/20 text-amber-400 text-xs font-medium">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                    Sistem Aktif — Gudang Half Kopi
+                    Sistem Aktif ” Gudang Half Kopi
                 </div>
                 <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                    Halo, {{ auth()->user()->name }} 👋
+                    Halo, {{ auth()->user()->name }}
                 </h2>
                 <p class="text-sm text-zinc-400 max-w-lg">
                     Anda masuk sebagai <strong class="text-zinc-200">{{ auth()->user()->isAdmin() ? 'Administrator' : 'Pegawai' }}</strong>.
@@ -112,7 +112,7 @@
             <div class="text-2xl font-black text-white">{{ number_format($totalItems) }}</div>
             <div class="text-[11px] text-zinc-500 mt-1 flex items-center justify-between">
                 <span>Jenis Bahan</span>
-                <a href="{{ route('items.index') }}" class="text-amber-400 hover:text-amber-300 font-medium text-[10px]">Lihat →</a>
+                <a href="{{ route('items.index') }}" class="text-amber-400 hover:text-amber-300 font-medium text-[10px]">Lihat â†’</a>
             </div>
         </div>
 
@@ -124,7 +124,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
             </div>
-            <div class="text-lg font-black text-white leading-tight">Rp {{ number_format($totalValuation, 0, ',', '.') }}</div>
+            <div class="text-lg font-black text-white leading-tight break-all">Rp {{ number_format($totalValuation, 0, ',', '.') }}</div>
             <div class="text-[11px] text-zinc-500 mt-1">
                 <span class="text-emerald-400 font-medium">Estimasi aset gudang</span>
             </div>
@@ -165,7 +165,7 @@
             </div>
             <div class="text-[11px] text-zinc-500 mt-1 flex items-center gap-2">
                 <span class="text-emerald-400 font-medium">{{ $todayStockInCount }} masuk</span>
-                <span>•</span>
+                <span>â€¢</span>
                 <span class="text-amber-400 font-medium">{{ $todayStockOutCount }} keluar</span>
             </div>
         </div>
@@ -274,12 +274,12 @@
                 <p class="text-[11px] text-zinc-500 mt-0.5">Penerimaan supplier, pemakaian barista, dan penyesuaian stok</p>
             </div>
             <a href="{{ route('reports.index') }}" class="text-xs text-amber-400 hover:text-amber-300 font-semibold shrink-0">
-                Lihat Laporan Lengkap →
+                Lihat Laporan Lengkap â†’
             </a>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-xs">
+            <table class="w-full text-xs" style="min-width:650px;">
                 <thead>
                     <tr class="border-b border-zinc-800/60 text-zinc-500 font-semibold uppercase tracking-wider text-[10px]">
                         <th class="py-3 px-5 text-left">Kode & Tanggal</th>
@@ -294,7 +294,7 @@
                     @forelse($recentTransactions as $tx)
                         @php $badge = $tx->type_badge; @endphp
                         <tr class="hover:bg-zinc-800/20 transition-colors">
-                            <td class="py-3.5 px-5 font-mono">
+                            <td class="py-3.5 px-5 font-mono" style="max-width:0;">
                                 <div class="font-bold text-zinc-200 text-[11px]">{{ $tx->transaction_code }}</div>
                                 <div class="text-[10px] text-zinc-500 font-sans">{{ $tx->date->translatedFormat('d M Y') }}</div>
                             </td>
@@ -302,13 +302,13 @@
                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border {{ $badge['bg'] }} mb-1">
                                     {{ $badge['label'] }}
                                 </span>
-                                <div class="text-zinc-300 font-medium max-w-[180px]">{{ $tx->destination_or_reason }}</div>
+                                <div class="text-zinc-300 font-medium overflow-hidden text-ellipsis whitespace-nowrap" style="max-width:180px;">{{ $tx->destination_or_reason }}</div>
                             </td>
                             <td class="py-3.5 px-4 hidden md:table-cell">
                                 <div class="space-y-0.5">
                                     @foreach($tx->items->take(2) as $ti)
                                         <div class="text-zinc-400 text-[11px]">
-                                            • {{ $ti->item->name ?? 'Item' }}
+                                            â€¢ {{ $ti->item->name ?? 'Item' }}
                                             <span class="text-amber-400/80 font-medium">({{ $ti->quantity }} {{ $ti->item->unit ?? '' }})</span>
                                         </div>
                                     @endforeach
@@ -324,7 +324,7 @@
                                 @if($tx->total_cost > 0)
                                     Rp {{ number_format($tx->total_cost, 0, ',', '.') }}
                                 @else
-                                    <span class="text-zinc-600">—</span>
+                                    <span class="text-zinc-600">â€”</span>
                                 @endif
                             </td>
                             <td class="py-3.5 px-4 text-right">
@@ -352,3 +352,5 @@
 
 </div>
 @endsection
+
+

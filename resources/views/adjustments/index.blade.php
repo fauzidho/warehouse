@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Stock Opname')
 @section('page-title', 'Stock Opname (Penyesuaian Fisik)')
@@ -24,7 +24,7 @@
     <!-- Table -->
     <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
+            <table class="w-full text-left text-xs" style="min-width:600px;">
                 <thead>
                     <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 font-semibold uppercase tracking-wider text-[10px]">
                         <th class="py-3.5 px-4">No Berita Acara & Tanggal</th>
@@ -103,3 +103,4 @@
     </div>
 </div>
 @endsection
+
