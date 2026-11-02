@@ -69,9 +69,8 @@
                         + Tambah Bahan Pertama
                     </a>
                 @endif
-                <a href="{{ route('firebase.index') }}" class="px-3.5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 font-bold text-xs transition-all">
-                    Buka Firebase Center &rarr;
-                </a>
+
+
             </div>
         </div>
     @endif
@@ -90,7 +89,7 @@
             </div>
             <div class="text-2xl font-black text-white tracking-tight">{{ number_format($totalItems) }}</div>
             <div class="text-[11px] text-zinc-400 mt-1 flex items-center justify-between">
-                <span>SKU Terdaftar</span>
+                <span>Total Bahan Baku</span>
                 <a href="{{ route('items.index') }}" class="text-amber-400 hover:underline font-medium">Lihat Semua &rarr;</a>
             </div>
         </div>
@@ -177,7 +176,6 @@
                             <div class="space-y-1">
                                 <div class="flex items-center gap-2">
                                     <span class="text-xs font-bold text-white">{{ $lItem->name }}</span>
-                                    <span class="text-[10px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 font-mono">{{ $lItem->sku }}</span>
                                 </div>
                                 <div class="text-[11px] text-zinc-400">
                                     Kategori: <span class="text-zinc-300">{{ $lItem->category->name }}</span>

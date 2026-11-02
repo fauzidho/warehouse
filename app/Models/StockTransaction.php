@@ -29,6 +29,17 @@ class StockTransaction extends Model
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::saved(function (StockTransaction $transaction) {
+            try {
+                app(\App\Services\FirestoreService::class)->syncTransaction($transaction);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Firestore transaction sync failed: ' . $e->getMessage());
+            }
+        });
+    }
+
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);

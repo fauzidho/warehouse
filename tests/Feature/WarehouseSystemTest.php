@@ -75,7 +75,6 @@ class WarehouseSystemTest extends TestCase
         $cat = Category::create(['name' => 'Kopi Test', 'slug' => 'kopi-test']);
         $item = Item::create([
             'category_id' => $cat->id,
-            'sku' => 'TEST-01',
             'name' => 'Biji Kopi Test',
             'unit' => 'kg',
             'minimum_stock' => 5,
@@ -110,7 +109,6 @@ class WarehouseSystemTest extends TestCase
         $cat = Category::create(['name' => 'Kopi Test 2', 'slug' => 'kopi-test-2']);
         $item = Item::create([
             'category_id' => $cat->id,
-            'sku' => 'TEST-02',
             'name' => 'Biji Kopi Test 2',
             'unit' => 'kg',
             'minimum_stock' => 5,
@@ -144,7 +142,6 @@ class WarehouseSystemTest extends TestCase
         $cat = Category::create(['name' => 'Kopi Test 3', 'slug' => 'kopi-test-3']);
         $item = Item::create([
             'category_id' => $cat->id,
-            'sku' => 'TEST-03',
             'name' => 'Biji Kopi Test 3',
             'unit' => 'kg',
             'minimum_stock' => 5,

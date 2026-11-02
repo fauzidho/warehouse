@@ -154,6 +154,7 @@
                         <span class="text-amber-400 font-bold shrink-0">🔥</span>
                         <span>Firebase Cloud Sync</span>
                     </a>
+
                 </div>
                 @endif
             </nav>
@@ -204,9 +205,9 @@
                     </a>
 
                     <!-- Live Firebase Status Pill -->
-                    <a href="{{ route('firebase.index') }}" id="firebaseStatusPill" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:border-amber-500/40 transition-all" title="Status Firebase Cloud">
+                    <a href="{{ route('firebase.index') }}" id="firebaseStatusPill" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:border-amber-500/40 transition-all cursor-pointer" title="Status Koneksi Cloud (Klik untuk buka Firebase Center)">
                         <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                        <span>Firebase: Menghubungkan...</span>
+                        <span>Cloud: Menghubungkan...</span>
                     </a>
 
                     <!-- Status Indicator -->

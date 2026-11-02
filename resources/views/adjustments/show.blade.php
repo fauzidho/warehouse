@@ -86,7 +86,7 @@
                             <td class="py-3 text-zinc-500 font-mono">{{ $idx + 1 }}</td>
                             <td class="py-3">
                                 <div class="font-bold text-white">{{ $it->item->name }}</div>
-                                <div class="text-[11px] text-zinc-500 font-mono">SKU: {{ $it->item->sku }} &bull; {{ $it->item->category->name }}</div>
+                                <div class="text-[11px] text-zinc-500">Kategori: {{ $it->item->category->name }}</div>
                             </td>
                             <td class="py-3 text-center font-mono">
                                 <span class="px-2 py-0.5 rounded text-xs font-bold {{ $it->quantity >= 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30' }}">

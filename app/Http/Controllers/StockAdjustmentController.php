@@ -34,7 +34,7 @@ class StockAdjustmentController extends Controller
 
     public function create(Request $request)
     {
-        $categoryId = $request->get('category_id');
+        $categoryId = $request->input('category_id');
         $query = Item::with('category')->orderBy('name');
 
         if ($categoryId) {

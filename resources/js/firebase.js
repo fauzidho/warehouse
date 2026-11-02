@@ -134,6 +134,7 @@ export const FirebaseSync = {
                     contact_person: sup.contact_person || "",
                     phone: sup.phone || "",
                     email: sup.email || "",
+                    address: sup.address || "",
                     updatedAt: serverTimestamp()
                 });
                 count++;
@@ -141,9 +142,8 @@ export const FirebaseSync = {
 
             // Items
             for (const item of items) {
-                await setDoc(doc(db, "items", String(item.sku)), {
+                await setDoc(doc(db, "items", String(item.id)), {
                     id: item.id,
-                    sku: item.sku,
                     name: item.name,
                     category_id: item.category_id,
                     category_name: item.category ? item.category.name : "",
@@ -256,13 +256,13 @@ export const FirebaseSync = {
             if (online) {
                 pill.innerHTML = `
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Firebase: Auto-Sync Aktif</span>
+                    <span>Cloud: Aktif ✓</span>
                 `;
                 pill.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
             } else {
                 pill.innerHTML = `
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                    <span>Firebase: Menghubungkan...</span>
+                    <span>Cloud: Menghubungkan...</span>
                 `;
                 pill.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30";
             }

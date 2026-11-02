@@ -113,8 +113,9 @@ class FirebaseController extends Controller
                         );
                     }
 
+                    $match = !empty($it['id']) ? ['id' => $it['id']] : ['name' => $it['name']];
                     Item::updateOrCreate(
-                        ['sku' => $it['sku']],
+                        $match,
                         [
                             'category_id' => $category->id,
                             'name' => $it['name'],

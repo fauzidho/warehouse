@@ -13,10 +13,10 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
-        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->toDateString());
-        $endDate = $request->get('end_date', Carbon::now()->toDateString());
-        $categoryId = $request->get('category_id');
-        $type = $request->get('type'); // in, out, adjustment, or all
+        $startDate = $request->input('start_date', Carbon::now()->startOfMonth()->toDateString());
+        $endDate = $request->input('end_date', Carbon::now()->toDateString());
+        $categoryId = $request->input('category_id');
+        $type = $request->input('type'); // in, out, adjustment, or all
 
         $query = StockTransactionItem::with(['transaction.user', 'transaction.supplier', 'item.category'])
             ->whereHas('transaction', function ($q) use ($startDate, $endDate, $type) {
@@ -74,10 +74,10 @@ class ReportController extends Controller
 
     public function print(Request $request)
     {
-        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->toDateString());
-        $endDate = $request->get('end_date', Carbon::now()->toDateString());
-        $categoryId = $request->get('category_id');
-        $type = $request->get('type');
+        $startDate = $request->input('start_date', Carbon::now()->startOfMonth()->toDateString());
+        $endDate = $request->input('end_date', Carbon::now()->toDateString());
+        $categoryId = $request->input('category_id');
+        $type = $request->input('type');
 
         $query = StockTransactionItem::with(['transaction.user', 'transaction.supplier', 'item.category'])
             ->whereHas('transaction', function ($q) use ($startDate, $endDate, $type) {

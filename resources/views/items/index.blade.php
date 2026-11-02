@@ -29,7 +29,7 @@
         <form method="GET" action="{{ route('items.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <!-- Search Keyword -->
             <div class="lg:col-span-2">
-                <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Cari Nama atau SKU</label>
+                <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Cari Nama Bahan</label>
                 <div class="relative">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cth: Espresso, Susu, BN-HB..."
                         class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-4 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all">
@@ -78,7 +78,7 @@
             <table class="w-full text-left text-xs">
                 <thead>
                     <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 font-semibold uppercase tracking-wider text-[10px]">
-                        <th class="py-3.5 px-4">SKU & Bahan Baku</th>
+                        <th class="py-3.5 px-4">Bahan Baku</th>
                         <th class="py-3.5 px-4">Kategori</th>
                         <th class="py-3.5 px-4 text-center">Stok Saat Ini</th>
                         <th class="py-3.5 px-4 text-center">Batas Min</th>
@@ -94,12 +94,10 @@
                             $isLow = $item->current_stock <= $item->minimum_stock && !$isOut;
                         @endphp
                         <tr class="hover:bg-zinc-850/50 transition-colors">
-                            <!-- Name & SKU -->
+                            <!-- Name -->
                             <td class="py-4 px-4">
                                 <div class="font-bold text-white text-sm">{{ $item->name }}</div>
                                 <div class="text-[11px] text-zinc-400 font-mono flex items-center gap-2 mt-0.5">
-                                    <span>SKU: {{ $item->sku }}</span>
-                                    <span>&bull;</span>
                                     <span>Satuan: <strong class="text-zinc-300 font-sans">{{ $item->unit }}</strong></span>
                                 </div>
                             </td>

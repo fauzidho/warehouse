@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FirebaseController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StockAdjustmentController;
@@ -65,9 +66,11 @@ Route::middleware('auth')->group(function () {
         // User Management
         Route::resource('users', UserController::class)->only(['index', 'store', 'update', 'destroy']);
 
-        // Firebase Cloud Center & Sync
-        Route::get('/firebase', [\App\Http\Controllers\FirebaseController::class, 'index'])->name('firebase.index');
-        Route::get('/firebase/export', [\App\Http\Controllers\FirebaseController::class, 'exportData'])->name('firebase.export');
-        Route::post('/firebase/import', [\App\Http\Controllers\FirebaseController::class, 'importData'])->name('firebase.import');
+        // Firebase Cloud Center Dashboard
+        Route::get('/firebase', [FirebaseController::class, 'index'])->name('firebase.index');
     });
+
+    // Firebase Data Export & Import (Authenticated Users)
+    Route::get('/firebase/export', [FirebaseController::class, 'exportData'])->name('firebase.export');
+    Route::post('/firebase/import', [FirebaseController::class, 'importData'])->name('firebase.import');
 });

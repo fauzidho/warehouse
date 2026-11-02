@@ -11,7 +11,6 @@ class Item extends Model
 
     protected $fillable = [
         'category_id',
-        'sku',
         'name',
         'unit',
         'minimum_stock',
@@ -27,6 +26,25 @@ class Item extends Model
             'current_stock' => 'decimal:2',
             'cost_price' => 'decimal:2',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::saved(function (Item $item) {
+            try {
+                app(\App\Services\FirestoreService::class)->syncItem($item);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Firestore item sync failed: ' . $e->getMessage());
+            }
+        });
+
+        static::deleted(function (Item $item) {
+            try {
+                app(\App\Services\FirestoreService::class)->deleteItem($item->id);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Firestore item delete failed: ' . $e->getMessage());
+            }
+        });
     }
 
     public function category()

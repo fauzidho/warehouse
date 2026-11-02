@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->string('sku')->unique();
+
             $table->string('name');
             $table->string('unit'); // kg, gram, liter, ml, pack, pcs, dus
             $table->decimal('minimum_stock', 10, 2)->default(5);

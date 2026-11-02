@@ -107,7 +107,7 @@
                 <th>Tanggal</th>
                 <th>No Bukti / Transaksi</th>
                 <th>Tipe</th>
-                <th>Bahan Baku (SKU)</th>
+                <th>Bahan Baku</th>
                 <th class="text-center">Jumlah (Qty)</th>
                 <th class="text-right">Harga Beli</th>
                 <th class="text-right">Subtotal Nilai</th>
@@ -129,7 +129,7 @@
                         @if($tx->type === 'in') MASUK @elseif($tx->type === 'out') KELUAR @else OPNAME @endif
                     </td>
                     <td>
-                        <strong>{{ $rec->item->name }}</strong> ({{ $rec->item->sku }})
+                        <strong>{{ $rec->item->name }}</strong>
                     </td>
                     <td class="text-center font-bold">
                         @if($tx->type === 'in')+{{ $rec->quantity }}@elseif($tx->type === 'out')-{{ $rec->quantity }}@else{{ $rec->quantity >= 0 ? '+' : '' }}{{ $rec->quantity }}@endif {{ $rec->item->unit }}

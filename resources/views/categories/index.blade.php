@@ -63,7 +63,7 @@
 
                             <td class="py-3.5 px-4 text-center">
                                 <span class="px-2 py-0.5 rounded-full bg-zinc-800 text-amber-400 font-bold text-xs">
-                                    {{ $cat->items_count }} SKU
+                                    {{ $cat->items_count }} Bahan
                                 </span>
                             </td>
 

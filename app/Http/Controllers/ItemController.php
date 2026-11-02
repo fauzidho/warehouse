@@ -18,7 +18,6 @@ class ItemController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('sku', 'like', "%{$search}%")
                   ->orWhere('description', 'like', "%{$search}%");
             });
         }
@@ -54,7 +53,6 @@ class ItemController extends Controller
     {
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
-            'sku' => ['required', 'string', 'max:50', 'unique:items,sku'],
             'name' => ['required', 'string', 'max:255'],
             'unit' => ['required', 'string', 'max:50'],
             'minimum_stock' => ['required', 'numeric', 'min:0'],
@@ -96,7 +94,6 @@ class ItemController extends Controller
     {
         $validated = $request->validate([
             'category_id' => ['required', 'exists:categories,id'],
-            'sku' => ['required', 'string', 'max:50', 'unique:items,sku,' . $item->id],
             'name' => ['required', 'string', 'max:255'],
             'unit' => ['required', 'string', 'max:50'],
             'minimum_stock' => ['required', 'numeric', 'min:0'],

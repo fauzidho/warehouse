@@ -81,7 +81,7 @@
                                     <option value="">-- Pilih Bahan Baku --</option>
                                     @foreach($items as $it)
                                         <option value="{{ $it->id }}" data-unit="{{ $it->unit }}" data-stock="{{ $it->current_stock }}" data-cost="{{ $it->cost_price }}">
-                                            {{ $it->name }} ({{ $it->sku }}) - Tersedia: {{ $it->current_stock }} {{ $it->unit }}
+                                            {{ $it->name }} - Tersedia: {{ $it->current_stock }} {{ $it->unit }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -174,7 +174,7 @@
                 <select name="items[${rowIndex}][item_id]" onchange="onItemChange(this, ${rowIndex})" required
                     class="item-select w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-amber-500">
                     <option value="">-- Pilih Bahan Baku --</option>
-                    ${itemsData.map(it => `<option value="${it.id}">${it.name} (${it.sku}) - Tersedia: ${it.current_stock} ${it.unit}</option>`).join('')}
+                    ${itemsData.map(it => `<option value="${it.id}">${it.name} - Tersedia: ${it.current_stock} ${it.unit}</option>`).join('')}
                 </select>
                 <div class="item-stock-warning text-[11px] text-zinc-400 font-medium mt-1"></div>
             </td>

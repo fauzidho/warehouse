@@ -97,7 +97,7 @@
                             <td class="py-3 text-zinc-500 font-mono">{{ $idx + 1 }}</td>
                             <td class="py-3">
                                 <div class="font-bold text-white">{{ $it->item->name }}</div>
-                                <div class="text-[11px] text-zinc-500 font-mono">SKU: {{ $it->item->sku }} &bull; Kategori: {{ $it->item->category->name }}</div>
+                                <div class="text-[11px] text-zinc-500">Kategori: {{ $it->item->category->name }}</div>
                             </td>
                             <td class="py-3 text-center font-mono">
                                 @if($it->expiry_date)

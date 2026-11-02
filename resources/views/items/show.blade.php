@@ -2,7 +2,7 @@
 
 @section('title', 'Kartu Stok - ' . $item->name)
 @section('page-title', 'Detail Bahan & Kartu Stok')
-@section('page-subtitle', $item->name . ' (' . $item->sku . ')')
+@section('page-subtitle', $item->name)
 
 @section('content')
 <div class="space-y-6">
@@ -11,9 +11,6 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div class="space-y-2">
                 <div class="flex flex-wrap items-center gap-2">
-                    <span class="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                        {{ $item->sku }}
-                    </span>
                     <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-zinc-800 text-zinc-300 border border-zinc-700/60">
                         {{ $item->category->name }}
                     </span>

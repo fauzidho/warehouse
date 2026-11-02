@@ -70,7 +70,7 @@
                 <table class="w-full text-left text-xs">
                     <thead>
                         <tr class="border-b border-zinc-800 text-zinc-400 font-semibold uppercase tracking-wider text-[10px]">
-                            <th class="pb-3 w-4/12">Bahan Baku (SKU)</th>
+                            <th class="pb-3 w-4/12">Bahan Baku</th>
                             <th class="pb-3 text-center w-2/12">Stok Sistem</th>
                             <th class="pb-3 text-center w-2/12">Hitung Fisik (Aktual)</th>
                             <th class="pb-3 text-center w-2/12">Selisih (+/-)</th>
@@ -83,8 +83,8 @@
                                 <td class="py-3.5 pr-2">
                                     <input type="hidden" name="adjustments[{{ $idx }}][item_id]" value="{{ $it->id }}">
                                     <div class="font-bold text-white">{{ $it->name }}</div>
-                                    <div class="text-[10px] text-zinc-500 font-mono">
-                                        {{ $it->sku }} &bull; {{ $it->category->name }}
+                                    <div class="text-[10px] text-zinc-500">
+                                        {{ $it->category->name }}
                                     </div>
                                 </td>
 
