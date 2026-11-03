@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') — Gudang Half Kopi</title>
+    <title>@yield('title', 'Dashboard') &mdash; Gudang Half Kopi</title>
     <meta name="description" content="Sistem Manajemen Gudang & Inventori Half Kopi">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -191,7 +191,7 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-        /* Dashboard KPI — nilai Rupiah agar tidak melebar */
+        /* Dashboard KPI &mdash; nilai Rupiah agar tidak melebar */
         .dashboard-kpi .text-lg,
         .dashboard-kpi .text-2xl {
             word-break: break-all;
@@ -441,7 +441,7 @@
                     <a href="{{ route('items.index', ['status'=>'low']) }}"
                        style="display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;background:rgba(244,63,94,0.1);color:#fb7185;border:1px solid rgba(244,63,94,0.2);text-decoration:none;"
                        class="btn-desktop">
-                        ⚠ {{ $globalLowStockCount }} Restock
+                        &#9888; {{ $globalLowStockCount }} Restock
                     </a>
                 @endif
 
@@ -493,12 +493,12 @@
             <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid rgba(82,68,54,0.45);font-size:11px;color:#71717a;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span style="font-weight:700;color:#71717a;">HALF KOPI WMS</span>
-                    <span>•</span>
+                    <span>&bull;</span>
                     <span>Sistem Manajemen Inventori Gudang</span>
                 </div>
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span style="display:flex;align-items:center;gap:4px;"><span style="width:6px;height:6px;border-radius:50%;background:#34d399;display:inline-block;"></span>Sistem Aktif</span>
-                    <span>•</span>
+                    <span>&bull;</span>
                     <span>&copy; {{ date('Y') }} Half Kopi Enterprise</span>
                 </div>
             </footer>

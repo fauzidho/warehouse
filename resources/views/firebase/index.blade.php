@@ -62,7 +62,7 @@
     {{-- Main Backup/Restore Actions --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-        {{-- Backup: Local → Cloud --}}
+        {{-- Backup: Local &rarr; Cloud --}}
         <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-6 flex flex-col">
             <div class="flex items-start gap-4 flex-1">
                 <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
@@ -94,7 +94,7 @@
             </button>
         </div>
 
-        {{-- Restore: Cloud → Local --}}
+        {{-- Restore: Cloud &rarr; Local --}}
         <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-6 flex flex-col">
             <div class="flex items-start gap-4 flex-1">
                 <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">

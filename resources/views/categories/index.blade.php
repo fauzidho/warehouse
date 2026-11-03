@@ -2,7 +2,7 @@
 
 @section('title', 'Kategori Bahan')
 @section('page-title', 'Kategori Bahan')
-@section('page-subtitle', 'Kelompokkan bahan baku berdasarkan jenis — kopi, susu, sirup, kemasan')
+@section('page-subtitle', 'Kelompokkan bahan baku berdasarkan jenis &mdash; kopi, susu, sirup, kemasan')
 
 @section('content')
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

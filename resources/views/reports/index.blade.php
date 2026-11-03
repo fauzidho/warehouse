@@ -1,8 +1,8 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Laporan Stok')
 @section('page-title', 'Laporan Stok Bahan Baku')
-@section('page-subtitle', 'Riwayat semua pergerakan stok â€” masuk, pemakaian, dan penyesuaian')
+@section('page-subtitle', 'Riwayat semua pergerakan stok &mdash; masuk, pemakaian, dan penyesuaian')
 
 @section('content')
 <div class="space-y-6">
@@ -139,7 +139,9 @@
     <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl overflow-hidden">
         @if($records->isEmpty())
             <div class="py-16 text-center">
-                <div class="text-5xl mb-3">ðŸ“­</div>
+                <svg class="w-12 h-12 mx-auto mb-3 text-zinc-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
                 <div class="text-zinc-300 font-bold text-base">Tidak ada data pada periode ini</div>
                 <div class="text-xs text-zinc-500 mt-1">Coba ubah rentang tanggal atau klik "Semua Transaksi"</div>
                 <a href="{{ route('reports.index') }}" class="inline-block mt-4 px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 text-xs font-semibold hover:bg-zinc-700 transition-all">
@@ -171,9 +173,15 @@
                             </td>
                             <td class="py-3.5 px-4">
                                 @if($tx->type === 'in')
-                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ðŸ“¦ Masuk</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                                        Masuk
+                                    </span>
                                 @elseif($tx->type === 'out')
-                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">â˜• Pemakaian</span>
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+                                        Pemakaian
+                                    </span>
                                 @else
                                     <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>

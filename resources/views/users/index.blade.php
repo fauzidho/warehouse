@@ -69,10 +69,10 @@
                     <select name="role" id="role" required
                         class="w-full bg-zinc-950 border border-zinc-700/60 rounded-xl px-3.5 py-2.5 text-xs text-zinc-100 focus:outline-none focus:border-amber-500 transition-all">
                         <option value="pegawai" {{ old('role') == 'pegawai' ? 'selected' : '' }}>
-                            Pegawai — Barista / Staff Gudang
+                            Pegawai &mdash; Barista / Staff Gudang
                         </option>
                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>
-                            Administrator — Akses Penuh
+                            Administrator &mdash; Akses Penuh
                         </option>
                     </select>
                     @error('role') <p class="text-rose-400 text-[11px] mt-1">{{ $message }}</p> @enderror
@@ -184,7 +184,7 @@
                                     </td>
 
                                     <td class="py-3.5 px-4 hidden sm:table-cell">
-                                        <span class="text-zinc-400 text-[11px]">{{ $u->phone ?: '—' }}</span>
+                                        <span class="text-zinc-400 text-[11px]">{{ $u->phone ?: '&mdash;' }}</span>
                                     </td>
 
                                     <td class="py-3.5 px-4 text-center">
@@ -214,7 +214,7 @@
                                                 </button>
                                             </form>
                                         @else
-                                            <span class="text-[11px] text-zinc-700">—</span>
+                                            <span class="text-[11px] text-zinc-700">&mdash;</span>
                                         @endif
                                     </td>
                                 </tr>

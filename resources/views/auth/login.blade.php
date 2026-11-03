@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk — Sistem Gudang Half Kopi</title>
+    <title>Masuk &mdash; Sistem Gudang Half Kopi</title>
     <meta name="description" content="Login ke Sistem Manajemen Gudang Half Kopi.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,7 +104,7 @@
                         </div>
                         <input type="password" name="password" id="password"
                             required
-                            placeholder="••••••••"
+                            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
                             class="w-full bg-zinc-950/80 border border-zinc-700/60 rounded-xl pl-10 pr-11 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/40 transition-all">
                         <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-zinc-300 transition-colors">
                             <svg id="eyeIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

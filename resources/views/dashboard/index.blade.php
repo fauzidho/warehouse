@@ -14,7 +14,7 @@
             <div class="space-y-1.5">
                 <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-500/8 border border-amber-500/20 text-amber-400 text-xs font-medium">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                    Sistem Aktif ” Gudang Half Kopi
+                    Sistem Aktif &rdquo; Gudang Half Kopi
                 </div>
                 <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
                     Halo, {{ auth()->user()->name }}
@@ -112,7 +112,7 @@
             <div class="text-2xl font-black text-white">{{ number_format($totalItems) }}</div>
             <div class="text-[11px] text-zinc-500 mt-1 flex items-center justify-between">
                 <span>Jenis Bahan</span>
-                <a href="{{ route('items.index') }}" class="text-amber-400 hover:text-amber-300 font-medium text-[10px]">Lihat â†’</a>
+                <a href="{{ route('items.index') }}" class="text-amber-400 hover:text-amber-300 font-medium text-[10px]">Lihat &rarr;</a>
             </div>
         </div>
 
@@ -165,7 +165,7 @@
             </div>
             <div class="text-[11px] text-zinc-500 mt-1 flex items-center gap-2">
                 <span class="text-emerald-400 font-medium">{{ $todayStockInCount }} masuk</span>
-                <span>â€¢</span>
+                <span>&bull;</span>
                 <span class="text-amber-400 font-medium">{{ $todayStockOutCount }} keluar</span>
             </div>
         </div>
@@ -274,7 +274,7 @@
                 <p class="text-[11px] text-zinc-500 mt-0.5">Penerimaan supplier, pemakaian barista, dan penyesuaian stok</p>
             </div>
             <a href="{{ route('reports.index') }}" class="text-xs text-amber-400 hover:text-amber-300 font-semibold shrink-0">
-                Lihat Laporan Lengkap â†’
+                Lihat Laporan Lengkap &rarr;
             </a>
         </div>
 
@@ -308,7 +308,7 @@
                                 <div class="space-y-0.5">
                                     @foreach($tx->items->take(2) as $ti)
                                         <div class="text-zinc-400 text-[11px]">
-                                            â€¢ {{ $ti->item->name ?? 'Item' }}
+                                            &bull; {{ $ti->item->name ?? 'Item' }}
                                             <span class="text-amber-400/80 font-medium">({{ $ti->quantity }} {{ $ti->item->unit ?? '' }})</span>
                                         </div>
                                     @endforeach
@@ -324,7 +324,7 @@
                                 @if($tx->total_cost > 0)
                                     Rp {{ number_format($tx->total_cost, 0, ',', '.') }}
                                 @else
-                                    <span class="text-zinc-600">â€”</span>
+                                    <span class="text-zinc-600">&mdash;</span>
                                 @endif
                             </td>
                             <td class="py-3.5 px-4 text-right">
