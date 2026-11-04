@@ -41,6 +41,11 @@ $defaultEnv = [
     'APP_ENV'              => 'production',
     'LARAVEL_STORAGE_PATH' => '/tmp/storage',
     'VIEW_COMPILED_PATH'   => '/tmp/storage/framework/views',
+    'APP_SERVICES_CACHE'   => '/tmp/bootstrap/cache/services.php',
+    'APP_PACKAGES_CACHE'   => '/tmp/bootstrap/cache/packages.php',
+    'APP_CONFIG_CACHE'     => '/tmp/bootstrap/cache/config.php',
+    'APP_ROUTES_CACHE'     => '/tmp/bootstrap/cache/routes.php',
+    'APP_EVENTS_CACHE'     => '/tmp/bootstrap/cache/events.php',
     'DB_CONNECTION'        => 'sqlite',
     'DB_DATABASE'          => $targetDb,
     'SESSION_DRIVER'       => 'file',
@@ -49,18 +54,22 @@ $defaultEnv = [
 ];
 
 foreach ($defaultEnv as $key => $value) {
-    // Jika belum diset di Vercel env, gunakan fallback
-    if (!getenv($key)) {
+    // Variabel kritis serverless wajib selalu diarahkan ke /tmp
+    $criticalKeys = [
+        'LARAVEL_STORAGE_PATH',
+        'VIEW_COMPILED_PATH',
+        'APP_SERVICES_CACHE',
+        'APP_PACKAGES_CACHE',
+        'APP_CONFIG_CACHE',
+        'APP_ROUTES_CACHE',
+        'APP_EVENTS_CACHE',
+        'DB_DATABASE',
+    ];
+
+    if (in_array($key, $criticalKeys) || !getenv($key)) {
         putenv("{$key}={$value}");
         $_ENV[$key]    = $value;
         $_SERVER[$key] = $value;
-    } else {
-        // Khusus storage & db wajib tetap di /tmp
-        if (in_array($key, ['LARAVEL_STORAGE_PATH', 'VIEW_COMPILED_PATH', 'DB_DATABASE'])) {
-            putenv("{$key}={$value}");
-            $_ENV[$key]    = $value;
-            $_SERVER[$key] = $value;
-        }
     }
 }
 
