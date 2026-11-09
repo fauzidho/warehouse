@@ -54,6 +54,51 @@
             }
         }
 
+        /* ─── TOMBOL TOGGLE DI TENGAH-TENGAH PERBATASAN SIDEBAR & LAMAN UTAMA ─── */
+        .sidebar-edge-toggle {
+            position: fixed;
+            top: 50%;
+            left: 252px; /* tepat di garis perbatasan 264px */
+            transform: translateY(-50%);
+            width: 24px;
+            height: 48px;
+            border-radius: 8px;
+            background: #181513;
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            color: #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), 0 0 12px rgba(245, 158, 11, 0.2);
+            transition: left 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+        }
+        .sidebar-edge-toggle:hover {
+            background: #f59e0b;
+            color: #09090b;
+            border-color: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+            transform: translateY(-50%) scale(1.06);
+        }
+        .sidebar-edge-toggle:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        /* KETIKA SIDEBAR MENUTUP (COLLAPSED) */
+        body.sidebar-collapsed .sidebar-edge-toggle {
+            left: 0px !important;
+            border-radius: 0 10px 10px 0 !important;
+            border-left: none !important;
+            background: #1e1b18 !important;
+            color: #f59e0b !important;
+            box-shadow: 4px 0 16px rgba(0, 0, 0, 0.7), 0 0 16px rgba(245, 158, 11, 0.35) !important;
+        }
+
+        @media (max-width: 1023px) {
+            .sidebar-edge-toggle { display: none !important; }
+        }
+
         /* MOBILE: sidebar jadi fixed overlay */
         @media (max-width: 1023px) {
             #sidebar {
@@ -283,16 +328,6 @@
                     <div style="font-size:10px;color:#71717a;margin-top:1px;">Sistem Manajemen Gudang</div>
                 </div>
             </div>
-            {{-- Tombol Tutup Sidebar dengan Simbol Panah Dobel « --}}
-            <button id="sidebarCloseBtn" onclick="toggleSidebar()"
-                    style="padding:6px 8px;border-radius:8px;background:rgba(39,39,42,0.6);border:1px solid rgba(255,255,255,0.08);color:#a1a1aa;cursor:pointer;line-height:0;transition:all 0.15s;flex-shrink:0;"
-                    onmouseover="this.style.background='rgba(245,158,11,0.15)';this.style.color='#f59e0b';this.style.borderColor='rgba(245,158,11,0.3)';"
-                    onmouseout="this.style.background='rgba(39,39,42,0.6)';this.style.color='#a1a1aa';this.style.borderColor='rgba(255,255,255,0.08)';"
-                    title="Tutup / Lipat Sidebar">
-                <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
-                </svg>
-            </button>
         </div>
 
         {{-- User Card --}}
@@ -415,6 +450,18 @@
         </div>
     </aside>
 
+    {{-- ═════════════════════════════════════════════════════════════════════
+         TOMBOL TOGGLE BERSIMBOL DI TENGAH PERBATASAN SIDEBAR & LAMAN UTAMA
+         ═════════════════════════════════════════════════════════════════════ --}}
+    <button id="sidebarEdgeBtn" onclick="toggleSidebar()"
+            class="sidebar-edge-toggle no-print"
+            title="Tutup Sidebar"
+            aria-label="Tutup / Buka Sidebar">
+        <svg id="sidebarEdgeIcon" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+    </button>
+
     {{-- ═══════════════
          MAIN AREA
          ═══════════════ --}}
@@ -422,16 +469,14 @@
 
         {{-- Topbar --}}
         <header class="topbar no-print">
-            {{-- Tombol Buka/Tutup Sidebar di Topbar --}}
-            <button id="sidebarToggleBtn" onclick="toggleSidebar()"
-                    style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;background:rgba(39,39,42,0.55);border:1px solid rgba(255,255,255,0.08);color:#d4d4d8;cursor:pointer;line-height:0;flex-shrink:0;transition:all 0.18s;"
-                    onmouseover="this.style.background='rgba(245,158,11,0.15)';this.style.color='#f59e0b';this.style.borderColor='rgba(245,158,11,0.3)';"
-                    onmouseout="this.style.background='rgba(39,39,42,0.55)';this.style.color='#d4d4d8';this.style.borderColor='rgba(255,255,255,0.08)';"
-                    title="Buka / Tutup Sidebar">
-                <svg id="sidebarToggleIcon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/>
+            {{-- Tombol Mobile Only --}}
+            <button class="hamburger" onclick="openSidebar()"
+                    style="display:none;padding:7px;border-radius:8px;background:none;border:none;color:#a1a1aa;cursor:pointer;line-height:0;flex-shrink:0;"
+                    onmouseover="this.style.background='rgba(39,39,42,0.8)';this.style.color='#e4e4e7';"
+                    onmouseout="this.style.background='none';this.style.color='#a1a1aa';">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
-                <span id="sidebarToggleText" class="hidden-xs" style="font-size:11px;font-weight:600;">Menu</span>
             </button>
 
             <div style="flex:1;min-width:0;">
@@ -532,7 +577,7 @@
             document.body.classList.toggle('sidebar-collapsed');
             const isCollapsed = document.body.classList.contains('sidebar-collapsed');
             try { localStorage.setItem('halfkopi_sidebar_collapsed', isCollapsed ? '1' : '0'); } catch(e){}
-            updateSidebarToggleUI(isCollapsed);
+            updateSidebarEdgeUI(isCollapsed);
         } else {
             const sidebar = document.getElementById('sidebar');
             if (sidebar.classList.contains('open')) {
@@ -543,39 +588,32 @@
         }
     }
 
-    function updateSidebarToggleUI(isCollapsed) {
-        const icon = document.getElementById('sidebarToggleIcon');
-        const label = document.getElementById('sidebarToggleText');
-        const btn = document.getElementById('sidebarToggleBtn');
+    function updateSidebarEdgeUI(isCollapsed) {
+        const icon = document.getElementById('sidebarEdgeIcon');
+        const btn = document.getElementById('sidebarEdgeBtn');
         if (!icon) return;
 
         if (isCollapsed) {
-            // Ketika sidebar tertutup: tombol menampilkan simbol buka (>>)
-            icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
-            if (label) label.textContent = 'Buka Sidebar';
-            if (btn) {
-                btn.style.borderColor = 'rgba(245,158,11,0.45)';
-                btn.style.background = 'rgba(245,158,11,0.12)';
-                btn.style.color = '#fbbf24';
-            }
+            // Ketika sidebar tertutup: tombol menampilkan simbol panah ke kanan (buka »)
+            icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>';
+            if (btn) btn.setAttribute('title', 'Buka Sidebar');
         } else {
-            // Ketika sidebar terbuka: tombol menampilkan simbol menu/dock
-            icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/>';
-            if (label) label.textContent = 'Sidebar';
-            if (btn) {
-                btn.style.borderColor = 'rgba(255,255,255,0.08)';
-                btn.style.background = 'rgba(39,39,42,0.55)';
-                btn.style.color = '#d4d4d8';
-            }
+            // Ketika sidebar terbuka: tombol menampilkan simbol panah ke kiri (tutup «)
+            icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>';
+            if (btn) btn.setAttribute('title', 'Tutup Sidebar');
         }
     }
 
-    // Restore state sidebar saat halaman dimuat
+    // Default: Pastikan sidebar terbuka dan pulih
     try {
-        if (window.innerWidth >= 1024 && localStorage.getItem('halfkopi_sidebar_collapsed') === '1') {
+        if (!sessionStorage.getItem('sidebar_restored_default')) {
+            localStorage.removeItem('halfkopi_sidebar_collapsed');
+            sessionStorage.setItem('sidebar_restored_default', '1');
+            document.body.classList.remove('sidebar-collapsed');
+        } else if (window.innerWidth >= 1024 && localStorage.getItem('halfkopi_sidebar_collapsed') === '1') {
             document.body.classList.add('sidebar-collapsed');
             document.addEventListener('DOMContentLoaded', function() {
-                updateSidebarToggleUI(true);
+                updateSidebarEdgeUI(true);
             });
         }
     } catch(e) {}
