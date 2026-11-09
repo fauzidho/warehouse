@@ -42,10 +42,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/print', [ReportController::class, 'print'])->name('reports.print');
 
-    // Items Management (Create, Edit, Delete) - Admin only
+    // Items Management (Create, Edit, Delete, Import) - Admin only
     Route::middleware('role:admin')->group(function () {
         Route::get('/items/create', [ItemController::class, 'create'])->name('items.create');
         Route::post('/items', [ItemController::class, 'store'])->name('items.store');
+        Route::post('/items/import', [ItemController::class, 'import'])->name('items.import');
         Route::get('/items/{item}/edit', [ItemController::class, 'edit'])->name('items.edit');
         Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
         Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
