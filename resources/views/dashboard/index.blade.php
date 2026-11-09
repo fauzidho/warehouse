@@ -44,41 +44,7 @@
         </div>
     </div>
 
-    {{-- Panduan Cepat (untuk pegawai baru) --}}
-    <div class="dashboard-guide bg-zinc-900/50 border border-zinc-800/70 rounded-2xl p-5">
-        <div class="flex items-center gap-2.5 mb-4">
-            <div class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div>
-                <h3 class="text-xs font-bold text-white">Panduan Alur Operasional</h3>
-                <p class="text-[11px] text-zinc-400">3 langkah standar operasional pengelolaan bahan baku di Half Kopi</p>
-            </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <a href="{{ route('stock-in.create') }}" class="group p-3.5 rounded-xl bg-zinc-950/60 border border-zinc-800 hover:border-emerald-500/30 transition-all">
-                <div class="flex items-center gap-2 mb-1.5">
-                    <span class="w-5 h-5 rounded-md bg-emerald-500/15 text-emerald-400 font-bold text-[11px] flex items-center justify-center shrink-0">1</span>
-                    <span class="text-xs font-bold text-zinc-200 group-hover:text-emerald-400 transition-colors">Penerimaan Bahan</span>
-                </div>
-                <p class="text-[11px] text-zinc-400 leading-relaxed">Saat kiriman dari supplier tiba, catat jumlah fisik bahan beserta nomor faktur/surat jalan penerimaan.</p>
-            </a>
-            <a href="{{ route('stock-out.create') }}" class="group p-3.5 rounded-xl bg-zinc-950/60 border border-zinc-800 hover:border-amber-500/30 transition-all">
-                <div class="flex items-center gap-2 mb-1.5">
-                    <span class="w-5 h-5 rounded-md bg-amber-500/15 text-amber-400 font-bold text-[11px] flex items-center justify-center shrink-0">2</span>
-                    <span class="text-xs font-bold text-zinc-200 group-hover:text-amber-400 transition-colors">Pemakaian Operasional</span>
-                </div>
-                <p class="text-[11px] text-zinc-400 leading-relaxed">Setiap pengambilan biji kopi, susu, sirup, atau kemasan ke bar/kitchen, catat pengurangan stoknya.</p>
-            </a>
-            <a href="{{ route('adjustments.create') }}" class="group p-3.5 rounded-xl bg-zinc-950/60 border border-zinc-800 hover:border-amber-500/30 transition-all">
-                <div class="flex items-center gap-2 mb-1.5">
-                    <span class="w-5 h-5 rounded-md bg-amber-500/15 text-amber-400 font-bold text-[11px] flex items-center justify-center shrink-0">3</span>
-                    <span class="text-xs font-bold text-zinc-200 group-hover:text-amber-400 transition-colors">Opname Stok Berkala</span>
-                </div>
-                <p class="text-[11px] text-zinc-400 leading-relaxed">Lakukan hitung fisik berkala untuk mencocokkan stok nyata di gudang dengan catatan sistem.</p>
-            </a>
-        </div>
-    </div>
+
 
     @if($totalItems == 0)
         <div class="dashboard-empty p-5 rounded-2xl bg-amber-950/20 border border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
