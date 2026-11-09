@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- SheetJS (Excel Parser & Exporter) -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         *, *::before, *::after { box-sizing: border-box; }
@@ -97,38 +99,48 @@
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.45rem 0.65rem;
-            border-radius: 7px;
+            gap: 0.65rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
             font-size: 12.5px;
             font-weight: 500;
             color: #a1a1aa;
             text-decoration: none;
             position: relative;
-            margin-bottom: 2px;
-            transition: background 0.15s, color 0.15s;
+            margin-bottom: 3px;
+            transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .nav-link:hover { background: rgba(39,39,42,0.7); color: #e4e4e7; }
-        .nav-link.active { background: rgba(217,119,6,0.12); color: #f59e0b; font-weight: 600; }
-        .nav-link.active::before {
+        .nav-link:hover { 
+            background: rgba(39, 39, 42, 0.75); 
+            color: #ffffff;
+            transform: translateX(2px);
+        }
+        .nav-link.active,
+        .nav-link.active-green,
+        .nav-link.active-amber,
+        .nav-link.active-cyan,
+        .nav-link.active-violet { 
+            background: rgba(217, 119, 6, 0.14); 
+            color: #fbbf24; 
+            font-weight: 600; 
+            box-shadow: inset 0 0 12px rgba(245, 158, 11, 0.05);
+        }
+        .nav-link.active::before,
+        .nav-link.active-green::before,
+        .nav-link.active-amber::before,
+        .nav-link.active-cyan::before,
+        .nav-link.active-violet::before {
             content: '';
             position: absolute;
-            left: 0; top: 50%;
-            transform: translateY(-50%);
-            width: 3px; height: 55%;
+            left: 0; top: 20%;
+            bottom: 20%;
+            width: 3px;
             background: #f59e0b;
-            border-radius: 0 3px 3px 0;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
         }
-        .nav-link.active-green { background: rgba(16,185,129,0.09); color: #34d399; font-weight: 600; }
-        .nav-link.active-green::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#34d399; border-radius:0 3px 3px 0; }
-        .nav-link.active-amber { background: rgba(245,158,11,0.09); color: #fbbf24; font-weight: 600; }
-        .nav-link.active-amber::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#fbbf24; border-radius:0 3px 3px 0; }
-        .nav-link.active-cyan { background: rgba(6,182,212,0.09); color: #67e8f9; font-weight: 600; }
-        .nav-link.active-cyan::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#67e8f9; border-radius:0 3px 3px 0; }
-        .nav-link.active-violet { background: rgba(139,92,246,0.1); color: #c4b5fd; font-weight: 600; }
-        .nav-link.active-violet::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:3px; height:55%; background:#c4b5fd; border-radius:0 3px 3px 0; }
         .nav-link svg { flex-shrink: 0; }
-        .nav-link .sub { margin-left: auto; font-size: 10px; color: #52525b; }
+        .nav-link .sub { margin-left: auto; font-size: 10px; color: #71717a; }
 
         /* ─── MAIN AREA ─── */
         .main-area {
@@ -282,13 +294,13 @@
                     <div style="font-size:11px;font-weight:600;color:#e4e4e7;overflow-wrap:anywhere;">{{ auth()->user()->name }}</div>
                     <div style="font-size:10px;color:#71717a;display:flex;align-items:center;gap:3px;margin-top:1px;">
                         <span style="width:5px;height:5px;border-radius:50%;background:#34d399;display:inline-block;flex-shrink:0;"></span>
-                        {{ auth()->user()->isAdmin() ? 'Administrator' : 'Pegawai' }}
+                        {{ auth()->user()->isAdmin() ? 'Administrator' : 'Staf Pegawai' }}
                     </div>
                 </div>
                 @if(auth()->user()->isAdmin())
                     <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);font-weight:700;flex-shrink:0;">ADMIN</span>
                 @else
-                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2);font-weight:700;flex-shrink:0;">STAFF</span>
+                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2);font-weight:700;flex-shrink:0;">STAF</span>
                 @endif
             </div>
         </div>
@@ -301,7 +313,7 @@
             <a href="{{ route('dashboard') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Dashboard
+                Dasbor
             </a>
 
             <a href="{{ route('items.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
@@ -312,14 +324,14 @@
                     Katalog Bahan Baku
                 </span>
                 @if(($globalLowStockCount ?? 0) > 0)
-                    <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:9999px;background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.3);">{{ $globalLowStockCount }}</span>
+                    <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:9999px;background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.3);">{{ $globalLowStockCount }} Restock</span>
                 @endif
             </a>
 
-            <div class="nav-section-label">Operasional</div>
+            <div class="nav-section-label">Operasional Gudang</div>
 
             <a href="{{ route('stock-in.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
-               class="nav-link {{ request()->routeIs('stock-in.*') ? 'active-green' : '' }}" style="justify-content:space-between;">
+               class="nav-link {{ request()->routeIs('stock-in.*') ? 'active' : '' }}" style="justify-content:space-between;">
                 <span style="display:flex;align-items:center;gap:0.6rem;">
                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
                     Stok Masuk
@@ -328,7 +340,7 @@
             </a>
 
             <a href="{{ route('stock-out.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
-               class="nav-link {{ request()->routeIs('stock-out.*') ? 'active-amber' : '' }}" style="justify-content:space-between;">
+               class="nav-link {{ request()->routeIs('stock-out.*') ? 'active' : '' }}" style="justify-content:space-between;">
                 <span style="display:flex;align-items:center;gap:0.6rem;">
                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
                     Stok Keluar
@@ -337,24 +349,24 @@
             </a>
 
             <a href="{{ route('adjustments.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
-               class="nav-link {{ request()->routeIs('adjustments.*') ? 'active-cyan' : '' }}" style="justify-content:space-between;">
+               class="nav-link {{ request()->routeIs('adjustments.*') ? 'active' : '' }}" style="justify-content:space-between;">
                 <span style="display:flex;align-items:center;gap:0.6rem;">
                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                    Stock Opname
+                    Opname Stok
                 </span>
                 <span class="sub">Hitung Fisik</span>
             </a>
 
-            <div class="nav-section-label">Laporan</div>
+            <div class="nav-section-label">Laporan & Rekap</div>
 
             <a href="{{ route('reports.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
-               class="nav-link {{ request()->routeIs('reports.*') ? 'active-violet' : '' }}">
+               class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                Laporan & Mutasi
+                Laporan Mutasi Stok
             </a>
 
             @if(auth()->user()->isAdmin())
-            <div class="nav-section-label" style="color:rgba(217,119,6,0.55);border-top:1px solid rgba(39,39,42,0.6);padding-top:0.875rem;margin-top:0.5rem;">Pengaturan Admin</div>
+            <div class="nav-section-label" style="color:rgba(217,119,6,0.65);border-top:1px solid rgba(63,63,70,0.4);padding-top:0.875rem;margin-top:0.5rem;">Pengaturan Admin</div>
 
             <a href="{{ route('categories.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
@@ -365,19 +377,13 @@
             <a href="{{ route('suppliers.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                Supplier & Vendor
+                Pemasok (Supplier)
             </a>
 
             <a href="{{ route('users.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                Manajemen Pengguna
-            </a>
-
-            <a href="{{ route('firebase.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
-               class="nav-link {{ request()->routeIs('firebase.*') ? 'active' : '' }}">
-                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                Cadangan Data
+                Kelola Pengguna
             </a>
             @endif
 
@@ -424,30 +430,9 @@
             </div>
 
             <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-                <a href="{{ route('stock-in.create') }}"
-                   style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:600;background:rgba(16,185,129,0.1);color:#34d399;border:1px solid rgba(16,185,129,0.2);text-decoration:none;transition:all 0.15s;white-space:nowrap;"
-                   class="btn-desktop">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                    Stok Masuk
-                </a>
-                <a href="{{ route('stock-out.create') }}"
-                   style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:600;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);text-decoration:none;transition:all 0.15s;white-space:nowrap;"
-                   class="btn-desktop">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
-                    Stok Keluar
-                </a>
-
-                @if(($globalLowStockCount ?? 0) > 0)
-                    <a href="{{ route('items.index', ['status'=>'low']) }}"
-                       style="display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;background:rgba(244,63,94,0.1);color:#fb7185;border:1px solid rgba(244,63,94,0.2);text-decoration:none;"
-                       class="btn-desktop">
-                        &#9888; {{ $globalLowStockCount }} Restock
-                    </a>
-                @endif
-
-                <div style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;background:rgba(39,39,42,0.7);color:#a1a1aa;font-size:11px;border:1px solid rgba(63,63,70,0.5);" class="btn-desktop">
-                    <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    {{ now()->translatedFormat('d M Y') }}
+                <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:9px;background:rgba(24,24,27,0.7);color:#e4e4e7;font-size:11.5px;font-weight:600;border:1px solid rgba(255,255,255,0.08);letter-spacing:0.01em;" class="shadow-sm">
+                    <svg width="14" height="14" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span id="realtimeClock" style="font-variant-numeric: tabular-nums;">-- : -- : --</span>
                 </div>
             </div>
         </header>
@@ -531,6 +516,25 @@
         var el = document.getElementById('flash-ok');
         if (el) { el.style.transition='opacity 0.4s'; el.style.opacity='0'; setTimeout(function(){el.remove();},400); }
     }, 5000);
+
+    // Realtime Clock
+    function updateRealtimeClock() {
+        const el = document.getElementById('realtimeClock');
+        if (!el) return;
+        const now = new Date();
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        const day = days[now.getDay()];
+        const date = String(now.getDate()).padStart(2, '0');
+        const month = months[now.getMonth()];
+        const year = now.getFullYear();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        el.textContent = `${day}, ${date} ${month} ${year} • ${hours}:${minutes}:${seconds} WIB`;
+    }
+    updateRealtimeClock();
+    setInterval(updateRealtimeClock, 1000);
 </script>
 
 @stack('scripts')
