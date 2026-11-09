@@ -42,7 +42,7 @@
             flex-direction: column;
             overflow: hidden;
             flex-shrink: 0;
-            transition: margin-left 0.28s cubic-bezier(0.16,1,0.3,1);
+            transition: margin-left 0.25s ease;
         }
 
         /* DESKTOP: Collapsed mode (Sidebar menutup halus tanpa menarik/memotong konten) */
@@ -57,11 +57,11 @@
         /* ─── TOMBOL TOGGLE DI TENGAH-TENGAH PERBATASAN SIDEBAR & LAMAN UTAMA ─── */
         .sidebar-edge-toggle {
             position: fixed;
-            top: 50%;
+            top: 50% !important;
             left: 250px; /* tepat di garis perbatasan 264px */
-            transform: translateY(-50%);
+            transform: translateY(-50%) !important;
             width: 28px;
-            height: 54px;
+            height: 52px;
             border-radius: 8px;
             background: #181513;
             border: 1px solid rgba(245, 158, 11, 0.55);
@@ -75,7 +75,7 @@
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
-            transition: left 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.15s, color 0.15s, border-color 0.15s;
+            transition: left 0.25s ease, background 0.15s, color 0.15s, border-color 0.15s;
         }
 
         /* Area klik diperluas agar selalu kena saat diklik */
@@ -106,7 +106,10 @@
         /* KETIKA SIDEBAR MENUTUP (COLLAPSED) */
         body.sidebar-collapsed .sidebar-edge-toggle {
             left: 0px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
             width: 26px !important;
+            height: 52px !important;
             border-radius: 0 10px 10px 0 !important;
             border-left: none !important;
             background: #1e1b18 !important;
@@ -141,13 +144,17 @@
 
         /* ─── SIDEBAR INNER ─── */
         .sidebar-brand {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(63,63,70,0.6);
+            height: 64px;
+            min-height: 64px;
+            max-height: 64px;
+            padding: 0 1rem;
+            border-bottom: 1px solid rgba(82,68,54,0.55);
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 0.75rem;
+            box-sizing: border-box;
         }
         .sidebar-user {
             padding: 0.625rem 0.875rem;
@@ -240,13 +247,14 @@
             align-items: center;
             gap: 0.75rem;
             padding: 0 1.75rem;
-            height: auto;
+            height: 64px;
             min-height: 64px;
-            padding-block: 0.6rem;
+            max-height: 64px;
             background: rgba(21,18,16,0.92);
             border-bottom: 1px solid rgba(82,68,54,0.55);
             backdrop-filter: blur(12px);
             flex-shrink: 0;
+            box-sizing: border-box;
         }
 
         /* ─── CONTENT SCROLL ─── */
@@ -318,8 +326,8 @@
         }
 
         @media (max-width: 767px) {
-            .topbar { padding: 0.6rem 1rem; height: auto; min-height: 58px; }
-            .sidebar-brand { padding: 0.875rem; }
+            .topbar { padding: 0 1rem; height: 58px; min-height: 58px; max-height: 58px; }
+            .sidebar-brand { padding: 0 0.875rem; height: 58px; min-height: 58px; max-height: 58px; }
             .page-content { padding: 1rem !important; }
             .page-footer { padding: 0.75rem 1rem !important; flex-direction: column; align-items: flex-start !important; gap: 0.25rem !important; }
             .flash-messages { padding: 0.75rem 1rem 0 !important; }
