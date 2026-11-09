@@ -61,16 +61,40 @@
 
         <!-- Daftar Barang Keluar (Multi Items) -->
         <div class="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-6">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <h3 class="text-sm font-bold text-white flex items-center gap-2">
                     <span class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">2</span>
                     Daftar Bahan Yang Dikeluarkan
                 </h3>
-                <button type="button" onclick="addRow()"
-                    class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 text-xs font-bold flex items-center gap-1.5 transition-all">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                    Tambah Baris Bahan
-                </button>
+
+                <div class="flex items-center gap-2">
+                    <!-- Tombol Konversi Excel Pengeluaran -->
+                    <input type="file" id="stockOutExcelInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleStockOutExcel(this.files)">
+                    <button type="button" onclick="document.getElementById('stockOutExcelInput').click()"
+                        class="px-3 py-1.5 rounded-lg bg-zinc-850 hover:bg-zinc-800 text-amber-300 border border-amber-500/30 hover:border-amber-500/60 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+                        title="Unggah file Excel daftar pemakaian bar untuk otomatis mengisi tabel">
+                        <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Konversi dari Excel Pemakaian
+                    </button>
+
+                    <!-- Tombol Tambah Baris Manual -->
+                    <button type="button" onclick="addRow()"
+                        class="px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 text-xs font-bold flex items-center gap-1.5 transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        Tambah Baris
+                    </button>
+                </div>
+            </div>
+
+            <!-- Banner Notifikasi Konversi Excel -->
+            <div id="excelConvertNoticeOut" style="display:none;" class="mb-4 p-3 rounded-xl bg-amber-950/40 border border-amber-500/30 flex items-center justify-between text-xs text-amber-300">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span id="excelConvertMessageOut">Berhasil mengonversi baris Excel ke dalam tabel pengeluaran!</span>
+                </div>
+                <button type="button" onclick="this.parentElement.style.display='none'" class="text-amber-400 hover:text-amber-200 text-base font-bold">&times;</button>
             </div>
 
             <div class="overflow-x-auto">
@@ -216,6 +240,133 @@
         } else {
             alert('Minimal harus ada 1 item bahan baku yang dikeluarkan.');
         }
+    }
+
+    // ══════════════════════════════════════════════════
+    // KONVERSI EXCEL PEMAKAIAN KE TABEL STOK KELUAR
+    // ══════════════════════════════════════════════════
+    function handleStockOutExcel(files) {
+        if (!files || files.length === 0) return;
+        const file = files[0];
+        const reader = new FileReader();
+        const isCsv = file.name.endsWith('.csv') || file.name.endsWith('.txt');
+
+        if (window.XLSX && !isCsv) {
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                    populateStockOutTable(jsonRows, file.name);
+                } catch (err) {
+                    console.error('StockOut Excel parse error:', err);
+                    alert('Gagal membaca file Excel pemakaian.');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        } else {
+            reader.onload = function(e) {
+                try {
+                    const lines = e.target.result.split(/\r?\n/).filter(l => l.trim().length > 0);
+                    const rows = lines.map(line => line.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+                    populateStockOutTable(rows, file.name);
+                } catch (err) {
+                    console.error('StockOut CSV parse error:', err);
+                    alert('Gagal membaca file CSV.');
+                }
+            };
+            reader.readAsText(file);
+        }
+    }
+
+    function populateStockOutTable(rawRows, fileName) {
+        if (!rawRows || rawRows.length < 2) {
+            alert('File Excel tidak memiliki baris data.');
+            return;
+        }
+
+        const headers = rawRows[0].map(h => String(h || '').trim().toLowerCase());
+        let nameIdx = -1, qtyIdx = -1, notesIdx = -1;
+
+        headers.forEach((h, idx) => {
+            if (h.includes('nama') || h.includes('item') || h.includes('bahan') || h.includes('barang')) nameIdx = idx;
+            else if (h.includes('qty') || h.includes('jumlah') || h.includes('pakai') || h.includes('keluar')) qtyIdx = idx;
+            else if (h.includes('ket') || h.includes('catatan') || h.includes('note') || h.includes('alasan')) notesIdx = idx;
+        });
+
+        if (nameIdx === -1) nameIdx = 0;
+        if (qtyIdx === -1) qtyIdx = 1;
+        if (notesIdx === -1) notesIdx = 2;
+
+        let addedCount = 0;
+        const tbody = document.getElementById('itemsBody');
+
+        const firstRow = tbody.querySelector('.item-row');
+        const firstSelect = firstRow ? firstRow.querySelector('.item-select') : null;
+        if (firstSelect && (!firstSelect.value || firstSelect.value === "")) {
+            tbody.innerHTML = '';
+        }
+
+        for (let i = 1; i < rawRows.length; i++) {
+            const row = rawRows[i];
+            if (!row || row.length === 0) continue;
+
+            const nameRaw = String(row[nameIdx] || '').trim();
+            if (!nameRaw) continue;
+
+            const qty = parseFloat(String(row[qtyIdx] || '1').replace(/[^0-9.-]/g, '')) || 1;
+            const notes = String(row[notesIdx] || '').trim();
+
+            const matchedItem = itemsData.find(it => {
+                const n1 = it.name.toLowerCase();
+                const n2 = nameRaw.toLowerCase();
+                return n1 === n2 || n1.includes(n2) || n2.includes(n1);
+            });
+
+            const tr = document.createElement('tr');
+            tr.className = 'item-row';
+            
+            const selectedItemId = matchedItem ? matchedItem.id : (itemsData[0] ? itemsData[0].id : '');
+            const unit = matchedItem ? matchedItem.unit : 'unit';
+
+            tr.innerHTML = `
+                <td class="py-3 pr-2">
+                    <select name="items[${rowIndex}][item_id]" onchange="onItemChange(this, ${rowIndex})" required
+                        class="item-select w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-amber-500">
+                        <option value="">-- Pilih Bahan Baku --</option>
+                        ${itemsData.map(it => `<option value="${it.id}" ${it.id == selectedItemId ? 'selected' : ''}>${it.name} - Tersedia: ${it.current_stock} ${it.unit}</option>`).join('')}
+                    </select>
+                    <div class="item-stock-warning text-[11px] text-zinc-400 font-medium mt-1">${matchedItem ? `Sisa setelah pemakaian: ${(matchedItem.current_stock - qty).toFixed(1)} ${matchedItem.unit}` : ''}</div>
+                </td>
+                <td class="py-3 px-2">
+                    <div class="flex items-center gap-1">
+                        <input type="number" step="0.01" min="0.01" name="items[${rowIndex}][quantity]" value="${qty}" oninput="checkStock(this, ${rowIndex})" required
+                            class="item-qty w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-amber-500">
+                        <span class="item-unit text-[10px] text-zinc-400 font-medium">${unit}</span>
+                    </div>
+                </td>
+                <td class="py-3 px-2">
+                    <input type="text" name="items[${rowIndex}][notes]" value="${notes}" placeholder="Catatan station, nomor grinder..."
+                        class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-amber-500">
+                </td>
+                <td class="py-3 pl-2 text-center">
+                    <button type="button" onclick="removeRow(this)" class="p-1 text-zinc-600 hover:text-rose-400 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </button>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+            rowIndex++;
+            addedCount++;
+        }
+
+        const notice = document.getElementById('excelConvertNoticeOut');
+        const msg = document.getElementById('excelConvertMessageOut');
+        msg.textContent = `Berhasil mengonversi ${addedCount} baris pemakaian dari file "${fileName}" langsung ke tabel!`;
+        notice.style.display = 'flex';
+        document.getElementById('stockOutExcelInput').value = '';
     }
 </script>
 @endsection

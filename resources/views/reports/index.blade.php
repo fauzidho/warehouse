@@ -16,13 +16,22 @@
                 s/d <strong class="text-zinc-200">{{ \Carbon\Carbon::parse($endDate)->translatedFormat('d M Y') }}</strong>
             </p>
         </div>
-        <a href="{{ route('reports.print', request()->query()) }}" target="_blank"
-            class="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 font-bold text-xs flex items-center gap-2 transition-all self-start sm:self-auto">
-            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-            </svg>
-            Cetak / Simpan PDF
-        </a>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+            <button type="button" onclick="exportReportToExcel()"
+                class="px-3.5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-700/70 font-semibold text-xs flex items-center gap-2 transition-all shadow-sm">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Ekspor Excel
+            </button>
+            <a href="{{ route('reports.print', request()->query()) }}" target="_blank"
+                class="px-4 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 font-bold text-xs flex items-center gap-2 transition-all">
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                </svg>
+                Cetak / Simpan PDF
+            </a>
+        </div>
     </div>
 
     {{-- ===== FORM FILTER ===== --}}
@@ -53,14 +62,14 @@
                 <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
                 </svg>
-                <span>Pemakaian Bar</span>
+                <span>Pemakaian (Keluar)</span>
             </button>
             <button type="button" onclick="setType('adjustment')"
-                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border flex flex-col items-center justify-center gap-1.5 {{ $type === 'adjustment' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-md' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
-                <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                class="py-3 px-3 rounded-xl font-bold text-xs transition-all border flex flex-col items-center justify-center gap-1.5 {{ $type === 'adjustment' ? 'bg-zinc-800 text-amber-400 border-amber-500/40 shadow-md' : 'bg-zinc-900/70 text-zinc-400 border-zinc-800 hover:bg-zinc-800 hover:text-zinc-200' }}">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                 </svg>
-                <span>Opname Fisik</span>
+                <span>Opname Stok</span>
             </button>
         </div>
 
@@ -263,6 +272,20 @@
         document.getElementById('hiddenEnd').value = end;
         document.getElementById('hiddenCategory').value = document.getElementById('inputCategory').value;
         document.getElementById('reportForm').submit();
+    }
+
+    function exportReportToExcel() {
+        const table = document.querySelector('table');
+        if (!table) {
+            alert('Tidak ada tabel laporan untuk diekspor.');
+            return;
+        }
+        if (window.XLSX) {
+            const wb = XLSX.utils.table_to_book(table, { sheet: "LaporanMutasi" });
+            XLSX.writeFile(wb, "laporan_mutasi_stok_halfkopi_{{ $startDate }}_{{ $endDate }}.xlsx");
+        } else {
+            alert('Library Excel sedang dimuat, silakan coba beberapa saat lagi.');
+        }
     }
 </script>
 @endpush

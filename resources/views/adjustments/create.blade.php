@@ -68,13 +68,38 @@
 
         <!-- Inventory List for Physical Counting -->
         <div class="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-6">
-            <h3 class="text-sm font-bold text-white mb-2 flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs">2</span>
-                Input Hitungan Fisik Aktual Gudang
-            </h3>
-            <p class="text-[11px] text-zinc-400 mb-4">
-                Sistem otomatis mengisi stok fisik awal sesuai sistem. Ubah angka kolom <strong>Hitung Fisik</strong> jika ada selisih.
-            </p>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div>
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs">2</span>
+                        Input Hitungan Fisik Aktual Gudang
+                    </h3>
+                    <p class="text-[11px] text-zinc-400 mt-0.5">
+                        Sistem otomatis mengisi stok fisik awal sesuai sistem. Ubah angka kolom <strong>Hitung Fisik</strong> jika ada selisih.
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <input type="file" id="opnameExcelInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleOpnameExcel(this.files)">
+                    <button type="button" onclick="document.getElementById('opnameExcelInput').click()"
+                        class="px-3 py-1.5 rounded-lg bg-zinc-850 hover:bg-zinc-800 text-cyan-300 border border-cyan-500/30 hover:border-cyan-500/60 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm"
+                        title="Unggah file Excel hasil hitung audit untuk otomatis mengisi kolom fisik">
+                        <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Konversi dari Excel Opname
+                    </button>
+                </div>
+            </div>
+
+            <!-- Banner Notifikasi Konversi Excel Opname -->
+            <div id="excelConvertNoticeOpname" style="display:none;" class="mb-4 p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-between text-xs text-cyan-300">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span id="excelConvertMessageOpname">Berhasil mengonversi data hitung fisik dari Excel!</span>
+                </div>
+                <button type="button" onclick="this.parentElement.style.display='none'" class="text-cyan-400 hover:text-cyan-200 text-base font-bold">&times;</button>
+            </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs">
@@ -138,7 +163,7 @@
             <a href="{{ route('adjustments.index') }}" class="px-5 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold transition-all">
                 Batal
             </a>
-            <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-zinc-950 text-xs font-bold shadow-lg shadow-cyan-950/40 transition-all transform active:scale-95">
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 text-xs font-bold btn-primary-glow active:scale-95">
                 Simpan & Sesuaikan Stok
             </button>
         </div>
@@ -162,6 +187,107 @@
             badge.textContent = diff.toFixed(1);
             badge.className = 'diff-badge px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40';
         }
+    }
+
+    // ══════════════════════════════════════════════════
+    // KONVERSI EXCEL HASIL AUDIT KE TABEL OPNAME
+    // ══════════════════════════════════════════════════
+    function handleOpnameExcel(files) {
+        if (!files || files.length === 0) return;
+        const file = files[0];
+        const reader = new FileReader();
+        const isCsv = file.name.endsWith('.csv') || file.name.endsWith('.txt');
+
+        if (window.XLSX && !isCsv) {
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                    populateOpnameFromExcel(jsonRows, file.name);
+                } catch (err) {
+                    console.error('Opname Excel parse error:', err);
+                    alert('Gagal membaca file Excel opname.');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        } else {
+            reader.onload = function(e) {
+                try {
+                    const lines = e.target.result.split(/\r?\n/).filter(l => l.trim().length > 0);
+                    const rows = lines.map(line => line.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+                    populateOpnameFromExcel(rows, file.name);
+                } catch (err) {
+                    console.error('Opname CSV parse error:', err);
+                    alert('Gagal membaca file CSV.');
+                }
+            };
+            reader.readAsText(file);
+        }
+    }
+
+    function populateOpnameFromExcel(rawRows, fileName) {
+        if (!rawRows || rawRows.length < 2) {
+            alert('File Excel tidak memiliki baris data.');
+            return;
+        }
+
+        const headers = rawRows[0].map(h => String(h || '').trim().toLowerCase());
+        let nameIdx = -1, physicalIdx = -1, reasonIdx = -1;
+
+        headers.forEach((h, idx) => {
+            if (h.includes('nama') || h.includes('item') || h.includes('bahan') || h.includes('barang')) nameIdx = idx;
+            else if (h.includes('fisik') || h.includes('hitung') || h.includes('aktual') || h.includes('real')) physicalIdx = idx;
+            else if (h.includes('ket') || h.includes('alasan') || h.includes('sebab') || h.includes('note')) reasonIdx = idx;
+        });
+
+        if (nameIdx === -1) nameIdx = 0;
+        if (physicalIdx === -1) physicalIdx = 1;
+        if (reasonIdx === -1) reasonIdx = 2;
+
+        let matchedCount = 0;
+        const rows = document.querySelectorAll('.opname-row');
+
+        rows.forEach(tr => {
+            const nameEl = tr.querySelector('.font-bold.text-white');
+            if (!nameEl) return;
+            const itemName = nameEl.textContent.trim().toLowerCase();
+
+            // Find in excel rows
+            for (let i = 1; i < rawRows.length; i++) {
+                const r = rawRows[i];
+                if (!r || r.length === 0) continue;
+                const rowName = String(r[nameIdx] || '').trim().toLowerCase();
+                if (!rowName) continue;
+
+                if (itemName === rowName || itemName.includes(rowName) || rowName.includes(itemName)) {
+                    const physicalVal = parseFloat(String(r[physicalIdx] || '0').replace(/[^0-9.-]/g, '')) || 0;
+                    const reasonVal = String(r[reasonIdx] || '').trim();
+
+                    const inputFisik = tr.querySelector('.physical-input');
+                    const reasonInput = tr.querySelector('input[name*="[reason]"]');
+                    const systemStockEl = tr.querySelector('.system-stock');
+                    const sysVal = systemStockEl ? parseFloat(systemStockEl.getAttribute('data-val')) || 0 : 0;
+
+                    if (inputFisik) {
+                        inputFisik.value = physicalVal;
+                        calcDiff(inputFisik, sysVal);
+                    }
+                    if (reasonInput && reasonVal) {
+                        reasonInput.value = reasonVal;
+                    }
+                    matchedCount++;
+                    break;
+                }
+            }
+        });
+
+        const notice = document.getElementById('excelConvertNoticeOpname');
+        const msg = document.getElementById('excelConvertMessageOpname');
+        msg.textContent = `Berhasil mengonversi dan mencocokkan ${matchedCount} bahan dari file "${fileName}" ke tabel opname!`;
+        notice.style.display = 'flex';
+        document.getElementById('opnameExcelInput').value = '';
     }
 </script>
 @endsection
