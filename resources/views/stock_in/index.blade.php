@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Stok Masuk')
 @section('page-title', 'Stok Masuk (Penerimaan Bahan)')
@@ -41,11 +41,11 @@
                 <div class="flex gap-2">
                     <input type="date" name="end_date" value="{{ request('end_date') }}"
                         class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-emerald-500">
-                    <button type="submit" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold shrink-0">
-                        Filter
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold shrink-0 transition-all border border-zinc-700/60">
+                        Saring
                     </button>
                     @if(request()->hasAny(['search', 'start_date', 'end_date']))
-                        <a href="{{ route('stock-in.index') }}" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 text-xs shrink-0 flex items-center justify-center">
+                        <a href="{{ route('stock-in.index') }}" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 text-xs shrink-0 flex items-center justify-center transition-all border border-zinc-700/60" title="Atur ulang filter">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                         </a>
                     @endif
@@ -108,8 +108,8 @@
 
                             <td class="py-4 px-4 text-right">
                                 <a href="{{ route('stock-in.show', $tx) }}"
-                                    class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-semibold transition-all">
-                                    Lihat Bukti
+                                    class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-semibold transition-all border border-zinc-700/60">
+                                    Rincian Bukti
                                 </a>
                             </td>
                         </tr>

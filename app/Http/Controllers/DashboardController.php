@@ -59,6 +59,22 @@ class DashboardController extends Controller
         // Categories summary
         $categories = Category::withCount('items')->get();
 
+        // Daily activity for last 7 days
+        $last7Days = collect();
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i);
+            $inCount = StockTransaction::where('type', 'in')->whereDate('date', $date)->count();
+            $outCount = StockTransaction::where('type', 'out')->whereDate('date', $date)->count();
+            $last7Days->push([
+                'date' => $date->format('Y-m-d'),
+                'day' => $date->translatedFormat('D'),
+                'day_full' => $date->translatedFormat('d M'),
+                'in' => $inCount,
+                'out' => $outCount,
+                'total' => $inCount + $outCount,
+            ]);
+        }
+
         // Monthly transaction volume (last 6 months) for quick sparkline / comparison
         $monthlyIn = StockTransaction::where('type', 'in')
             ->where('date', '>=', Carbon::now()->subMonths(6))
@@ -78,6 +94,7 @@ class DashboardController extends Controller
             'expiringBatches',
             'recentTransactions',
             'categories',
+            'last7Days',
             'monthlyIn',
             'monthlyOut'
         ));

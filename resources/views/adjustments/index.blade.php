@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Stock Opname')
 @section('page-title', 'Stock Opname (Penyesuaian Fisik)')
@@ -13,11 +13,11 @@
         </div>
 
         <a href="{{ route('adjustments.create') }}"
-            class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-zinc-950 font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-950/40 transition-all self-start sm:self-auto">
+            class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 font-bold text-xs flex items-center gap-2 btn-primary-glow self-start sm:self-auto">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
             </svg>
-            Lakukan Stock Opname Baru
+            Lakukan Opname Stok Baru
         </a>
     </div>
 
@@ -39,7 +39,7 @@
                     @forelse($adjustments as $adj)
                         <tr class="hover:bg-zinc-850/50 transition-colors">
                             <td class="py-4 px-4 font-mono">
-                                <div class="font-bold text-cyan-400">{{ $adj->transaction_code }}</div>
+                                <div class="font-bold text-amber-400">{{ $adj->transaction_code }}</div>
                                 <div class="text-[11px] text-zinc-400 font-sans">{{ $adj->date->translatedFormat('d M Y') }}</div>
                             </td>
 

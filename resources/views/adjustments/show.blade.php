@@ -15,7 +15,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                 Cetak Berita Acara
             </button>
-            <a href="{{ route('adjustments.create') }}" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-zinc-950 text-xs font-bold transition-all">
+            <a href="{{ route('adjustments.create') }}" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-bold transition-all btn-primary-glow">
                 + Opname Baru
             </a>
         </div>
@@ -25,7 +25,7 @@
         <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-6 pb-6 border-b border-zinc-800">
             <div>
                 <div class="flex items-center gap-3 mb-2">
-                    <div class="w-10 h-10 rounded-xl bg-cyan-500 flex items-center justify-center font-black text-zinc-950 text-base">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center font-black text-zinc-950 text-base">
                         HK
                     </div>
                     <div>
@@ -40,7 +40,7 @@
             </div>
 
             <div class="text-left sm:text-right space-y-1">
-                <span class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-black bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                <span class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-black bg-amber-500/10 text-amber-400 border border-amber-500/30">
                     BERITA ACARA REKONSILIASI STOK OPNAME
                 </span>
                 <div class="text-xl font-mono font-bold text-white mt-1">{{ $adjustment->transaction_code }}</div>
@@ -64,7 +64,7 @@
                 </div>
                 <div>
                     <span class="text-zinc-500">Auditor / Petugas:</span>
-                    <span class="text-cyan-400 font-semibold">{{ $adjustment->user->name }} ({{ $adjustment->user->role }})</span>
+                    <span class="text-amber-400 font-semibold">{{ $adjustment->user->name }} ({{ $adjustment->user->role }})</span>
                 </div>
             </div>
         </div>

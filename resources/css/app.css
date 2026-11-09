@@ -161,9 +161,10 @@
 .dashboard-welcome {
     min-height: 158px;
     padding: 1.75rem 2rem;
-    border-color: rgb(120 83 48 / 0.55);
-    background-image: linear-gradient(112deg, rgb(28 25 23 / 0.98) 0%, rgb(28 25 23 / 0.94) 56%, rgb(69 35 14 / 0.62) 100%);
-    box-shadow: 0 16px 38px rgb(0 0 0 / 0.16);
+    border-color: rgba(245, 158, 11, 0.25);
+    background-image: linear-gradient(125deg, rgba(28, 25, 23, 0.98) 0%, rgba(24, 21, 19, 0.96) 55%, rgba(69, 35, 14, 0.45) 100%);
+    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 24px -4px rgba(245, 158, 11, 0.06);
+    backdrop-filter: blur(16px);
 }
 
 .dashboard-welcome h2 {
@@ -182,7 +183,9 @@
 
 .dashboard-guide {
     padding: 1.375rem;
-    background: linear-gradient(145deg, rgb(24 24 27 / 0.92), rgb(20 18 16 / 0.88));
+    background: linear-gradient(145deg, rgba(24, 24, 27, 0.9), rgba(18, 17, 16, 0.88));
+    border-color: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
 }
 
 .dashboard-guide h3 {
@@ -192,7 +195,15 @@
 .dashboard-guide .grid > a {
     min-height: 104px;
     padding: 1rem;
-    background-color: rgb(12 10 9 / 0.62);
+    background-color: rgba(12, 10, 9, 0.7);
+    border-color: rgba(255, 255, 255, 0.06);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.dashboard-guide .grid > a:hover {
+    transform: translateY(-2px);
+    border-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.5), 0 0 14px -2px rgba(245, 158, 11, 0.08);
 }
 
 .dashboard-guide .grid > a span:last-child {
@@ -219,9 +230,17 @@
 .dashboard-kpi {
     min-height: 146px;
     padding: 1.25rem;
-    border-color: rgb(63 63 70 / 0.72);
-    background: linear-gradient(145deg, rgb(24 24 27 / 0.98), rgb(18 17 17 / 0.96));
-    box-shadow: 0 8px 22px rgb(0 0 0 / 0.12);
+    border-color: rgba(255, 255, 255, 0.07);
+    background: linear-gradient(145deg, rgba(24, 24, 27, 0.95), rgba(18, 17, 16, 0.95));
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.dashboard-kpi:hover {
+    transform: translateY(-2px);
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 14px 30px -6px rgba(0, 0, 0, 0.6), 0 0 20px -3px rgba(245, 158, 11, 0.08);
 }
 
 .dashboard-kpi > div:first-child > span {
@@ -251,8 +270,15 @@
 .dashboard-panel {
     min-height: 220px;
     padding: 1.375rem;
-    border-color: rgb(63 63 70 / 0.72);
-    background: linear-gradient(145deg, rgb(24 24 27 / 0.98), rgb(18 17 17 / 0.96));
+    border-color: rgba(255, 255, 255, 0.07);
+    background: linear-gradient(145deg, rgba(24, 24, 27, 0.95), rgba(18, 17, 16, 0.95));
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+.dashboard-panel:hover {
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
 .dashboard-panel h3 {
@@ -275,13 +301,15 @@
 
 .dashboard-recent {
     overflow: hidden;
-    border-color: rgb(63 63 70 / 0.72);
-    background: linear-gradient(145deg, rgb(24 24 27 / 0.98), rgb(18 17 17 / 0.96));
+    border-color: rgba(255, 255, 255, 0.07);
+    background: linear-gradient(145deg, rgba(24, 24, 27, 0.95), rgba(18, 17, 16, 0.95));
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
 }
 
 .dashboard-recent > div:first-child {
     padding: 1.25rem 1.5rem;
-    background: rgb(24 24 27 / 0.7);
+    background: rgba(24, 24, 27, 0.6);
 }
 
 .dashboard-recent h3 {
@@ -295,13 +323,40 @@
 .dashboard-recent th {
     padding-top: 0.85rem;
     padding-bottom: 0.85rem;
-    background: rgb(24 24 27 / 0.5);
+    background: rgba(24, 24, 27, 0.5);
     font-size: 0.67rem;
 }
 
 .dashboard-recent td {
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
+}
+
+/* ============= GLOBAL CARD & BUTTON EFFECTS ============= */
+.card-interactive {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.card-interactive:hover {
+    transform: translateY(-2px);
+    border-color: rgba(245, 158, 11, 0.3) !important;
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 16px -2px rgba(245, 158, 11, 0.08) !important;
+}
+
+button:active:not(:disabled),
+a.btn-interactive:active {
+    transform: scale(0.98);
+}
+
+.btn-primary-glow {
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.28);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-primary-glow:hover {
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.42);
+    transform: translateY(-1px);
+}
+.btn-primary-glow:active {
+    transform: translateY(0) scale(0.98);
 }
 
 @media (max-width: 767px) {

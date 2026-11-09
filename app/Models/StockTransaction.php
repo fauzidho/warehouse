@@ -60,22 +60,26 @@ class StockTransaction extends Model
         return match($this->type) {
             'in' => [
                 'label' => 'Stok Masuk',
-                'bg' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+                'bg' => 'bg-zinc-800/90 text-zinc-300 border-zinc-700/70',
+                'dot' => 'bg-emerald-400',
                 'icon' => 'arrow-down-left'
             ],
             'out' => [
                 'label' => 'Stok Keluar',
-                'bg' => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+                'bg' => 'bg-zinc-800/90 text-zinc-300 border-zinc-700/70',
+                'dot' => 'bg-amber-400',
                 'icon' => 'arrow-up-right'
             ],
             'adjustment' => [
-                'label' => 'Penyesuaian (Opname)',
-                'bg' => 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+                'label' => 'Opname Stok',
+                'bg' => 'bg-zinc-800/90 text-zinc-300 border-zinc-700/70',
+                'dot' => 'bg-zinc-400',
                 'icon' => 'refresh-cw'
             ],
             default => [
                 'label' => ucfirst($this->type),
-                'bg' => 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
+                'bg' => 'bg-zinc-800/90 text-zinc-300 border-zinc-700/70',
+                'dot' => 'bg-zinc-400',
                 'icon' => 'activity'
             ]
         };

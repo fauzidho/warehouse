@@ -12,46 +12,46 @@
             <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
             </svg>
-            Tambah Supplier Baru
+            Tambah Pemasok Baru
         </h3>
 
         <form action="{{ route('suppliers.store') }}" method="POST" class="space-y-4">
             @csrf
             <div>
-                <label for="name" class="block text-xs font-semibold text-zinc-300 mb-1.5">Nama Vendor / PT <span class="text-rose-400">*</span></label>
+                <label for="name" class="block text-xs font-semibold text-zinc-300 mb-1.5">Nama Pemasok / Vendor <span class="text-rose-400">*</span></label>
                 <input type="text" name="name" id="name" placeholder="Cth: Roastery Nusantara, PT Dairy Segar" required
                     class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3.5 py-2.5 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all">
                 @error('name') <p class="text-rose-400 text-[11px] mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label for="contact_person" class="block text-xs font-semibold text-zinc-300 mb-1.5">Contact Person (Sales/PIC)</label>
+                <label for="contact_person" class="block text-xs font-semibold text-zinc-300 mb-1.5">Penanggung Jawab (PIC / Sales)</label>
                 <input type="text" name="contact_person" id="contact_person" placeholder="Cth: Bpk. Hendrik"
                     class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3.5 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label for="phone" class="block text-xs font-semibold text-zinc-300 mb-1.5">No WhatsApp/Telp</label>
+                    <label for="phone" class="block text-xs font-semibold text-zinc-300 mb-1.5">No WhatsApp / Telepon</label>
                     <input type="text" name="phone" id="phone" placeholder="08..."
                         class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all">
                 </div>
                 <div>
-                    <label for="email" class="block text-xs font-semibold text-zinc-300 mb-1.5">Email Vendor</label>
+                    <label for="email" class="block text-xs font-semibold text-zinc-300 mb-1.5">Email Pemasok</label>
                     <input type="email" name="email" id="email" placeholder="order@..."
                         class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all">
                 </div>
             </div>
 
             <div>
-                <label for="address" class="block text-xs font-semibold text-zinc-300 mb-1.5">Alamat Gudang / Kantor Vendor</label>
+                <label for="address" class="block text-xs font-semibold text-zinc-300 mb-1.5">Alamat Kantor / Gudang Pemasok</label>
                 <textarea name="address" id="address" rows="3" placeholder="Alamat pengiriman / pickup..."
                     class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl p-3 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-amber-500 transition-all"></textarea>
             </div>
 
             <button type="submit" id="supSubmitBtn"
-                class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 shadow-lg shadow-amber-950/30 transition-all active:scale-[0.98]">
-                Simpan Supplier
+                class="w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 btn-primary-glow active:scale-[0.98]">
+                Simpan Pemasok
             </button>
         </form>
     </div>

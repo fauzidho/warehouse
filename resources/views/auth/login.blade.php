@@ -41,14 +41,14 @@
             <h1 class="text-2xl font-black tracking-tight text-white">
                 HALF KOPI <span class="text-xs px-2 py-0.5 rounded-md bg-amber-500/12 text-amber-400 font-bold border border-amber-500/25 align-middle">WMS</span>
             </h1>
-            <p class="text-xs text-zinc-500 mt-1.5">Warehouse Management System</p>
+            <p class="text-xs text-zinc-400 mt-1.5">Sistem Manajemen Inventori Gudang</p>
         </div>
 
         {{-- Login Card --}}
-        <div class="bg-zinc-900/70 backdrop-blur-2xl rounded-2xl border border-zinc-800/80 shadow-2xl shadow-black/40 p-7">
+        <div class="bg-zinc-900/80 backdrop-blur-2xl rounded-2xl border border-zinc-800 shadow-2xl shadow-black/50 p-7">
             <div class="mb-5">
                 <h2 class="text-base font-bold text-white">Selamat Datang</h2>
-                <p class="text-xs text-zinc-400 mt-0.5">Masukkan kredensial akun Anda untuk melanjutkan</p>
+                <p class="text-xs text-zinc-400 mt-0.5">Silakan masuk dengan akun terdaftar untuk melanjutkan</p>
             </div>
 
             @if(session('success'))
@@ -75,7 +75,7 @@
                 {{-- Email --}}
                 <div>
                     <label for="email" class="block text-xs font-semibold text-zinc-300 mb-1.5">
-                        Email
+                        Alamat Email
                     </label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -104,7 +104,7 @@
                         </div>
                         <input type="password" name="password" id="password"
                             required
-                            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                            placeholder="••••••••"
                             class="w-full bg-zinc-950/80 border border-zinc-700/60 rounded-xl pl-10 pr-11 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/40 transition-all">
                         <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-zinc-300 transition-colors">
                             <svg id="eyeIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -123,7 +123,7 @@
                 </div>
 
                 <button type="submit" id="submitBtn"
-                    class="w-full py-2.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 shadow-lg shadow-amber-900/30 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+                    class="w-full py-2.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 btn-primary-glow flex items-center justify-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                     </svg>
