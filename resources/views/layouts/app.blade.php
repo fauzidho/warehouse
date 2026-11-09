@@ -58,41 +58,70 @@
         .sidebar-edge-toggle {
             position: fixed;
             top: 50%;
-            left: 252px; /* tepat di garis perbatasan 264px */
+            left: 250px; /* tepat di garis perbatasan 264px */
             transform: translateY(-50%);
-            width: 24px;
-            height: 48px;
+            width: 28px;
+            height: 54px;
             border-radius: 8px;
             background: #181513;
-            border: 1px solid rgba(245, 158, 11, 0.45);
+            border: 1px solid rgba(245, 158, 11, 0.55);
             color: #f59e0b;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 99;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), 0 0 12px rgba(245, 158, 11, 0.2);
-            transition: left 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s;
+            z-index: 300;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 14px rgba(245, 158, 11, 0.25);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            transition: left 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.15s, color 0.15s, border-color 0.15s;
         }
+
+        /* Area klik diperluas agar selalu kena saat diklik */
+        .sidebar-edge-toggle::before {
+            content: '';
+            position: absolute;
+            inset: -8px -10px;
+            cursor: pointer;
+        }
+
+        .sidebar-edge-toggle svg {
+            pointer-events: none;
+            flex-shrink: 0;
+        }
+
         .sidebar-edge-toggle:hover {
             background: #f59e0b;
             color: #09090b;
             border-color: #f59e0b;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
-            transform: translateY(-50%) scale(1.06);
+            box-shadow: 0 0 22px rgba(245, 158, 11, 0.7);
         }
+
         .sidebar-edge-toggle:active {
-            transform: translateY(-50%) scale(0.95);
+            background: #d97706;
+            color: #09090b;
         }
 
         /* KETIKA SIDEBAR MENUTUP (COLLAPSED) */
         body.sidebar-collapsed .sidebar-edge-toggle {
             left: 0px !important;
+            width: 26px !important;
             border-radius: 0 10px 10px 0 !important;
             border-left: none !important;
             background: #1e1b18 !important;
             color: #f59e0b !important;
-            box-shadow: 4px 0 16px rgba(0, 0, 0, 0.7), 0 0 16px rgba(245, 158, 11, 0.35) !important;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.8), 0 0 16px rgba(245, 158, 11, 0.35) !important;
+        }
+
+        body.sidebar-collapsed .sidebar-edge-toggle:hover {
+            background: #f59e0b !important;
+            color: #09090b !important;
+        }
+
+        body.sidebar-collapsed .sidebar-edge-toggle:active {
+            background: #d97706 !important;
+            color: #09090b !important;
         }
 
         @media (max-width: 1023px) {
@@ -453,7 +482,7 @@
     {{-- ═════════════════════════════════════════════════════════════════════
          TOMBOL TOGGLE BERSIMBOL DI TENGAH PERBATASAN SIDEBAR & LAMAN UTAMA
          ═════════════════════════════════════════════════════════════════════ --}}
-    <button id="sidebarEdgeBtn" onclick="toggleSidebar()"
+    <button id="sidebarEdgeBtn" type="button" onclick="toggleSidebar(event)"
             class="sidebar-edge-toggle no-print"
             title="Tutup Sidebar"
             aria-label="Tutup / Buka Sidebar">
@@ -571,12 +600,16 @@
     }
 
     // Toggle Buka / Tutup Sidebar (Desktop & Mobile)
-    function toggleSidebar() {
+    function toggleSidebar(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         const isDesktop = window.innerWidth >= 1024;
         if (isDesktop) {
             document.body.classList.toggle('sidebar-collapsed');
             const isCollapsed = document.body.classList.contains('sidebar-collapsed');
-            try { localStorage.setItem('halfkopi_sidebar_collapsed', isCollapsed ? '1' : '0'); } catch(e){}
+            try { localStorage.setItem('halfkopi_sidebar_collapsed', isCollapsed ? '1' : '0'); } catch(err){}
             updateSidebarEdgeUI(isCollapsed);
         } else {
             const sidebar = document.getElementById('sidebar');
