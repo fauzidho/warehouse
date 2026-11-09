@@ -330,18 +330,23 @@
                                 </div>
                             </td>
 
-                            {{-- Bahan (Clean neutral styling, NO ALAY YELLOW) --}}
+                            {{-- Bahan (Rincian Bahan Baku) --}}
                             <td class="py-3.5 px-4 hidden md:table-cell">
                                 <div class="space-y-0.5">
-                                    @foreach($tx->items->take(2) as $ti)
-                                        <div class="text-zinc-300 text-[11px] flex items-center gap-1.5">
-                                            <span class="text-zinc-500">&bull;</span>
-                                            <span>{{ $ti->item->name ?? 'Item' }}</span>
-                                            <span class="text-zinc-500 font-mono text-[10px]">({{ $ti->quantity }} {{ $ti->item->unit ?? '' }})</span>
+                                    @forelse($tx->items->take(2) as $ti)
+                                        <div class="text-zinc-200 text-[11px] flex items-center gap-1.5">
+                                            <span class="text-amber-500 font-bold">&bull;</span>
+                                            <span class="font-medium text-white">{{ $ti->item->name ?? 'Bahan' }}</span>
+                                            <span class="text-amber-400 font-mono text-[10px]">({{ number_format($ti->quantity, 1, ',', '.') }} {{ $ti->item->unit ?? '' }})</span>
                                         </div>
-                                    @endforeach
+                                    @empty
+                                        <div class="text-zinc-500 text-[10.5px] italic flex items-center gap-1">
+                                            <span>&mdash;</span>
+                                            <span>Belum ada rincian bahan</span>
+                                        </div>
+                                    @endforelse
                                     @if($tx->items->count() > 2)
-                                        <div class="text-[10px] text-zinc-500 pl-2.5">+{{ $tx->items->count() - 2 }} bahan lainnya</div>
+                                        <div class="text-[10px] text-zinc-500 pl-2.5 font-mono">+{{ $tx->items->count() - 2 }} bahan lainnya</div>
                                     @endif
                                 </div>
                             </td>

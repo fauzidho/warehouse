@@ -40,7 +40,18 @@
             flex-direction: column;
             overflow: hidden;
             flex-shrink: 0;
-            transition: transform 0.28s cubic-bezier(0.16,1,0.3,1);
+            transition: width 0.28s cubic-bezier(0.16,1,0.3,1), min-width 0.28s cubic-bezier(0.16,1,0.3,1), margin-left 0.28s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        /* DESKTOP: Collapsed mode (Sidebar menutup halus) */
+        @media (min-width: 1024px) {
+            body.sidebar-collapsed #sidebar {
+                width: 0 !important;
+                min-width: 0 !important;
+                margin-left: -264px !important;
+                border-right-color: transparent !important;
+                pointer-events: none;
+            }
         }
 
         /* MOBILE: sidebar jadi fixed overlay */
@@ -52,10 +63,6 @@
                 transform: translateX(-100%);
             }
             #sidebar.open { transform: translateX(0); }
-            .hamburger { display: flex !important; }
-        }
-        @media (min-width: 1024px) {
-            .hamburger { display: none !important; }
         }
 
         /* ─── SIDEBAR INNER ─── */
@@ -276,10 +283,14 @@
                     <div style="font-size:10px;color:#71717a;margin-top:1px;">Sistem Manajemen Gudang</div>
                 </div>
             </div>
-            <button class="hamburger" onclick="closeSidebar()"
-                    style="display:none;padding:5px;border-radius:7px;background:none;border:none;color:#71717a;cursor:pointer;line-height:0;">
-                <svg style="width:17px;height:17px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            {{-- Tombol Tutup Sidebar dengan Simbol Panah Dobel « --}}
+            <button id="sidebarCloseBtn" onclick="toggleSidebar()"
+                    style="padding:6px 8px;border-radius:8px;background:rgba(39,39,42,0.6);border:1px solid rgba(255,255,255,0.08);color:#a1a1aa;cursor:pointer;line-height:0;transition:all 0.15s;flex-shrink:0;"
+                    onmouseover="this.style.background='rgba(245,158,11,0.15)';this.style.color='#f59e0b';this.style.borderColor='rgba(245,158,11,0.3)';"
+                    onmouseout="this.style.background='rgba(39,39,42,0.6)';this.style.color='#a1a1aa';this.style.borderColor='rgba(255,255,255,0.08)';"
+                    title="Tutup / Lipat Sidebar">
+                <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
                 </svg>
             </button>
         </div>
@@ -411,13 +422,16 @@
 
         {{-- Topbar --}}
         <header class="topbar no-print">
-            <button class="hamburger" onclick="openSidebar()"
-                    style="display:none;padding:7px;border-radius:8px;background:none;border:none;color:#a1a1aa;cursor:pointer;line-height:0;flex-shrink:0;"
-                    onmouseover="this.style.background='rgba(39,39,42,0.8)';this.style.color='#e4e4e7';"
-                    onmouseout="this.style.background='none';this.style.color='#a1a1aa';">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            {{-- Tombol Buka/Tutup Sidebar di Topbar --}}
+            <button id="sidebarToggleBtn" onclick="toggleSidebar()"
+                    style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;background:rgba(39,39,42,0.55);border:1px solid rgba(255,255,255,0.08);color:#d4d4d8;cursor:pointer;line-height:0;flex-shrink:0;transition:all 0.18s;"
+                    onmouseover="this.style.background='rgba(245,158,11,0.15)';this.style.color='#f59e0b';this.style.borderColor='rgba(245,158,11,0.3)';"
+                    onmouseout="this.style.background='rgba(39,39,42,0.55)';this.style.color='#d4d4d8';this.style.borderColor='rgba(255,255,255,0.08)';"
+                    title="Buka / Tutup Sidebar">
+                <svg id="sidebarToggleIcon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/>
                 </svg>
+                <span id="sidebarToggleText" class="hidden-xs" style="font-size:11px;font-weight:600;">Menu</span>
             </button>
 
             <div style="flex:1;min-width:0;">
@@ -510,6 +524,61 @@
         document.getElementById('overlay').style.display = 'none';
         document.body.style.overflow = '';
     }
+
+    // Toggle Buka / Tutup Sidebar (Desktop & Mobile)
+    function toggleSidebar() {
+        const isDesktop = window.innerWidth >= 1024;
+        if (isDesktop) {
+            document.body.classList.toggle('sidebar-collapsed');
+            const isCollapsed = document.body.classList.contains('sidebar-collapsed');
+            try { localStorage.setItem('halfkopi_sidebar_collapsed', isCollapsed ? '1' : '0'); } catch(e){}
+            updateSidebarToggleUI(isCollapsed);
+        } else {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+    }
+
+    function updateSidebarToggleUI(isCollapsed) {
+        const icon = document.getElementById('sidebarToggleIcon');
+        const label = document.getElementById('sidebarToggleText');
+        const btn = document.getElementById('sidebarToggleBtn');
+        if (!icon) return;
+
+        if (isCollapsed) {
+            // Ketika sidebar tertutup: tombol menampilkan simbol buka (>>)
+            icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>';
+            if (label) label.textContent = 'Buka Sidebar';
+            if (btn) {
+                btn.style.borderColor = 'rgba(245,158,11,0.45)';
+                btn.style.background = 'rgba(245,158,11,0.12)';
+                btn.style.color = '#fbbf24';
+            }
+        } else {
+            // Ketika sidebar terbuka: tombol menampilkan simbol menu/dock
+            icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/>';
+            if (label) label.textContent = 'Sidebar';
+            if (btn) {
+                btn.style.borderColor = 'rgba(255,255,255,0.08)';
+                btn.style.background = 'rgba(39,39,42,0.55)';
+                btn.style.color = '#d4d4d8';
+            }
+        }
+    }
+
+    // Restore state sidebar saat halaman dimuat
+    try {
+        if (window.innerWidth >= 1024 && localStorage.getItem('halfkopi_sidebar_collapsed') === '1') {
+            document.body.classList.add('sidebar-collapsed');
+            document.addEventListener('DOMContentLoaded', function() {
+                updateSidebarToggleUI(true);
+            });
+        }
+    } catch(e) {}
 
     // Auto-dismiss success flash after 5s
     setTimeout(function() {
