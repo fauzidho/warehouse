@@ -273,6 +273,16 @@
             overflow-wrap: break-word;
             word-break: break-word;
         }
+
+        /* ─── NATIVE DATE INPUT & CALENDAR ICON (WARNA PUTIH) ─── */
+        input[type="date"] {
+            color-scheme: dark;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: brightness(0) invert(1);
+            opacity: 1;
+        }
         /* Kolom tabel dengan teks panjang */
         .td-truncate {
             max-width: 200px;

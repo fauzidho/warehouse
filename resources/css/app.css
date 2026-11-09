@@ -113,6 +113,15 @@
     box-shadow: 0 0 0 3px rgb(245 158 11 / 0.14);
 }
 
+input[type="date"] {
+    color-scheme: dark;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    filter: brightness(0) invert(1);
+    opacity: 1;
+}
+
 .layout :is(a, button, input, select, textarea):focus-visible {
     outline: 2px solid #f59e0b;
     outline-offset: 2px;
