@@ -27,6 +27,8 @@
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
+            width: 100%;
+            position: relative;
         }
 
         /* ─── SIDEBAR ─── */
@@ -40,14 +42,12 @@
             flex-direction: column;
             overflow: hidden;
             flex-shrink: 0;
-            transition: width 0.28s cubic-bezier(0.16,1,0.3,1), min-width 0.28s cubic-bezier(0.16,1,0.3,1), margin-left 0.28s cubic-bezier(0.16,1,0.3,1), transform 0.28s cubic-bezier(0.16,1,0.3,1);
+            transition: margin-left 0.28s cubic-bezier(0.16,1,0.3,1);
         }
 
-        /* DESKTOP: Collapsed mode (Sidebar menutup halus) */
+        /* DESKTOP: Collapsed mode (Sidebar menutup halus tanpa menarik/memotong konten) */
         @media (min-width: 1024px) {
             body.sidebar-collapsed #sidebar {
-                width: 0 !important;
-                min-width: 0 !important;
                 margin-left: -264px !important;
                 border-right-color: transparent !important;
                 pointer-events: none;
