@@ -17,8 +17,8 @@
         html, body {
             height: 100%;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f5ede4 !important;
-            color: #26150b !important;
+            background: #efe6da !important;
+            color: #3e231c !important;
         }
 
         /* ─── ROOT LAYOUT ─── */
@@ -29,16 +29,16 @@
             overflow: hidden;
             width: 100%;
             position: relative;
-            background: #f5ede4 !important;
+            background: #efe6da !important;
         }
 
-        /* ─── SIDEBAR (RICH ESPRESSO COFFEE) ─── */
+        /* ─── SIDEBAR (WARNA COKELAT #3E231C) ─── */
         #sidebar {
             width: 264px;
             min-width: 264px;
             height: 100vh;
-            background: #2a180d !important;
-            border-right: 1px solid rgba(140, 100, 72, 0.35);
+            background: #3e231c !important;
+            border-right: 1px solid rgba(217, 196, 171, 0.25) !important;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -55,31 +55,30 @@
             }
         }
 
-        /* ─── TOMBOL TOGGLE DI TENGAH-TENGAH PERBATASAN SIDEBAR & LAMAN UTAMA ─── */
+        /* ─── TOMBOL TOGGLE DI TENGAH PERBATASAN SIDEBAR & LAMAN UTAMA ─── */
         .sidebar-edge-toggle {
             position: fixed;
             top: 50% !important;
-            left: 250px; /* tepat di garis perbatasan 264px */
+            left: 250px;
             transform: translateY(-50%) !important;
             width: 28px;
             height: 52px;
             border-radius: 8px;
-            background: #ffffff !important;
-            border: 1px solid #c8a88a !important;
-            color: #b45309 !important;
+            background: #d9c4ab !important;
+            border: 2px solid #3e231c !important;
+            color: #3e231c !important;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 300;
-            box-shadow: 0 4px 16px rgba(60, 35, 18, 0.15) !important;
+            box-shadow: 0 4px 16px rgba(62, 35, 28, 0.2) !important;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
             transition: left 0.25s ease, background 0.15s, color 0.15s, border-color 0.15s;
         }
 
-        /* Area klik diperluas agar selalu kena saat diklik */
         .sidebar-edge-toggle::before {
             content: '';
             position: absolute;
@@ -93,14 +92,14 @@
         }
 
         .sidebar-edge-toggle:hover {
-            background: #b45309 !important;
-            color: #ffffff !important;
-            border-color: #b45309 !important;
-            box-shadow: 0 0 20px rgba(180, 83, 9, 0.4) !important;
+            background: #3e231c !important;
+            color: #d9c4ab !important;
+            border-color: #d9c4ab !important;
+            box-shadow: 0 0 20px rgba(62, 35, 28, 0.4) !important;
         }
 
         .sidebar-edge-toggle:active {
-            background: #92400e !important;
+            background: #2a1712 !important;
             color: #ffffff !important;
         }
 
@@ -113,20 +112,21 @@
             height: 52px !important;
             border-radius: 0 10px 10px 0 !important;
             border-left: none !important;
-            background: #ffffff !important;
-            color: #b45309 !important;
-            border: 1px solid #c8a88a !important;
+            background: #d9c4ab !important;
+            color: #3e231c !important;
+            border: 2px solid #3e231c !important;
             border-left: none !important;
-            box-shadow: 4px 0 16px rgba(60, 35, 18, 0.15) !important;
+            box-shadow: 4px 0 16px rgba(62, 35, 28, 0.2) !important;
         }
 
         body.sidebar-collapsed .sidebar-edge-toggle:hover {
-            background: #b45309 !important;
-            color: #ffffff !important;
+            background: #3e231c !important;
+            color: #d9c4ab !important;
+            border-color: #d9c4ab !important;
         }
 
         body.sidebar-collapsed .sidebar-edge-toggle:active {
-            background: #92400e !important;
+            background: #2a1712 !important;
             color: #ffffff !important;
         }
 
@@ -151,7 +151,7 @@
             min-height: 64px;
             max-height: 64px;
             padding: 0 1rem;
-            border-bottom: 1px solid rgba(140, 100, 72, 0.35);
+            border-bottom: 1px solid rgba(217, 196, 171, 0.25) !important;
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -171,10 +171,10 @@
             padding: 0.5rem 0.75rem;
         }
         .sidebar-nav::-webkit-scrollbar { width: 3px; }
-        .sidebar-nav::-webkit-scrollbar-thumb { background: #6f4e38; border-radius: 9999px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #d9c4ab; border-radius: 9999px; }
         .sidebar-footer {
             padding: 0.75rem;
-            border-top: 1px solid rgba(140, 100, 72, 0.35);
+            border-top: 1px solid rgba(217, 196, 171, 0.25) !important;
             flex-shrink: 0;
         }
 
@@ -184,7 +184,8 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.09em;
-            color: #b59b83;
+            color: #d9c4ab;
+            opacity: 0.85;
             padding: 0.875rem 0.5rem 0.3rem;
         }
         .nav-link {
@@ -195,14 +196,14 @@
             border-radius: 8px;
             font-size: 12.5px;
             font-weight: 500;
-            color: #e5d4c0;
+            color: #d9c4ab;
             text-decoration: none;
             position: relative;
             margin-bottom: 3px;
             transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav-link:hover { 
-            background: rgba(67, 46, 32, 0.65); 
+            background: rgba(217, 196, 171, 0.16); 
             color: #ffffff;
             transform: translateX(2px);
         }
@@ -211,10 +212,10 @@
         .nav-link.active-amber,
         .nav-link.active-cyan,
         .nav-link.active-violet { 
-            background: rgba(224, 164, 99, 0.16); 
-            color: #f6b26b; 
-            font-weight: 600; 
-            box-shadow: inset 0 0 12px rgba(224, 164, 99, 0.08);
+            background: #d9c4ab !important; 
+            color: #3e231c !important; 
+            font-weight: 700 !important; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
         }
         .nav-link.active::before,
         .nav-link.active-green::before,
@@ -223,17 +224,16 @@
         .nav-link.active-violet::before {
             content: '';
             position: absolute;
-            left: 0; top: 20%;
-            bottom: 20%;
-            width: 3px;
-            background: #e0a463;
+            left: 0; top: 15%;
+            bottom: 15%;
+            width: 4px;
+            background: #3e231c;
             border-radius: 0 4px 4px 0;
-            box-shadow: 0 0 8px rgba(224, 164, 99, 0.6);
         }
         .nav-link svg { flex-shrink: 0; }
-        .nav-link .sub { margin-left: auto; font-size: 10px; color: #b59b83; }
+        .nav-link .sub { margin-left: auto; font-size: 10px; color: #3e231c; opacity: 0.85; }
 
-        /* ─── MAIN AREA (WARM SOFT BEIGE) ─── */
+        /* ─── MAIN AREA (WARNA BEIGE #EFE6DA / #D9C4AB) ─── */
         .main-area {
             flex: 1;
             min-width: 0;
@@ -242,10 +242,10 @@
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
-            background: #f5ede4 !important;
+            background: #efe6da !important;
         }
 
-        /* ─── TOPBAR (WARM CREAM BEIGE) ─── */
+        /* ─── TOPBAR ─── */
         .topbar {
             display: flex;
             align-items: center;
@@ -254,8 +254,8 @@
             height: 64px;
             min-height: 64px;
             max-height: 64px;
-            background: #faf4ed !important;
-            border-bottom: 1px solid #e2d3c3 !important;
+            background: #efe6da !important;
+            border-bottom: 1px solid #d9c4ab !important;
             backdrop-filter: blur(12px);
             flex-shrink: 0;
             box-sizing: border-box;
@@ -267,84 +267,76 @@
             min-height: 0;
             overflow-y: auto;
             overflow-x: auto;
-            background: #f5ede4 !important;
+            background: #efe6da !important;
         }
         .content-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
-        .content-scroll::-webkit-scrollbar-thumb { background: #c8b29d; border-radius: 9999px; }
-        .content-scroll::-webkit-scrollbar-thumb:hover { background: #b09780; }
+        .content-scroll::-webkit-scrollbar-thumb { background: #d9c4ab; border-radius: 9999px; }
+        .content-scroll::-webkit-scrollbar-thumb:hover { background: #c4ac91; }
 
-        /* ─── GLOBAL PALET COKELAT & BEIGE (TIDAK TERLALU GELAP) ─── */
-        /* Kartu & Container */
+        /* ─── GLOBAL PALET COKELAT #3E231C & BEIGE #D9C4AB ─── */
+        /* Semua Kartu & Container di Main */
         .layout main :is(
+            div[class*="rounded-2xl"],
+            div[class*="rounded-xl"],
             [class~="bg-zinc-900"],
-            [class~="bg-zinc-900\/70"],
-            [class~="bg-zinc-900\/80"],
-            [class~="bg-zinc-900\/90"],
-            [class~="bg-zinc-900\/95"],
             [class~="bg-zinc-950"],
-            [class~="bg-zinc-950\/40"],
-            [class~="bg-zinc-950\/60"],
+            [class~="bg-zinc-800"],
             .dashboard-kpi,
             .dashboard-panel,
             .dashboard-recent,
             .dashboard-guide
-        ) {
+        ):not(.dashboard-welcome):not(.dashboard-welcome *):not(button):not(button *):not(a[class*="from-"]):not(a[class*="from-"] *):not(button[class*="from-"]):not(button[class*="from-"] *):not([class*="bg-emerald-"]):not([class*="bg-rose-"]):not([class*="bg-amber-"]) {
             background: #ffffff !important;
             background-color: #ffffff !important;
-            border-color: #e2d3c3 !important;
-            box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+            border-color: #d9c4ab !important;
+            box-shadow: 0 4px 18px rgba(62, 35, 28, 0.06) !important;
         }
 
         .layout main :is(
-            [class~="border-zinc-800"],
-            [class~="border-zinc-800\/40"],
-            [class~="border-zinc-800\/60"],
-            [class~="border-zinc-800\/80"],
-            [class~="border-zinc-700"],
-            [class~="border-zinc-700\/60"],
-            [class~="border-zinc-700\/70"],
-            [class~="border-zinc-700\/80"]
-        ) {
-            border-color: #e2d3c3 !important;
+            [class*="border-zinc-800"],
+            [class*="border-zinc-700"],
+            [class*="border-zinc-600"]
+        ):not(.dashboard-welcome):not(.dashboard-welcome *) {
+            border-color: #d9c4ab !important;
         }
 
-        /* Tipografi: Deep Espresso Brown */
+        /* Tipografi: Deep Brown #3E231C */
         .layout main :is(
             h1, h2, h3, h4, h5, h6,
             [class~="text-white"],
             td[class~="text-white"],
             th[class~="text-white"]
-        ):not(.dashboard-welcome *):not(.btn *):not(button *):not(a[class*="from-"] *):not(button[class*="from-"] *):not([class*="bg-emerald-"] *):not([class*="bg-rose-"] *):not([class*="bg-amber-"] *) {
-            color: #23150b !important;
+        ):not(.dashboard-welcome):not(.dashboard-welcome *):not(.btn *):not(button *):not(a[class*="from-"] *):not(button[class*="from-"] *):not([class*="bg-emerald-"] *):not([class*="bg-rose-"] *):not([class*="bg-amber-"] *) {
+            color: #3e231c !important;
         }
 
         .layout main :is([class~="text-zinc-100"], [class~="text-zinc-200"]):not(.dashboard-welcome *) {
-            color: #2e1a0e !important;
+            color: #3e231c !important;
         }
         .layout main :is([class~="text-zinc-300"], [class~="text-zinc-400"]):not(.dashboard-welcome *) {
-            color: #6f523e !important;
+            color: #633b30 !important;
         }
         .layout main :is([class~="text-zinc-500"]):not(.dashboard-welcome *) {
-            color: #8d6d56 !important;
+            color: #7d5245 !important;
         }
         .layout main :is([class~="text-zinc-600"]):not(.dashboard-welcome *) {
-            color: #a88972 !important;
+            color: #9b7062 !important;
         }
 
         /* Form Input & Select */
         .layout main :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]), select, textarea) {
             background-color: #ffffff !important;
-            border-color: #d4c2b0 !important;
-            color: #23150b !important;
-            box-shadow: 0 1px 3px rgba(60, 35, 18, 0.04) !important;
+            border: 1px solid #d9c4ab !important;
+            color: #3e231c !important;
+            box-shadow: 0 1px 3px rgba(62, 35, 28, 0.04) !important;
         }
         .layout main :is(input, select, textarea)::placeholder {
-            color: #9a806d !important;
+            color: #9b7062 !important;
         }
         .layout main :is(input, select, textarea):focus {
-            border-color: #d97706 !important;
-            background-color: #fffdfa !important;
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2) !important;
+            border-color: #3e231c !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 0 0 3px rgba(217, 196, 171, 0.45) !important;
         }
 
         /* Tabel */
@@ -353,78 +345,77 @@
         }
         .layout main table thead,
         .layout main table thead tr {
-            background-color: #f7ede2 !important;
+            background-color: #efe6da !important;
         }
         .layout main table thead th,
         .layout main table th {
-            background-color: #f7ede2 !important;
-            color: #6a4d37 !important;
-            border-bottom: 1px solid #e2d3c3 !important;
+            background-color: #efe6da !important;
+            color: #3e231c !important;
+            border-bottom: 2px solid #d9c4ab !important;
             font-weight: 700 !important;
         }
         .layout main table tbody tr {
             background-color: #ffffff !important;
-            border-bottom: 1px solid #ede3d7 !important;
+            border-bottom: 1px solid #efe6da !important;
         }
         .layout main table tbody tr:hover {
-            background-color: #faf4ed !important;
+            background-color: #f8f3ed !important;
         }
         .layout main table tbody td {
-            color: #23150b !important;
-            border-bottom: 1px solid #ede3d7 !important;
+            color: #3e231c !important;
+            border-bottom: 1px solid #efe6da !important;
         }
 
-        /* Dashboard Welcome Banner (Warm Mocha Coffee) */
-        .dashboard-welcome {
-            border: 1px solid rgba(217, 119, 6, 0.45) !important;
-            background: linear-gradient(135deg, #3d2516 0%, #2b180d 60%, #4a2d1a 100%) !important;
-            box-shadow: 0 12px 28px -6px rgba(45, 24, 14, 0.25), 0 0 20px -4px rgba(217, 119, 6, 0.12) !important;
+        /* Dashboard Welcome Banner */
+        .layout main .dashboard-welcome {
+            border: 1px solid #d9c4ab !important;
+            background: linear-gradient(135deg, #3e231c 0%, #4d2c23 60%, #5e362c 100%) !important;
+            box-shadow: 0 12px 28px -6px rgba(62, 35, 28, 0.28) !important;
         }
-        .dashboard-welcome h2 {
+        .layout main .dashboard-welcome h2,
+        .layout main .dashboard-welcome strong {
             color: #ffffff !important;
         }
-        .dashboard-welcome p {
-            color: #eedccb !important;
+        .layout main .dashboard-welcome p {
+            color: #d9c4ab !important;
         }
-        .dashboard-welcome strong {
-            color: #ffffff !important;
-        }
-        .dashboard-recent > div:first-child {
+        .layout main .dashboard-recent > div:first-child {
             background: #ffffff !important;
-            border-bottom: 1px solid #e2d3c3 !important;
+            border-bottom: 1px solid #d9c4ab !important;
         }
 
-        /* Tombol Sekunder / Abu-abu */
+        /* Tombol Sekunder */
         .layout main a:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):not([class*="from-"]):not([class*="bg-emerald-"]):not([class*="bg-amber-"]):not([class*="bg-rose-"]),
         .layout main button:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):not([class*="from-"]):not([class*="bg-emerald-"]):not([class*="bg-amber-"]):not([class*="bg-rose-"]) {
-            background-color: #f7ede2 !important;
-            border-color: #d4c2b0 !important;
-            color: #3d2617 !important;
+            background-color: #d9c4ab !important;
+            border-color: #c4ac91 !important;
+            color: #3e231c !important;
+            font-weight: 600 !important;
         }
         .layout main a:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):hover,
         .layout main button:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):hover {
-            background-color: #eee0d1 !important;
-            color: #23150b !important;
+            background-color: #efe6da !important;
+            color: #3e231c !important;
         }
 
         /* Paginator */
         nav[role="navigation"] a {
             background: #ffffff !important;
-            color: #4a2e1b !important;
-            border: 1px solid #d4c2b0 !important;
+            color: #3e231c !important;
+            border: 1px solid #d9c4ab !important;
         }
         nav[role="navigation"] a:hover {
-            background: #f7ede2 !important;
-            color: #23150b !important;
-            border-color: #8c684d !important;
+            background: #efe6da !important;
+            color: #3e231c !important;
+            border-color: #3e231c !important;
         }
         nav[role="navigation"] span[aria-current="page"] > span {
-            background: #d97706 !important;
-            color: #ffffff !important;
-            border-color: #b45309 !important;
+            background: #3e231c !important;
+            color: #d9c4ab !important;
+            border-color: #3e231c !important;
         }
         nav[role="navigation"] > div:first-child {
-            color: #6f523e !important;
+            color: #633b30 !important;
         }
 
         /* ─── TEXT OVERFLOW GLOBAL FIXES ─── */
@@ -522,38 +513,38 @@
         {{-- Brand --}}
         <div class="sidebar-brand">
             <div style="display:flex;align-items:center;gap:0.75rem;">
-                <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(217,119,6,0.3);flex-shrink:0;">
-                    <svg style="width:20px;height:20px;" fill="none" stroke="#ffffff" stroke-width="2.2" viewBox="0 0 24 24">
+                <div style="width:38px;height:38px;border-radius:10px;background:#d9c4ab;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.25);flex-shrink:0;">
+                    <svg style="width:20px;height:20px;" fill="none" stroke="#3e231c" stroke-width="2.3" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/>
                     </svg>
                 </div>
                 <div>
-                    <div style="font-weight:800;font-size:13px;color:#fdfaf6;letter-spacing:-0.02em;display:flex;align-items:center;gap:5px;">
+                    <div style="font-weight:800;font-size:13px;color:#ffffff;letter-spacing:-0.02em;display:flex;align-items:center;gap:5px;">
                         HALF KOPI
-                        <span style="font-size:9px;padding:1px 5px;border-radius:4px;background:rgba(224,164,99,0.18);color:#f6b26b;border:1px solid rgba(224,164,99,0.3);font-weight:700;">WMS</span>
+                        <span style="font-size:9px;padding:1px 5px;border-radius:4px;background:rgba(217,196,171,0.2);color:#d9c4ab;border:1px solid #d9c4ab;font-weight:700;">WMS</span>
                     </div>
-                    <div style="font-size:10px;color:#d2bca7;margin-top:1px;">Sistem Manajemen Gudang</div>
+                    <div style="font-size:10px;color:#d9c4ab;margin-top:1px;">Sistem Manajemen Gudang</div>
                 </div>
             </div>
         </div>
 
         {{-- User Card --}}
         <div class="sidebar-user">
-            <div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.65rem;border-radius:9px;background:rgba(51,35,25,0.7);border:1px solid rgba(111,78,56,0.45);">
-                <div style="width:30px;height:30px;border-radius:7px;background:rgba(224,164,99,0.18);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#f6b26b;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.65rem;border-radius:9px;background:rgba(0,0,0,0.25);border:1px solid rgba(217,196,171,0.25);">
+                <div style="width:30px;height:30px;border-radius:7px;background:#d9c4ab;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#3e231c;flex-shrink:0;">
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
                 <div style="flex:1;min-width:0;">
-                    <div style="font-size:11px;font-weight:600;color:#fbf5ed;overflow-wrap:anywhere;">{{ auth()->user()->name }}</div>
-                    <div style="font-size:10px;color:#d2bca7;display:flex;align-items:center;gap:3px;margin-top:1px;">
+                    <div style="font-size:11px;font-weight:600;color:#ffffff;overflow-wrap:anywhere;">{{ auth()->user()->name }}</div>
+                    <div style="font-size:10px;color:#d9c4ab;display:flex;align-items:center;gap:3px;margin-top:1px;">
                         <span style="width:5px;height:5px;border-radius:50%;background:#34d399;display:inline-block;flex-shrink:0;"></span>
                         {{ auth()->user()->isAdmin() ? 'Administrator' : 'Staf Pegawai' }}
                     </div>
                 </div>
                 @if(auth()->user()->isAdmin())
-                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(224,164,99,0.15);color:#f6b26b;border:1px solid rgba(224,164,99,0.3);font-weight:700;flex-shrink:0;">ADMIN</span>
+                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(217,196,171,0.2);color:#d9c4ab;border:1px solid #d9c4ab;font-weight:700;flex-shrink:0;">ADMIN</span>
                 @else
-                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3);font-weight:700;flex-shrink:0;">STAF</span>
+                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.4);font-weight:700;flex-shrink:0;">STAF</span>
                 @endif
             </div>
         </div>
@@ -687,18 +678,18 @@
             </button>
 
             <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:700;color:#23150b;overflow-wrap:anywhere;">
+                <div style="font-size:13px;font-weight:700;color:#3e231c;overflow-wrap:anywhere;">
                     @yield('page-title', 'Dashboard')
                 </div>
-                <div style="font-size:10px;color:#6f523e;overflow-wrap:anywhere;" class="hidden-xs">
+                <div style="font-size:10px;color:#633b30;overflow-wrap:anywhere;" class="hidden-xs">
                     @yield('page-subtitle', 'Sistem Manajemen Gudang')
                 </div>
             </div>
 
             <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-                <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:9px;background:#2a180d;color:#ffffff;font-size:11.5px;font-weight:600;border:1px solid #5a3822;letter-spacing:0.01em;" class="shadow-sm">
-                    <svg width="14" height="14" fill="none" stroke="#ffffff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <span id="realtimeClock" style="font-variant-numeric: tabular-nums;color:#ffffff;">-- : -- : --</span>
+                <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:9px;background:#3e231c;color:#d9c4ab;font-size:11.5px;font-weight:700;border:1px solid #d9c4ab;letter-spacing:0.01em;" class="shadow-sm">
+                    <svg width="14" height="14" fill="none" stroke="#d9c4ab" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span id="realtimeClock" style="font-variant-numeric: tabular-nums;color:#d9c4ab;">-- : -- : --</span>
                 </div>
             </div>
         </header>
@@ -741,9 +732,9 @@
             <main class="page-body page-content" style="padding:1.75rem 2rem;max-width:1440px;width:100%;margin:0 auto;">
                 @yield('content')
             </main>
-            <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid #e2d3c3;font-size:11px;color:#7a5c45;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#f5ede4;">
+            <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid #d9c4ab;font-size:11px;color:#633b30;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#efe6da;">
                 <div style="display:flex;align-items:center;gap:8px;">
-                    <span style="font-weight:700;color:#2e1a0e;">HALF KOPI WMS</span>
+                    <span style="font-weight:700;color:#3e231c;">HALF KOPI WMS</span>
                     <span>&bull;</span>
                     <span>Sistem Manajemen Inventori Gudang</span>
                 </div>

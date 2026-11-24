@@ -9,46 +9,46 @@
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 
     /* ================================================================
-       PALET COKELAT & BEIGE (HALF KOPI WMS) — TIDAK TERLALU GELAP
+       PALET RESMI USER: BEIGE #D9C4AB & COKELAT #3E231C (TIDAK GELAP)
        ================================================================ */
 
-    /* SPEKTRUM BEIGE & KREM SUSU (Teks Utama, Kontras Tinggi & Highlight) */
-    --color-zinc-50: #1b1008;   /* Teks paling kontras / gelap */
-    --color-zinc-100: #26150b;  /* Teks utama (deep espresso brown) */
-    --color-zinc-200: #3a2213;  /* Teks sekunder gelap */
-    --color-zinc-300: #553b28;  /* Teks deskripsi gelap */
-    --color-zinc-400: #755842;  /* Teks muted/subjudul (warm mocha) */
-    --color-zinc-500: #93755e;  /* Teks placeholder/border subtle */
+    /* SPEKTRUM BEIGE & COKELAT (Teks, Kontras, & Highlight) */
+    --color-zinc-50: #2a1712;
+    --color-zinc-100: #3e231c;  /* Cokelat Utama User (#3E231C) */
+    --color-zinc-200: #4e2d24;  /* Cokelat Sekunder */
+    --color-zinc-300: #633b30;  /* Cokelat Deskripsi */
+    --color-zinc-400: #7d5245;  /* Cokelat Muted */
+    --color-zinc-500: #9b7062;  /* Cokelat Placeholder */
 
-    /* SPEKTRUM BORDER & DIVIDER COKELAT/BEIGE */
-    --color-zinc-600: #bfa791;  /* Border tegas beige/latte */
-    --color-zinc-700: #d6c3b0;  /* Border input & divider */
-    --color-zinc-800: #e3d4c3;  /* Border kartu standar */
-    --color-zinc-850: #f0e4d6;  /* Hover kartu/tombol */
+    /* SPEKTRUM BORDER & DIVIDER BEIGE */
+    --color-zinc-600: #b58d7c;
+    --color-zinc-700: #c9ad96;
+    --color-zinc-800: #d9c4ab;  /* Beige Utama User (#D9C4AB) */
+    --color-zinc-850: #efe6da;  /* Soft Warm Cream Beige */
 
-    /* SPEKTRUM BACKGROUND BERSIH & TERANG (TIDAK GELAP) */
-    --color-zinc-900: #ffffff;  /* Kartu, panel, popup, modal (Ivory White) */
+    /* SPEKTRUM BACKGROUND BERSIH (PUTIH & IVORY) */
+    --color-zinc-900: #ffffff;  /* Kartu, panel, popup, modal */
     --color-zinc-950: #ffffff;  /* Input & select background */
 
-    /* KOPI SPESIFIK */
-    --color-coffee-50: #fdfaf6;
-    --color-coffee-100: #f5ede4;
-    --color-coffee-200: #e8d8c8;
-    --color-coffee-300: #d4c0ad;
-    --color-coffee-400: #b8977e;
-    --color-coffee-500: #936b4d;
-    --color-coffee-600: #774f34;
-    --color-coffee-700: #5c3b24;
-    --color-coffee-800: #422818;
-    --color-coffee-900: #2c180e;
-    --color-coffee-950: #1c0e07;
+    /* KOPI SPESIFIK BERDASARKAN #3E231C & #D9C4AB */
+    --color-coffee-50: #fbf7f2;
+    --color-coffee-100: #efe6da;
+    --color-coffee-200: #d9c4ab; /* User's Beige */
+    --color-coffee-300: #c4ac91;
+    --color-coffee-400: #a38269;
+    --color-coffee-500: #7d5245;
+    --color-coffee-600: #633b30;
+    --color-coffee-700: #4e2d24;
+    --color-coffee-800: #3e231c; /* User's Brown */
+    --color-coffee-900: #2a1712;
+    --color-coffee-950: #1a0d09;
 }
 
-/* ============= SCROLLBARS (COKELAT & BEIGE) ============= */
+/* ============= SCROLLBARS (BEIGE & COKELAT) ============= */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #f5ede4; }
-::-webkit-scrollbar-thumb { background: #cbb49e; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #ad947d; }
+::-webkit-scrollbar-track { background: #efe6da; }
+::-webkit-scrollbar-thumb { background: #d9c4ab; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #c4ac91; }
 
 /* ============= APPLICATION UI POLISH ============= */
 .layout main :where(.flex, .grid) > * {
@@ -76,11 +76,11 @@
 }
 
 .layout main [class~="text-zinc-500"] {
-    color: #8d6d56;
+    color: #7d5245;
 }
 
 .layout main [class~="text-zinc-600"] {
-    color: #a88972;
+    color: #9b7062;
 }
 
 .layout main :where(input, select, textarea, button, table, .overflow-x-auto) {
@@ -99,13 +99,13 @@
 
 .layout {
     background:
-        radial-gradient(ellipse at 85% 0%, rgba(217, 150, 95, 0.14), transparent 40rem),
-        radial-gradient(ellipse at 15% 90%, rgba(196, 148, 94, 0.12), transparent 36rem),
-        #f5ede4;
+        radial-gradient(ellipse at 85% 0%, rgba(217, 196, 171, 0.25), transparent 40rem),
+        radial-gradient(ellipse at 15% 90%, rgba(217, 196, 171, 0.2), transparent 36rem),
+        #efe6da;
 }
 
 .layout main {
-    color: #26150b;
+    color: #3e231c;
 }
 
 .layout main h1,
@@ -116,12 +116,12 @@
 
 .layout main :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]), select, textarea) {
     min-height: 2.625rem;
-    border: 1px solid #d4c2b0 !important;
+    border: 1px solid #d9c4ab !important;
     border-radius: 0.75rem;
     background-color: #ffffff !important;
-    color: #23150b !important;
+    color: #3e231c !important;
     font-size: 0.8125rem;
-    box-shadow: 0 1px 3px rgba(60, 35, 18, 0.04);
+    box-shadow: 0 1px 3px rgba(62, 35, 28, 0.04);
     transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
 }
 
@@ -130,13 +130,13 @@
 }
 
 .layout main :is(input, select, textarea)::placeholder {
-    color: #9a806d !important;
+    color: #9b7062 !important;
 }
 
 .layout main :is(input, select, textarea):focus {
-    border-color: #d97706 !important;
-    background-color: #fffdfa !important;
-    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2) !important;
+    border-color: #3e231c !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(217, 196, 171, 0.45) !important;
 }
 
 input[type="date"] {
@@ -149,7 +149,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .layout :is(a, button, input, select, textarea):focus-visible {
-    outline: 2px solid #f59e0b;
+    outline: 2px solid #3e231c;
     outline-offset: 2px;
 }
 
@@ -159,25 +159,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .layout main table thead th {
-    color: #6a4d37 !important;
-    background-color: #f7ede2 !important;
+    color: #3e231c !important;
+    background-color: #efe6da !important;
     letter-spacing: 0.075em;
-    border-bottom: 1px solid #e2d3c3 !important;
+    border-bottom: 2px solid #d9c4ab !important;
     font-weight: 700 !important;
 }
 
 .layout main table tbody tr {
     transition: background-color 150ms ease;
-    border-bottom: 1px solid #ede3d7 !important;
+    border-bottom: 1px solid #efe6da !important;
 }
 
 .layout main table tbody tr:hover {
-    background-color: #faf4ed !important;
+    background-color: #f8f3ed !important;
 }
 
 .layout main table tbody td {
-    color: #23150b !important;
-    border-bottom: 1px solid #ede3d7 !important;
+    color: #3e231c !important;
+    border-bottom: 1px solid #efe6da !important;
 }
 
 .layout main > .space-y-6,
@@ -196,7 +196,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-/* ============= DASHBOARD LAYOUT (COKELAT & BEIGE — TIDAK GELAP) ============= */
+/* ============= DASHBOARD LAYOUT (BEIGE #D9C4AB & COKELAT #3E231C) ============= */
 .dashboard-page {
     display: grid;
     align-content: start;
@@ -210,9 +210,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-welcome {
     min-height: 158px;
     padding: 1.75rem 2rem;
-    border: 1px solid rgba(217, 119, 6, 0.4) !important;
-    background: linear-gradient(135deg, #3d2516 0%, #2b180d 60%, #4a2d1a 100%) !important;
-    box-shadow: 0 12px 28px -6px rgba(45, 24, 14, 0.25), 0 0 20px -4px rgba(217, 119, 6, 0.12) !important;
+    border: 1px solid #d9c4ab !important;
+    background: linear-gradient(135deg, #3e231c 0%, #4d2c23 60%, #5e362c 100%) !important;
+    box-shadow: 0 12px 28px -6px rgba(62, 35, 28, 0.28) !important;
     border-radius: 1rem;
 }
 
@@ -225,7 +225,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-welcome p {
     font-size: 0.875rem;
     line-height: 1.65;
-    color: #e5d4c3 !important;
+    color: #d9c4ab !important;
 }
 
 .dashboard-welcome strong {
@@ -239,30 +239,30 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-guide {
     padding: 1.375rem;
     background: #ffffff !important;
-    border: 1px solid #e3d4c3 !important;
+    border: 1px solid #d9c4ab !important;
     border-radius: 1rem;
-    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+    box-shadow: 0 4px 18px rgba(62, 35, 28, 0.06) !important;
 }
 
 .dashboard-guide h3 {
     font-size: 0.9rem;
-    color: #23150b !important;
+    color: #3e231c !important;
 }
 
 .dashboard-guide .grid > a {
     min-height: 104px;
     padding: 1rem;
-    background-color: #faf5ee !important;
-    border: 1px solid #e3d4c3 !important;
+    background-color: #f8f3ed !important;
+    border: 1px solid #d9c4ab !important;
     border-radius: 0.75rem;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .dashboard-guide .grid > a:hover {
     transform: translateY(-2px);
-    border-color: #d97706 !important;
-    background-color: #f7ede2 !important;
-    box-shadow: 0 8px 20px -4px rgba(60, 35, 18, 0.12) !important;
+    border-color: #3e231c !important;
+    background-color: #efe6da !important;
+    box-shadow: 0 8px 20px -4px rgba(62, 35, 28, 0.12) !important;
 }
 
 .dashboard-guide .grid > a span:last-child {
@@ -270,7 +270,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .dashboard-guide .grid > a p {
-    color: #6f523e !important;
+    color: #633b30 !important;
     font-size: 0.75rem;
     line-height: 1.6;
 }
@@ -279,8 +279,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     min-height: 96px;
     padding: 1.25rem 1.5rem;
     align-items: center;
-    background: #fbf5ee !important;
-    border: 1px solid #e3d4c3 !important;
+    background: #f8f3ed !important;
+    border: 1px solid #d9c4ab !important;
     border-radius: 1rem;
 }
 
@@ -291,21 +291,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-kpi {
     min-height: 146px;
     padding: 1.25rem;
-    border: 1px solid #e3d4c3 !important;
+    border: 1px solid #d9c4ab !important;
     background: #ffffff !important;
-    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+    box-shadow: 0 4px 18px rgba(62, 35, 28, 0.06) !important;
     border-radius: 1rem;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .dashboard-kpi:hover {
     transform: translateY(-2px);
-    border-color: #d97706 !important;
-    box-shadow: 0 10px 24px -4px rgba(60, 35, 18, 0.12) !important;
+    border-color: #3e231c !important;
+    box-shadow: 0 10px 24px -4px rgba(62, 35, 28, 0.12) !important;
 }
 
 .dashboard-kpi > div:first-child > span {
-    color: #755842 !important;
+    color: #633b30 !important;
     font-size: 0.7rem;
     font-weight: 700;
 }
@@ -314,13 +314,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: 0.75rem;
     font-size: 1.875rem;
     line-height: 1.15;
-    color: #23150b !important;
+    color: #3e231c !important;
 }
 
 .dashboard-kpi:nth-child(2) > div:nth-child(2) {
     font-size: clamp(1.2rem, 1.55vw, 1.6rem);
     overflow-wrap: anywhere;
-    color: #23150b !important;
+    color: #3e231c !important;
 }
 
 .dashboard-kpi > div:last-child {
@@ -334,29 +334,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-panel {
     min-height: 220px;
     padding: 1.375rem;
-    border: 1px solid #e3d4c3 !important;
+    border: 1px solid #d9c4ab !important;
     background: #ffffff !important;
-    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+    box-shadow: 0 4px 18px rgba(62, 35, 28, 0.06) !important;
     border-radius: 1rem;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .dashboard-panel:hover {
-    border-color: #caa78c !important;
+    border-color: #b58d7c !important;
 }
 
 .dashboard-panel h3 {
     font-size: 0.9rem;
-    color: #23150b !important;
+    color: #3e231c !important;
 }
 
 .dashboard-panel .bg-zinc-950\/60 {
-    background-color: #faf5ee !important;
-    border: 1px solid #e3d4c3 !important;
+    background-color: #f8f3ed !important;
+    border: 1px solid #d9c4ab !important;
 }
 .dashboard-panel .bg-zinc-950\/60:hover {
-    border-color: #caa78c !important;
-    background-color: #f7ede2 !important;
+    border-color: #3e231c !important;
+    background-color: #efe6da !important;
 }
 
 .dashboard-empty-state {
@@ -371,26 +371,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     max-width: 26rem;
     font-size: 0.75rem;
     line-height: 1.55;
-    color: #755842 !important;
+    color: #7d5245 !important;
 }
 
 .dashboard-recent {
     overflow: hidden;
-    border: 1px solid #e3d4c3 !important;
+    border: 1px solid #d9c4ab !important;
     background: #ffffff !important;
-    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+    box-shadow: 0 4px 18px rgba(62, 35, 28, 0.06) !important;
     border-radius: 1rem;
 }
 
 .dashboard-recent > div:first-child {
     padding: 1.25rem 1.5rem;
     background: #ffffff !important;
-    border-bottom: 1px solid #e3d4c3 !important;
+    border-bottom: 1px solid #d9c4ab !important;
 }
 
 .dashboard-recent h3 {
     font-size: 1rem;
-    color: #23150b !important;
+    color: #3e231c !important;
 }
 
 .dashboard-recent table {
@@ -401,18 +401,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-recent th {
     padding-top: 0.85rem;
     padding-bottom: 0.85rem;
-    background: #f7ede2 !important;
-    color: #6e523f !important;
+    background: #efe6da !important;
+    color: #3e231c !important;
     font-size: 0.67rem;
-    border-bottom: 1px solid #e3d4c3 !important;
+    border-bottom: 2px solid #d9c4ab !important;
     font-weight: 700 !important;
 }
 
 .dashboard-recent td {
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
-    border-bottom: 1px solid #ede3d7 !important;
-    color: #23150b !important;
+    border-bottom: 1px solid #efe6da !important;
+    color: #3e231c !important;
 }
 
 /* ============= GLOBAL CARD & BUTTON EFFECTS ============= */
@@ -421,8 +421,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .card-interactive:hover {
     transform: translateY(-2px);
-    border-color: rgba(217, 119, 6, 0.4) !important;
-    box-shadow: 0 10px 24px -4px rgba(60, 35, 18, 0.12) !important;
+    border-color: #3e231c !important;
+    box-shadow: 0 10px 24px -4px rgba(62, 35, 28, 0.12) !important;
 }
 
 button:active:not(:disabled),
@@ -462,7 +462,7 @@ nav[role="navigation"] {
 
 nav[role="navigation"] > div:first-child {
     font-size: 0.75rem;
-    color: #6e523f !important;
+    color: #633b30 !important;
 }
 
 nav[role="navigation"] span[aria-current="page"] > span {
@@ -472,11 +472,11 @@ nav[role="navigation"] span[aria-current="page"] > span {
     min-width: 2rem;
     padding: 0.25rem 0.5rem;
     border-radius: 0.5rem;
-    background: #d97706 !important;
-    color: #ffffff !important;
+    background: #3e231c !important;
+    color: #d9c4ab !important;
     font-size: 0.75rem;
     font-weight: 700;
-    border: 1px solid #b45309 !important;
+    border: 1px solid #3e231c !important;
 }
 
 nav[role="navigation"] a {
@@ -487,18 +487,18 @@ nav[role="navigation"] a {
     padding: 0.25rem 0.5rem;
     border-radius: 0.5rem;
     background: #ffffff !important;
-    color: #23150b !important;
+    color: #3e231c !important;
     font-size: 0.75rem;
     font-weight: 500;
-    border: 1px solid #d4c2b0 !important;
+    border: 1px solid #d9c4ab !important;
     text-decoration: none;
     transition: all 0.15s ease;
 }
 
 nav[role="navigation"] a:hover {
-    background: #f5ede2 !important;
-    color: #23150b !important;
-    border-color: #caa78c !important;
+    background: #efe6da !important;
+    color: #3e231c !important;
+    border-color: #3e231c !important;
 }
 
 nav[role="navigation"] span[aria-disabled="true"] span {
@@ -508,10 +508,10 @@ nav[role="navigation"] span[aria-disabled="true"] span {
     min-width: 2rem;
     padding: 0.25rem 0.5rem;
     border-radius: 0.5rem;
-    background: #f0e4d6 !important;
-    color: #a88972 !important;
+    background: #efe6da !important;
+    color: #9b7062 !important;
     font-size: 0.75rem;
-    border: 1px solid #d4c2b0 !important;
+    border: 1px solid #d9c4ab !important;
     cursor: not-allowed;
 }
 
@@ -519,7 +519,7 @@ nav[role="navigation"] span[aria-disabled="true"] span {
 .hover\:bg-zinc-850\/50:hover,
 .hover\:bg-zinc-850\/40:hover,
 .hover\:bg-zinc-850\/80:hover {
-    background-color: #faf4ed !important;
+    background-color: #f8f3ed !important;
 }
 
 /* ============= MOBILE SIDEBAR TRANSITION ============= */
@@ -538,7 +538,7 @@ nav[role="navigation"] span[aria-disabled="true"] span {
 
 /* ============= LOADING SKELETON ============= */
 .skeleton {
-    background: linear-gradient(90deg, #f0e4d6 25%, #e3d4c3 50%, #f0e4d6 75%);
+    background: linear-gradient(90deg, #efe6da 25%, #d9c4ab 50%, #efe6da 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
     border-radius: 0.5rem;
