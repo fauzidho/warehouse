@@ -17,8 +17,8 @@
         html, body {
             height: 100%;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0c0a09;
-            color: #f4f4f5;
+            background: #f5ede4 !important;
+            color: #26150b !important;
         }
 
         /* ─── ROOT LAYOUT ─── */
@@ -29,15 +29,16 @@
             overflow: hidden;
             width: 100%;
             position: relative;
+            background: #f5ede4 !important;
         }
 
-        /* ─── SIDEBAR ─── */
+        /* ─── SIDEBAR (RICH ESPRESSO COFFEE) ─── */
         #sidebar {
             width: 264px;
             min-width: 264px;
             height: 100vh;
-            background: #151210;
-            border-right: 1px solid rgba(82,68,54,0.55);
+            background: #2a180d !important;
+            border-right: 1px solid rgba(140, 100, 72, 0.35);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -63,15 +64,15 @@
             width: 28px;
             height: 52px;
             border-radius: 8px;
-            background: #181513;
-            border: 1px solid rgba(245, 158, 11, 0.55);
-            color: #f59e0b;
+            background: #ffffff !important;
+            border: 1px solid #c8a88a !important;
+            color: #b45309 !important;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 300;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 14px rgba(245, 158, 11, 0.25);
+            box-shadow: 0 4px 16px rgba(60, 35, 18, 0.15) !important;
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
@@ -92,15 +93,15 @@
         }
 
         .sidebar-edge-toggle:hover {
-            background: #f59e0b;
-            color: #09090b;
-            border-color: #f59e0b;
-            box-shadow: 0 0 22px rgba(245, 158, 11, 0.7);
+            background: #b45309 !important;
+            color: #ffffff !important;
+            border-color: #b45309 !important;
+            box-shadow: 0 0 20px rgba(180, 83, 9, 0.4) !important;
         }
 
         .sidebar-edge-toggle:active {
-            background: #d97706;
-            color: #09090b;
+            background: #92400e !important;
+            color: #ffffff !important;
         }
 
         /* KETIKA SIDEBAR MENUTUP (COLLAPSED) */
@@ -112,19 +113,21 @@
             height: 52px !important;
             border-radius: 0 10px 10px 0 !important;
             border-left: none !important;
-            background: #1e1b18 !important;
-            color: #f59e0b !important;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.8), 0 0 16px rgba(245, 158, 11, 0.35) !important;
+            background: #ffffff !important;
+            color: #b45309 !important;
+            border: 1px solid #c8a88a !important;
+            border-left: none !important;
+            box-shadow: 4px 0 16px rgba(60, 35, 18, 0.15) !important;
         }
 
         body.sidebar-collapsed .sidebar-edge-toggle:hover {
-            background: #f59e0b !important;
-            color: #09090b !important;
+            background: #b45309 !important;
+            color: #ffffff !important;
         }
 
         body.sidebar-collapsed .sidebar-edge-toggle:active {
-            background: #d97706 !important;
-            color: #09090b !important;
+            background: #92400e !important;
+            color: #ffffff !important;
         }
 
         @media (max-width: 1023px) {
@@ -148,7 +151,7 @@
             min-height: 64px;
             max-height: 64px;
             padding: 0 1rem;
-            border-bottom: 1px solid rgba(82,68,54,0.55);
+            border-bottom: 1px solid rgba(140, 100, 72, 0.35);
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -168,10 +171,10 @@
             padding: 0.5rem 0.75rem;
         }
         .sidebar-nav::-webkit-scrollbar { width: 3px; }
-        .sidebar-nav::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: #6f4e38; border-radius: 9999px; }
         .sidebar-footer {
             padding: 0.75rem;
-            border-top: 1px solid rgba(63,63,70,0.6);
+            border-top: 1px solid rgba(140, 100, 72, 0.35);
             flex-shrink: 0;
         }
 
@@ -181,7 +184,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.09em;
-            color: #52525b;
+            color: #b59b83;
             padding: 0.875rem 0.5rem 0.3rem;
         }
         .nav-link {
@@ -192,14 +195,14 @@
             border-radius: 8px;
             font-size: 12.5px;
             font-weight: 500;
-            color: #a1a1aa;
+            color: #e5d4c0;
             text-decoration: none;
             position: relative;
             margin-bottom: 3px;
             transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav-link:hover { 
-            background: rgba(39, 39, 42, 0.75); 
+            background: rgba(67, 46, 32, 0.65); 
             color: #ffffff;
             transform: translateX(2px);
         }
@@ -208,10 +211,10 @@
         .nav-link.active-amber,
         .nav-link.active-cyan,
         .nav-link.active-violet { 
-            background: rgba(217, 119, 6, 0.14); 
-            color: #fbbf24; 
+            background: rgba(224, 164, 99, 0.16); 
+            color: #f6b26b; 
             font-weight: 600; 
-            box-shadow: inset 0 0 12px rgba(245, 158, 11, 0.05);
+            box-shadow: inset 0 0 12px rgba(224, 164, 99, 0.08);
         }
         .nav-link.active::before,
         .nav-link.active-green::before,
@@ -223,14 +226,14 @@
             left: 0; top: 20%;
             bottom: 20%;
             width: 3px;
-            background: #f59e0b;
+            background: #e0a463;
             border-radius: 0 4px 4px 0;
-            box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+            box-shadow: 0 0 8px rgba(224, 164, 99, 0.6);
         }
         .nav-link svg { flex-shrink: 0; }
-        .nav-link .sub { margin-left: auto; font-size: 10px; color: #71717a; }
+        .nav-link .sub { margin-left: auto; font-size: 10px; color: #b59b83; }
 
-        /* ─── MAIN AREA ─── */
+        /* ─── MAIN AREA (WARM SOFT BEIGE) ─── */
         .main-area {
             flex: 1;
             min-width: 0;
@@ -239,9 +242,10 @@
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
+            background: #f5ede4 !important;
         }
 
-        /* ─── TOPBAR ─── */
+        /* ─── TOPBAR (WARM CREAM BEIGE) ─── */
         .topbar {
             display: flex;
             align-items: center;
@@ -250,8 +254,8 @@
             height: 64px;
             min-height: 64px;
             max-height: 64px;
-            background: rgba(21,18,16,0.92);
-            border-bottom: 1px solid rgba(82,68,54,0.55);
+            background: #faf4ed !important;
+            border-bottom: 1px solid #e2d3c3 !important;
             backdrop-filter: blur(12px);
             flex-shrink: 0;
             box-sizing: border-box;
@@ -263,9 +267,165 @@
             min-height: 0;
             overflow-y: auto;
             overflow-x: auto;
+            background: #f5ede4 !important;
         }
-        .content-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
-        .content-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
+        .content-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+        .content-scroll::-webkit-scrollbar-thumb { background: #c8b29d; border-radius: 9999px; }
+        .content-scroll::-webkit-scrollbar-thumb:hover { background: #b09780; }
+
+        /* ─── GLOBAL PALET COKELAT & BEIGE (TIDAK TERLALU GELAP) ─── */
+        /* Kartu & Container */
+        .layout main :is(
+            [class~="bg-zinc-900"],
+            [class~="bg-zinc-900\/70"],
+            [class~="bg-zinc-900\/80"],
+            [class~="bg-zinc-900\/90"],
+            [class~="bg-zinc-900\/95"],
+            [class~="bg-zinc-950"],
+            [class~="bg-zinc-950\/40"],
+            [class~="bg-zinc-950\/60"],
+            .dashboard-kpi,
+            .dashboard-panel,
+            .dashboard-recent,
+            .dashboard-guide
+        ) {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            border-color: #e2d3c3 !important;
+            box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+        }
+
+        .layout main :is(
+            [class~="border-zinc-800"],
+            [class~="border-zinc-800\/40"],
+            [class~="border-zinc-800\/60"],
+            [class~="border-zinc-800\/80"],
+            [class~="border-zinc-700"],
+            [class~="border-zinc-700\/60"],
+            [class~="border-zinc-700\/70"],
+            [class~="border-zinc-700\/80"]
+        ) {
+            border-color: #e2d3c3 !important;
+        }
+
+        /* Tipografi: Deep Espresso Brown */
+        .layout main :is(
+            h1, h2, h3, h4, h5, h6,
+            [class~="text-white"],
+            td[class~="text-white"],
+            th[class~="text-white"]
+        ):not(.dashboard-welcome *):not(.btn *):not(button *):not(a[class*="from-"] *):not(button[class*="from-"] *):not([class*="bg-emerald-"] *):not([class*="bg-rose-"] *):not([class*="bg-amber-"] *) {
+            color: #23150b !important;
+        }
+
+        .layout main :is([class~="text-zinc-100"], [class~="text-zinc-200"]):not(.dashboard-welcome *) {
+            color: #2e1a0e !important;
+        }
+        .layout main :is([class~="text-zinc-300"], [class~="text-zinc-400"]):not(.dashboard-welcome *) {
+            color: #6f523e !important;
+        }
+        .layout main :is([class~="text-zinc-500"]):not(.dashboard-welcome *) {
+            color: #8d6d56 !important;
+        }
+        .layout main :is([class~="text-zinc-600"]):not(.dashboard-welcome *) {
+            color: #a88972 !important;
+        }
+
+        /* Form Input & Select */
+        .layout main :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]), select, textarea) {
+            background-color: #ffffff !important;
+            border-color: #d4c2b0 !important;
+            color: #23150b !important;
+            box-shadow: 0 1px 3px rgba(60, 35, 18, 0.04) !important;
+        }
+        .layout main :is(input, select, textarea)::placeholder {
+            color: #9a806d !important;
+        }
+        .layout main :is(input, select, textarea):focus {
+            border-color: #d97706 !important;
+            background-color: #fffdfa !important;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2) !important;
+        }
+
+        /* Tabel */
+        .layout main table {
+            background-color: #ffffff !important;
+        }
+        .layout main table thead,
+        .layout main table thead tr {
+            background-color: #f7ede2 !important;
+        }
+        .layout main table thead th,
+        .layout main table th {
+            background-color: #f7ede2 !important;
+            color: #6a4d37 !important;
+            border-bottom: 1px solid #e2d3c3 !important;
+            font-weight: 700 !important;
+        }
+        .layout main table tbody tr {
+            background-color: #ffffff !important;
+            border-bottom: 1px solid #ede3d7 !important;
+        }
+        .layout main table tbody tr:hover {
+            background-color: #faf4ed !important;
+        }
+        .layout main table tbody td {
+            color: #23150b !important;
+            border-bottom: 1px solid #ede3d7 !important;
+        }
+
+        /* Dashboard Welcome Banner (Warm Mocha Coffee) */
+        .dashboard-welcome {
+            border: 1px solid rgba(217, 119, 6, 0.45) !important;
+            background: linear-gradient(135deg, #3d2516 0%, #2b180d 60%, #4a2d1a 100%) !important;
+            box-shadow: 0 12px 28px -6px rgba(45, 24, 14, 0.25), 0 0 20px -4px rgba(217, 119, 6, 0.12) !important;
+        }
+        .dashboard-welcome h2 {
+            color: #ffffff !important;
+        }
+        .dashboard-welcome p {
+            color: #eedccb !important;
+        }
+        .dashboard-welcome strong {
+            color: #ffffff !important;
+        }
+        .dashboard-recent > div:first-child {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e2d3c3 !important;
+        }
+
+        /* Tombol Sekunder / Abu-abu */
+        .layout main a:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):not([class*="from-"]):not([class*="bg-emerald-"]):not([class*="bg-amber-"]):not([class*="bg-rose-"]),
+        .layout main button:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):not([class*="from-"]):not([class*="bg-emerald-"]):not([class*="bg-amber-"]):not([class*="bg-rose-"]) {
+            background-color: #f7ede2 !important;
+            border-color: #d4c2b0 !important;
+            color: #3d2617 !important;
+        }
+        .layout main a:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):hover,
+        .layout main button:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):hover {
+            background-color: #eee0d1 !important;
+            color: #23150b !important;
+        }
+
+        /* Paginator */
+        nav[role="navigation"] a {
+            background: #ffffff !important;
+            color: #4a2e1b !important;
+            border: 1px solid #d4c2b0 !important;
+        }
+        nav[role="navigation"] a:hover {
+            background: #f7ede2 !important;
+            color: #23150b !important;
+            border-color: #8c684d !important;
+        }
+        nav[role="navigation"] span[aria-current="page"] > span {
+            background: #d97706 !important;
+            color: #ffffff !important;
+            border-color: #b45309 !important;
+        }
+        nav[role="navigation"] > div:first-child {
+            color: #6f523e !important;
+        }
 
         /* ─── TEXT OVERFLOW GLOBAL FIXES ─── */
         table { min-width: 0; }
@@ -274,14 +434,14 @@
             word-break: break-word;
         }
 
-        /* ─── NATIVE DATE INPUT & CALENDAR ICON (WARNA PUTIH) ─── */
+        /* ─── NATIVE DATE INPUT & CALENDAR ICON ─── */
         input[type="date"] {
-            color-scheme: dark;
+            color-scheme: light !important;
         }
         input[type="date"]::-webkit-calendar-picker-indicator {
             cursor: pointer;
-            filter: brightness(0) invert(1);
-            opacity: 1;
+            filter: none !important;
+            opacity: 0.75 !important;
         }
         /* Kolom tabel dengan teks panjang */
         .td-truncate {
@@ -314,8 +474,8 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(3px);
+            background: rgba(25, 17, 12, 0.75);
+            backdrop-filter: blur(4px);
             z-index: 199;
         }
 
@@ -363,37 +523,37 @@
         <div class="sidebar-brand">
             <div style="display:flex;align-items:center;gap:0.75rem;">
                 <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(217,119,6,0.3);flex-shrink:0;">
-                    <svg style="width:20px;height:20px;" fill="none" stroke="#09090b" stroke-width="2.2" viewBox="0 0 24 24">
+                    <svg style="width:20px;height:20px;" fill="none" stroke="#ffffff" stroke-width="2.2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/>
                     </svg>
                 </div>
                 <div>
-                    <div style="font-weight:800;font-size:13px;color:#fff;letter-spacing:-0.02em;display:flex;align-items:center;gap:5px;">
+                    <div style="font-weight:800;font-size:13px;color:#fdfaf6;letter-spacing:-0.02em;display:flex;align-items:center;gap:5px;">
                         HALF KOPI
-                        <span style="font-size:9px;padding:1px 5px;border-radius:4px;background:rgba(245,158,11,0.12);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);font-weight:700;">WMS</span>
+                        <span style="font-size:9px;padding:1px 5px;border-radius:4px;background:rgba(224,164,99,0.18);color:#f6b26b;border:1px solid rgba(224,164,99,0.3);font-weight:700;">WMS</span>
                     </div>
-                    <div style="font-size:10px;color:#71717a;margin-top:1px;">Sistem Manajemen Gudang</div>
+                    <div style="font-size:10px;color:#d2bca7;margin-top:1px;">Sistem Manajemen Gudang</div>
                 </div>
             </div>
         </div>
 
         {{-- User Card --}}
         <div class="sidebar-user">
-            <div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.65rem;border-radius:9px;background:rgba(39,39,42,0.45);border:1px solid rgba(63,63,70,0.3);">
-                <div style="width:30px;height:30px;border-radius:7px;background:rgba(245,158,11,0.14);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#f59e0b;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.65rem;border-radius:9px;background:rgba(51,35,25,0.7);border:1px solid rgba(111,78,56,0.45);">
+                <div style="width:30px;height:30px;border-radius:7px;background:rgba(224,164,99,0.18);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#f6b26b;flex-shrink:0;">
                     {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                 </div>
                 <div style="flex:1;min-width:0;">
-                    <div style="font-size:11px;font-weight:600;color:#e4e4e7;overflow-wrap:anywhere;">{{ auth()->user()->name }}</div>
-                    <div style="font-size:10px;color:#71717a;display:flex;align-items:center;gap:3px;margin-top:1px;">
+                    <div style="font-size:11px;font-weight:600;color:#fbf5ed;overflow-wrap:anywhere;">{{ auth()->user()->name }}</div>
+                    <div style="font-size:10px;color:#d2bca7;display:flex;align-items:center;gap:3px;margin-top:1px;">
                         <span style="width:5px;height:5px;border-radius:50%;background:#34d399;display:inline-block;flex-shrink:0;"></span>
                         {{ auth()->user()->isAdmin() ? 'Administrator' : 'Staf Pegawai' }}
                     </div>
                 </div>
                 @if(auth()->user()->isAdmin())
-                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2);font-weight:700;flex-shrink:0;">ADMIN</span>
+                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(224,164,99,0.15);color:#f6b26b;border:1px solid rgba(224,164,99,0.3);font-weight:700;flex-shrink:0;">ADMIN</span>
                 @else
-                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2);font-weight:700;flex-shrink:0;">STAF</span>
+                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3);font-weight:700;flex-shrink:0;">STAF</span>
                 @endif
             </div>
         </div>
@@ -518,27 +678,27 @@
         <header class="topbar no-print">
             {{-- Tombol Mobile Only --}}
             <button class="hamburger" onclick="openSidebar()"
-                    style="display:none;padding:7px;border-radius:8px;background:none;border:none;color:#a1a1aa;cursor:pointer;line-height:0;flex-shrink:0;"
-                    onmouseover="this.style.background='rgba(39,39,42,0.8)';this.style.color='#e4e4e7';"
-                    onmouseout="this.style.background='none';this.style.color='#a1a1aa';">
+                    style="display:none;padding:7px;border-radius:8px;background:none;border:none;color:#3d2617;cursor:pointer;line-height:0;flex-shrink:0;"
+                    onmouseover="this.style.background='#eee0d1';this.style.color='#23150b';"
+                    onmouseout="this.style.background='none';this.style.color='#3d2617';">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
 
             <div style="flex:1;min-width:0;">
-                <div style="font-size:13px;font-weight:700;color:#fff;overflow-wrap:anywhere;">
+                <div style="font-size:13px;font-weight:700;color:#23150b;overflow-wrap:anywhere;">
                     @yield('page-title', 'Dashboard')
                 </div>
-                <div style="font-size:10px;color:#71717a;overflow-wrap:anywhere;" class="hidden-xs">
+                <div style="font-size:10px;color:#6f523e;overflow-wrap:anywhere;" class="hidden-xs">
                     @yield('page-subtitle', 'Sistem Manajemen Gudang')
                 </div>
             </div>
 
             <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-                <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:9px;background:rgba(24,24,27,0.7);color:#e4e4e7;font-size:11.5px;font-weight:600;border:1px solid rgba(255,255,255,0.08);letter-spacing:0.01em;" class="shadow-sm">
-                    <svg width="14" height="14" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    <span id="realtimeClock" style="font-variant-numeric: tabular-nums;">-- : -- : --</span>
+                <div style="display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:9px;background:#2a180d;color:#ffffff;font-size:11.5px;font-weight:600;border:1px solid #5a3822;letter-spacing:0.01em;" class="shadow-sm">
+                    <svg width="14" height="14" fill="none" stroke="#ffffff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span id="realtimeClock" style="font-variant-numeric: tabular-nums;color:#ffffff;">-- : -- : --</span>
                 </div>
             </div>
         </header>
@@ -547,7 +707,7 @@
         @if(session('success') || session('error') || session('warning'))
         <div style="padding:10px 20px 0;" class="no-print flash-messages">
             @if(session('success'))
-                <div id="flash-ok" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(5,46,22,0.6);border:1px solid rgba(16,185,129,0.2);color:#6ee7b7;font-size:12px;font-weight:500;">
+                <div id="flash-ok" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(20,53,35,0.7);border:1px solid rgba(16,185,129,0.3);color:#a7f3d0;font-size:12px;font-weight:500;">
                     <div style="display:flex;align-items:center;gap:8px;">
                         <svg width="14" height="14" fill="none" stroke="#34d399" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                         {{ session('success') }}
@@ -556,7 +716,7 @@
                 </div>
             @endif
             @if(session('error'))
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(76,5,25,0.6);border:1px solid rgba(244,63,94,0.2);color:#fca5a5;font-size:12px;font-weight:500;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(65,22,22,0.7);border:1px solid rgba(244,63,94,0.3);color:#fecdd3;font-size:12px;font-weight:500;">
                     <div style="display:flex;align-items:center;gap:8px;">
                         <svg width="14" height="14" fill="none" stroke="#f87171" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                         {{ session('error') }}
@@ -565,7 +725,7 @@
                 </div>
             @endif
             @if(session('warning'))
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(69,26,3,0.6);border:1px solid rgba(245,158,11,0.2);color:#fde68a;font-size:12px;font-weight:500;">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;background:rgba(68,43,18,0.7);border:1px solid rgba(245,158,11,0.3);color:#fef3c7;font-size:12px;font-weight:500;">
                     <div style="display:flex;align-items:center;gap:8px;">
                         <svg width="14" height="14" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                         {{ session('warning') }}
@@ -581,9 +741,9 @@
             <main class="page-body page-content" style="padding:1.75rem 2rem;max-width:1440px;width:100%;margin:0 auto;">
                 @yield('content')
             </main>
-            <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid rgba(82,68,54,0.45);font-size:11px;color:#71717a;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+            <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid #e2d3c3;font-size:11px;color:#7a5c45;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#f5ede4;">
                 <div style="display:flex;align-items:center;gap:8px;">
-                    <span style="font-weight:700;color:#71717a;">HALF KOPI WMS</span>
+                    <span style="font-weight:700;color:#2e1a0e;">HALF KOPI WMS</span>
                     <span>&bull;</span>
                     <span>Sistem Manajemen Inventori Gudang</span>
                 </div>

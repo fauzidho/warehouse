@@ -7,24 +7,48 @@
 
 @theme {
     --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-    --color-coffee-50: #fbf8f5;
-    --color-coffee-100: #f5efe8;
-    --color-coffee-200: #e8dccf;
-    --color-coffee-300: #d6c0a8;
-    --color-coffee-400: #be9d7c;
-    --color-coffee-500: #a87e56;
-    --color-coffee-600: #8c6443;
-    --color-coffee-700: #714e36;
-    --color-coffee-800: #573c2a;
-    --color-coffee-900: #3e2b1f;
-    --color-coffee-950: #22160f;
+
+    /* ================================================================
+       PALET COKELAT & BEIGE (HALF KOPI WMS) — TIDAK TERLALU GELAP
+       ================================================================ */
+
+    /* SPEKTRUM BEIGE & KREM SUSU (Teks Utama, Kontras Tinggi & Highlight) */
+    --color-zinc-50: #1b1008;   /* Teks paling kontras / gelap */
+    --color-zinc-100: #26150b;  /* Teks utama (deep espresso brown) */
+    --color-zinc-200: #3a2213;  /* Teks sekunder gelap */
+    --color-zinc-300: #553b28;  /* Teks deskripsi gelap */
+    --color-zinc-400: #755842;  /* Teks muted/subjudul (warm mocha) */
+    --color-zinc-500: #93755e;  /* Teks placeholder/border subtle */
+
+    /* SPEKTRUM BORDER & DIVIDER COKELAT/BEIGE */
+    --color-zinc-600: #bfa791;  /* Border tegas beige/latte */
+    --color-zinc-700: #d6c3b0;  /* Border input & divider */
+    --color-zinc-800: #e3d4c3;  /* Border kartu standar */
+    --color-zinc-850: #f0e4d6;  /* Hover kartu/tombol */
+
+    /* SPEKTRUM BACKGROUND BERSIH & TERANG (TIDAK GELAP) */
+    --color-zinc-900: #ffffff;  /* Kartu, panel, popup, modal (Ivory White) */
+    --color-zinc-950: #ffffff;  /* Input & select background */
+
+    /* KOPI SPESIFIK */
+    --color-coffee-50: #fdfaf6;
+    --color-coffee-100: #f5ede4;
+    --color-coffee-200: #e8d8c8;
+    --color-coffee-300: #d4c0ad;
+    --color-coffee-400: #b8977e;
+    --color-coffee-500: #936b4d;
+    --color-coffee-600: #774f34;
+    --color-coffee-700: #5c3b24;
+    --color-coffee-800: #422818;
+    --color-coffee-900: #2c180e;
+    --color-coffee-950: #1c0e07;
 }
 
-/* ============= SCROLLBARS ============= */
+/* ============= SCROLLBARS (COKELAT & BEIGE) ============= */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: #18181b; }
-::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: #52525b; }
+::-webkit-scrollbar-track { background: #f5ede4; }
+::-webkit-scrollbar-thumb { background: #cbb49e; border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: #ad947d; }
 
 /* ============= APPLICATION UI POLISH ============= */
 .layout main :where(.flex, .grid) > * {
@@ -52,11 +76,11 @@
 }
 
 .layout main [class~="text-zinc-500"] {
-    color: #a1a1aa;
+    color: #8d6d56;
 }
 
 .layout main [class~="text-zinc-600"] {
-    color: #8d8d96;
+    color: #a88972;
 }
 
 .layout main :where(input, select, textarea, button, table, .overflow-x-auto) {
@@ -75,12 +99,13 @@
 
 .layout {
     background:
-        radial-gradient(ellipse at 82% 0%, rgb(120 53 15 / 0.09), transparent 34rem),
-        #0c0a09;
+        radial-gradient(ellipse at 85% 0%, rgba(217, 150, 95, 0.14), transparent 40rem),
+        radial-gradient(ellipse at 15% 90%, rgba(196, 148, 94, 0.12), transparent 36rem),
+        #f5ede4;
 }
 
 .layout main {
-    color: #e7e5e4;
+    color: #26150b;
 }
 
 .layout main h1,
@@ -91,11 +116,12 @@
 
 .layout main :is(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="file"]), select, textarea) {
     min-height: 2.625rem;
-    border-color: rgb(82 82 91 / 0.72);
+    border: 1px solid #d4c2b0 !important;
     border-radius: 0.75rem;
-    background-color: #111113;
-    color: #f4f4f5;
+    background-color: #ffffff !important;
+    color: #23150b !important;
     font-size: 0.8125rem;
+    box-shadow: 0 1px 3px rgba(60, 35, 18, 0.04);
     transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
 }
 
@@ -104,22 +130,22 @@
 }
 
 .layout main :is(input, select, textarea)::placeholder {
-    color: #71717a;
+    color: #9a806d !important;
 }
 
 .layout main :is(input, select, textarea):focus {
-    border-color: #d97706;
-    background-color: #141210;
-    box-shadow: 0 0 0 3px rgb(245 158 11 / 0.14);
+    border-color: #d97706 !important;
+    background-color: #fffdfa !important;
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2) !important;
 }
 
 input[type="date"] {
-    color-scheme: dark;
+    color-scheme: light !important;
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
-    filter: brightness(0) invert(1);
-    opacity: 1;
+    filter: none;
+    opacity: 0.75;
 }
 
 .layout :is(a, button, input, select, textarea):focus-visible {
@@ -129,15 +155,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .layout main table {
     font-variant-numeric: tabular-nums;
+    background-color: #ffffff !important;
 }
 
 .layout main table thead th {
-    color: #a1a1aa;
+    color: #6a4d37 !important;
+    background-color: #f7ede2 !important;
     letter-spacing: 0.075em;
+    border-bottom: 1px solid #e2d3c3 !important;
+    font-weight: 700 !important;
 }
 
 .layout main table tbody tr {
     transition: background-color 150ms ease;
+    border-bottom: 1px solid #ede3d7 !important;
+}
+
+.layout main table tbody tr:hover {
+    background-color: #faf4ed !important;
+}
+
+.layout main table tbody td {
+    color: #23150b !important;
+    border-bottom: 1px solid #ede3d7 !important;
 }
 
 .layout main > .space-y-6,
@@ -156,7 +196,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-/* ============= DASHBOARD LAYOUT ============= */
+/* ============= DASHBOARD LAYOUT (COKELAT & BEIGE — TIDAK GELAP) ============= */
 .dashboard-page {
     display: grid;
     align-content: start;
@@ -170,20 +210,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-welcome {
     min-height: 158px;
     padding: 1.75rem 2rem;
-    border-color: rgba(245, 158, 11, 0.25);
-    background-image: linear-gradient(125deg, rgba(28, 25, 23, 0.98) 0%, rgba(24, 21, 19, 0.96) 55%, rgba(69, 35, 14, 0.45) 100%);
-    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 0 24px -4px rgba(245, 158, 11, 0.06);
-    backdrop-filter: blur(16px);
+    border: 1px solid rgba(217, 119, 6, 0.4) !important;
+    background: linear-gradient(135deg, #3d2516 0%, #2b180d 60%, #4a2d1a 100%) !important;
+    box-shadow: 0 12px 28px -6px rgba(45, 24, 14, 0.25), 0 0 20px -4px rgba(217, 119, 6, 0.12) !important;
+    border-radius: 1rem;
 }
 
 .dashboard-welcome h2 {
     font-size: clamp(1.5rem, 2vw, 1.875rem);
     line-height: 1.2;
+    color: #ffffff !important;
 }
 
 .dashboard-welcome p {
     font-size: 0.875rem;
     line-height: 1.65;
+    color: #e5d4c3 !important;
+}
+
+.dashboard-welcome strong {
+    color: #ffffff !important;
 }
 
 .dashboard-welcome .relative.flex {
@@ -192,27 +238,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .dashboard-guide {
     padding: 1.375rem;
-    background: linear-gradient(145deg, rgba(24, 24, 27, 0.9), rgba(18, 17, 16, 0.88));
-    border-color: rgba(255, 255, 255, 0.07);
-    backdrop-filter: blur(12px);
+    background: #ffffff !important;
+    border: 1px solid #e3d4c3 !important;
+    border-radius: 1rem;
+    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
 }
 
 .dashboard-guide h3 {
     font-size: 0.9rem;
+    color: #23150b !important;
 }
 
 .dashboard-guide .grid > a {
     min-height: 104px;
     padding: 1rem;
-    background-color: rgba(12, 10, 9, 0.7);
-    border-color: rgba(255, 255, 255, 0.06);
+    background-color: #faf5ee !important;
+    border: 1px solid #e3d4c3 !important;
+    border-radius: 0.75rem;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .dashboard-guide .grid > a:hover {
     transform: translateY(-2px);
-    border-color: rgba(245, 158, 11, 0.35);
-    box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.5), 0 0 14px -2px rgba(245, 158, 11, 0.08);
+    border-color: #d97706 !important;
+    background-color: #f7ede2 !important;
+    box-shadow: 0 8px 20px -4px rgba(60, 35, 18, 0.12) !important;
 }
 
 .dashboard-guide .grid > a span:last-child {
@@ -220,7 +270,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .dashboard-guide .grid > a p {
-    color: #a1a1aa;
+    color: #6f523e !important;
     font-size: 0.75rem;
     line-height: 1.6;
 }
@@ -229,7 +279,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     min-height: 96px;
     padding: 1.25rem 1.5rem;
     align-items: center;
-    background: linear-gradient(100deg, rgb(69 35 14 / 0.38), rgb(39 25 17 / 0.58));
+    background: #fbf5ee !important;
+    border: 1px solid #e3d4c3 !important;
+    border-radius: 1rem;
 }
 
 .dashboard-kpis {
@@ -239,33 +291,36 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-kpi {
     min-height: 146px;
     padding: 1.25rem;
-    border-color: rgba(255, 255, 255, 0.07);
-    background: linear-gradient(145deg, rgba(24, 24, 27, 0.95), rgba(18, 17, 16, 0.95));
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px);
+    border: 1px solid #e3d4c3 !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+    border-radius: 1rem;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .dashboard-kpi:hover {
     transform: translateY(-2px);
-    border-color: rgba(245, 158, 11, 0.3);
-    box-shadow: 0 14px 30px -6px rgba(0, 0, 0, 0.6), 0 0 20px -3px rgba(245, 158, 11, 0.08);
+    border-color: #d97706 !important;
+    box-shadow: 0 10px 24px -4px rgba(60, 35, 18, 0.12) !important;
 }
 
 .dashboard-kpi > div:first-child > span {
-    color: #a1a1aa;
+    color: #755842 !important;
     font-size: 0.7rem;
+    font-weight: 700;
 }
 
 .dashboard-kpi > div:nth-child(2) {
     margin-top: 0.75rem;
     font-size: 1.875rem;
     line-height: 1.15;
+    color: #23150b !important;
 }
 
 .dashboard-kpi:nth-child(2) > div:nth-child(2) {
     font-size: clamp(1.2rem, 1.55vw, 1.6rem);
     overflow-wrap: anywhere;
+    color: #23150b !important;
 }
 
 .dashboard-kpi > div:last-child {
@@ -279,19 +334,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dashboard-panel {
     min-height: 220px;
     padding: 1.375rem;
-    border-color: rgba(255, 255, 255, 0.07);
-    background: linear-gradient(145deg, rgba(24, 24, 27, 0.95), rgba(18, 17, 16, 0.95));
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px);
+    border: 1px solid #e3d4c3 !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+    border-radius: 1rem;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
 }
 
 .dashboard-panel:hover {
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: #caa78c !important;
 }
 
 .dashboard-panel h3 {
     font-size: 0.9rem;
+    color: #23150b !important;
+}
+
+.dashboard-panel .bg-zinc-950\/60 {
+    background-color: #faf5ee !important;
+    border: 1px solid #e3d4c3 !important;
+}
+.dashboard-panel .bg-zinc-950\/60:hover {
+    border-color: #caa78c !important;
+    background-color: #f7ede2 !important;
 }
 
 .dashboard-empty-state {
@@ -306,39 +371,48 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     max-width: 26rem;
     font-size: 0.75rem;
     line-height: 1.55;
+    color: #755842 !important;
 }
 
 .dashboard-recent {
     overflow: hidden;
-    border-color: rgba(255, 255, 255, 0.07);
-    background: linear-gradient(145deg, rgba(24, 24, 27, 0.95), rgba(18, 17, 16, 0.95));
-    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px);
+    border: 1px solid #e3d4c3 !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 18px rgba(60, 35, 18, 0.05) !important;
+    border-radius: 1rem;
 }
 
 .dashboard-recent > div:first-child {
     padding: 1.25rem 1.5rem;
-    background: rgba(24, 24, 27, 0.6);
+    background: #ffffff !important;
+    border-bottom: 1px solid #e3d4c3 !important;
 }
 
 .dashboard-recent h3 {
     font-size: 1rem;
+    color: #23150b !important;
 }
 
 .dashboard-recent table {
     min-width: 760px;
+    background: #ffffff !important;
 }
 
 .dashboard-recent th {
     padding-top: 0.85rem;
     padding-bottom: 0.85rem;
-    background: rgba(24, 24, 27, 0.5);
+    background: #f7ede2 !important;
+    color: #6e523f !important;
     font-size: 0.67rem;
+    border-bottom: 1px solid #e3d4c3 !important;
+    font-weight: 700 !important;
 }
 
 .dashboard-recent td {
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
+    border-bottom: 1px solid #ede3d7 !important;
+    color: #23150b !important;
 }
 
 /* ============= GLOBAL CARD & BUTTON EFFECTS ============= */
@@ -347,8 +421,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .card-interactive:hover {
     transform: translateY(-2px);
-    border-color: rgba(245, 158, 11, 0.3) !important;
-    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 16px -2px rgba(245, 158, 11, 0.08) !important;
+    border-color: rgba(217, 119, 6, 0.4) !important;
+    box-shadow: 0 10px 24px -4px rgba(60, 35, 18, 0.12) !important;
 }
 
 button:active:not(:disabled),
@@ -388,7 +462,7 @@ nav[role="navigation"] {
 
 nav[role="navigation"] > div:first-child {
     font-size: 0.75rem;
-    color: #71717a;
+    color: #6e523f !important;
 }
 
 nav[role="navigation"] span[aria-current="page"] > span {
@@ -398,11 +472,11 @@ nav[role="navigation"] span[aria-current="page"] > span {
     min-width: 2rem;
     padding: 0.25rem 0.5rem;
     border-radius: 0.5rem;
-    background: rgb(217 119 6 / 0.15);
-    color: #f59e0b;
+    background: #d97706 !important;
+    color: #ffffff !important;
     font-size: 0.75rem;
     font-weight: 700;
-    border: 1px solid rgb(217 119 6 / 0.25);
+    border: 1px solid #b45309 !important;
 }
 
 nav[role="navigation"] a {
@@ -412,19 +486,19 @@ nav[role="navigation"] a {
     min-width: 2rem;
     padding: 0.25rem 0.5rem;
     border-radius: 0.5rem;
-    background: rgb(39 39 42 / 0.8);
-    color: #a1a1aa;
+    background: #ffffff !important;
+    color: #23150b !important;
     font-size: 0.75rem;
     font-weight: 500;
-    border: 1px solid rgb(63 63 70 / 0.6);
+    border: 1px solid #d4c2b0 !important;
     text-decoration: none;
     transition: all 0.15s ease;
 }
 
 nav[role="navigation"] a:hover {
-    background: #3f3f46;
-    color: #e4e4e7;
-    border-color: #52525b;
+    background: #f5ede2 !important;
+    color: #23150b !important;
+    border-color: #caa78c !important;
 }
 
 nav[role="navigation"] span[aria-disabled="true"] span {
@@ -434,16 +508,18 @@ nav[role="navigation"] span[aria-disabled="true"] span {
     min-width: 2rem;
     padding: 0.25rem 0.5rem;
     border-radius: 0.5rem;
-    background: rgb(24 24 27 / 0.5);
-    color: #52525b;
+    background: #f0e4d6 !important;
+    color: #a88972 !important;
     font-size: 0.75rem;
-    border: 1px solid rgb(39 39 42 / 0.5);
+    border: 1px solid #d4c2b0 !important;
     cursor: not-allowed;
 }
 
 /* ============= TABLE ROW HOVER ============= */
-.hover\:bg-zinc-850\/50:hover {
-    background-color: rgb(24 24 27 / 0.5);
+.hover\:bg-zinc-850\/50:hover,
+.hover\:bg-zinc-850\/40:hover,
+.hover\:bg-zinc-850\/80:hover {
+    background-color: #faf4ed !important;
 }
 
 /* ============= MOBILE SIDEBAR TRANSITION ============= */
@@ -460,9 +536,9 @@ nav[role="navigation"] span[aria-disabled="true"] span {
     }
 }
 
-/* ============= LOADING SKELETON (optional) ============= */
+/* ============= LOADING SKELETON ============= */
 .skeleton {
-    background: linear-gradient(90deg, #27272a 25%, #3f3f46 50%, #27272a 75%);
+    background: linear-gradient(90deg, #f0e4d6 25%, #e3d4c3 50%, #f0e4d6 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
     border-radius: 0.5rem;
