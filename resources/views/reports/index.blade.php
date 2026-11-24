@@ -7,9 +7,19 @@
 @section('content')
 <div class="space-y-6">
 
+    @php
+        $repUser = auth()->user();
+        $isRepAdminGudang = in_array($repUser->role, ['admin', 'admin_gudang']);
+        $repLocation = $repUser->location ?? ($isRepAdminGudang ? 'Gudang Utama & Seluruh Outlet' : 'Outlet 1 - Kemang');
+    @endphp
+
     {{-- ===== HEADER ===== --}}
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold mb-1 {{ $isRepAdminGudang ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' }}">
+                <span>{{ $isRepAdminGudang ? '🏢' : '☕' }}</span>
+                <span>{{ $isRepAdminGudang ? 'Laporan Konsolidasi (Gudang Utama & 5 Outlet)' : 'Laporan Khusus: ' . $repLocation }}</span>
+            </div>
             <h2 class="text-xl font-extrabold text-white tracking-tight">Riwayat Pergerakan Stok</h2>
             <p class="text-xs text-zinc-400 mt-0.5">
                 Periode: <strong class="text-zinc-200">{{ \Carbon\Carbon::parse($startDate)->translatedFormat('d M Y') }}</strong>
@@ -124,7 +134,10 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
             <div class="text-[11px] font-semibold text-zinc-500 uppercase">Bahan Diterima</div>
-            <div class="text-2xl font-black text-emerald-400 mt-1">+{{ number_format($totalInQty, 1, ',', '.') }}</div>
+            @php
+                $fmtTotalIn = (float)$totalInQty == (int)$totalInQty ? number_format($totalInQty, 0, ',', '.') : rtrim(rtrim(number_format($totalInQty, 2, ',', '.'), '0'), ',');
+            @endphp
+            <div class="text-2xl font-black text-emerald-400 mt-1">+{{ $fmtTotalIn }}</div>
             <div class="text-[10px] text-zinc-500 mt-0.5">Total qty masuk dari supplier</div>
         </div>
         <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
@@ -134,7 +147,10 @@
         </div>
         <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
             <div class="text-[11px] font-semibold text-zinc-500 uppercase">Bahan Dipakai</div>
-            <div class="text-2xl font-black text-amber-400 mt-1">-{{ number_format($totalOutQty, 1, ',', '.') }}</div>
+            @php
+                $fmtTotalOut = (float)$totalOutQty == (int)$totalOutQty ? number_format($totalOutQty, 0, ',', '.') : rtrim(rtrim(number_format($totalOutQty, 2, ',', '.'), '0'), ',');
+            @endphp
+            <div class="text-2xl font-black text-amber-400 mt-1">-{{ $fmtTotalOut }}</div>
             <div class="text-[10px] text-zinc-500 mt-0.5">Total qty dipakai barista/dapur</div>
         </div>
         <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800">
@@ -203,12 +219,17 @@
                                 <div class="text-[10px] text-zinc-500">{{ $rec->item->category->name }}</div>
                             </td>
                             <td class="py-3.5 px-4 text-center font-bold">
+                                @php
+                                    $fmtRecQty = (float)$rec->quantity == (int)$rec->quantity 
+                                        ? number_format(abs($rec->quantity), 0, ',', '.') 
+                                        : rtrim(rtrim(number_format(abs($rec->quantity), 2, ',', '.'), '0'), ',');
+                                @endphp
                                 @if($tx->type === 'in')
-                                    <span class="text-emerald-400">+{{ number_format($rec->quantity, 1, ',', '.') }} {{ $rec->item->unit }}</span>
+                                    <span class="text-emerald-400">+{{ $fmtRecQty }} {{ $rec->item->unit }}</span>
                                 @elseif($tx->type === 'out')
-                                    <span class="text-amber-400">-{{ number_format($rec->quantity, 1, ',', '.') }} {{ $rec->item->unit }}</span>
+                                    <span class="text-amber-400">-{{ $fmtRecQty }} {{ $rec->item->unit }}</span>
                                 @else
-                                    <span class="text-cyan-400">{{ $rec->quantity >= 0 ? '+' : '' }}{{ number_format($rec->quantity, 1, ',', '.') }} {{ $rec->item->unit }}</span>
+                                    <span class="text-cyan-400">{{ $rec->quantity >= 0 ? '+' : '-' }}{{ $fmtRecQty }} {{ $rec->item->unit }}</span>
                                 @endif
                             </td>
                             <td class="py-3.5 px-4 text-right text-zinc-400">

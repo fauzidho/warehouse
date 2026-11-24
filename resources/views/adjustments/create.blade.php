@@ -125,7 +125,7 @@
 
                                 <td class="py-3.5 px-2 text-center font-mono">
                                     <span class="system-stock text-zinc-300 font-bold" data-val="{{ $it->current_stock }}">
-                                        {{ number_format($it->current_stock, 1, ',', '.') }}
+                                        {{ (float)$it->current_stock == (int)$it->current_stock ? number_format($it->current_stock, 0, ',', '.') : rtrim(rtrim(number_format($it->current_stock, 2, ',', '.'), '0'), ',') }}
                                     </span>
                                     <span class="text-[10px] text-zinc-500">{{ $it->unit }}</span>
                                 </td>
@@ -177,14 +177,19 @@
         const diff = physicalVal - systemStock;
         const badge = row.querySelector('.diff-badge');
 
-        if (Math.abs(diff) < 0.001) {
-            badge.textContent = '0.0';
+        const absDiff = Math.abs(diff);
+        const formattedDiff = absDiff % 1 === 0 
+            ? absDiff.toString() 
+            : absDiff.toLocaleString('id-ID', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+
+        if (absDiff < 0.001) {
+            badge.textContent = '0';
             badge.className = 'diff-badge px-2 py-0.5 rounded text-[11px] font-bold bg-zinc-800 text-zinc-400';
         } else if (diff > 0) {
-            badge.textContent = '+' + diff.toFixed(1);
+            badge.textContent = '+' + formattedDiff;
             badge.className = 'diff-badge px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
         } else {
-            badge.textContent = diff.toFixed(1);
+            badge.textContent = '-' + formattedDiff;
             badge.className = 'diff-badge px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40';
         }
     }

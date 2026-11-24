@@ -46,9 +46,68 @@
         </div>
     </div>
 
+    @php
+        $currUser = auth()->user();
+        $isAdminGudang = in_array($currUser->role, ['admin', 'admin_gudang']);
+        $userAssignedLoc = $currUser->location ?? ($isAdminGudang ? 'Gudang Utama (Pusat)' : 'Outlet 1 - Kemang');
+        $selectedLocation = !$isAdminGudang ? $userAssignedLoc : request('location', 'all');
+        $availableLocations = [
+            'all' => '🌐 Semua Lokasi (Konsolidasi)',
+            'Gudang Utama (Pusat)' => '🏢 Gudang Utama (Pusat)',
+            'Outlet 1 - Kemang' => '☕ Outlet 1 - Kemang',
+            'Outlet 2 - Sudirman' => '☕ Outlet 2 - Sudirman',
+            'Outlet 3 - Senopati' => '☕ Outlet 3 - Senopati',
+            'Outlet 4 - Bintaro' => '☕ Outlet 4 - Bintaro',
+            'Outlet 5 - Kelapa Gading' => '☕ Outlet 5 - Kelapa Gading',
+        ];
+    @endphp
+
+    <!-- Quick Location Filter Pills -->
+    <div class="bg-zinc-900/80 border border-zinc-800 rounded-2xl p-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-300">Pilih Lokasi Inventori Gudang & Outlet</h3>
+            </div>
+            @if(!$isAdminGudang)
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    Hak Akses: Terkunci ke {{ $userAssignedLoc }}
+                </span>
+            @else
+                <span class="text-[11px] text-zinc-400">
+                    Akses Admin: Menampilkan 1 Gudang Utama + 5 Outlet
+                </span>
+            @endif
+        </div>
+
+        @if($isAdminGudang)
+            <div class="flex flex-wrap items-center gap-2">
+                @foreach($availableLocations as $locKey => $locLabel)
+                    @php $isActive = $selectedLocation === $locKey || ($locKey === 'all' && empty(request('location'))); @endphp
+                    <a href="{{ route('items.index', array_merge(request()->query(), ['location' => $locKey])) }}"
+                        class="px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 {{ $isActive ? 'bg-amber-500 text-zinc-950 font-bold shadow-md shadow-amber-500/20' : 'bg-zinc-950 hover:bg-zinc-800 text-zinc-300 border border-zinc-700/60' }}">
+                        {{ $locLabel }}
+                    </a>
+                @endforeach
+            </div>
+        @else
+            <div class="p-3 rounded-xl bg-zinc-950 border border-zinc-800 flex items-center justify-between text-xs text-zinc-300">
+                <div class="flex items-center gap-2">
+                    <span class="text-base">📍</span>
+                    <span>Anda bertugas di <strong>{{ $userAssignedLoc }}</strong>. Stok di bawah disaring khusus untuk outlet Anda.</span>
+                </div>
+            </div>
+        @endif
+    </div>
+
     <!-- Filters & Search Bar -->
     <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl p-4 sm:p-5">
-        <form method="GET" action="{{ route('items.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <form method="GET" action="{{ route('items.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            @if(request('location'))
+                <input type="hidden" name="location" value="{{ request('location') }}">
+            @endif
+
             <!-- Search Keyword -->
             <div class="lg:col-span-2">
                 <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Cari Nama Bahan</label>
@@ -71,6 +130,25 @@
                 </select>
             </div>
 
+            <!-- Filter Lokasi (Dropdown) -->
+            <div>
+                <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Lokasi Stok</label>
+                <select name="location" {{ !$isAdminGudang ? 'disabled' : '' }}
+                    class="w-full bg-zinc-950 border border-zinc-700/80 rounded-xl px-3 py-2 text-xs text-zinc-100 focus:outline-none focus:border-amber-500 {{ !$isAdminGudang ? 'opacity-70 cursor-not-allowed' : '' }}">
+                    @if($isAdminGudang)
+                        <option value="all" {{ request('location') == 'all' || !request('location') ? 'selected' : '' }}>Semua Lokasi</option>
+                        <option value="Gudang Utama (Pusat)" {{ request('location') == 'Gudang Utama (Pusat)' ? 'selected' : '' }}>Gudang Utama (Pusat)</option>
+                        <option value="Outlet 1 - Kemang" {{ request('location') == 'Outlet 1 - Kemang' ? 'selected' : '' }}>Outlet 1 - Kemang</option>
+                        <option value="Outlet 2 - Sudirman" {{ request('location') == 'Outlet 2 - Sudirman' ? 'selected' : '' }}>Outlet 2 - Sudirman</option>
+                        <option value="Outlet 3 - Senopati" {{ request('location') == 'Outlet 3 - Senopati' ? 'selected' : '' }}>Outlet 3 - Senopati</option>
+                        <option value="Outlet 4 - Bintaro" {{ request('location') == 'Outlet 4 - Bintaro' ? 'selected' : '' }}>Outlet 4 - Bintaro</option>
+                        <option value="Outlet 5 - Kelapa Gading" {{ request('location') == 'Outlet 5 - Kelapa Gading' ? 'selected' : '' }}>Outlet 5 - Kelapa Gading</option>
+                    @else
+                        <option value="{{ $userAssignedLoc }}" selected>{{ $userAssignedLoc }}</option>
+                    @endif
+                </select>
+            </div>
+
             <!-- Filter Status Stok -->
             <div>
                 <label class="block text-[11px] font-semibold text-zinc-400 mb-1">Status Stok</label>
@@ -84,7 +162,7 @@
                     <button type="submit" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-semibold shrink-0 transition-all border border-zinc-700/60">
                         Saring
                     </button>
-                    @if(request()->hasAny(['search', 'category', 'status']))
+                    @if(request()->hasAny(['search', 'category', 'status', 'location']))
                         <a href="{{ route('items.index') }}" class="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 text-xs shrink-0 flex items-center justify-center transition-all border border-zinc-700/60" title="Atur ulang filter">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                         </a>
@@ -97,16 +175,17 @@
     <!-- Items Grid / Table -->
     <div class="bg-zinc-900/70 border border-zinc-800 rounded-2xl overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs" style="min-width:700px;">
+            <table class="w-full text-left text-xs" style="min-width:800px;">
                 <thead>
                     <tr class="bg-zinc-900 border-b border-zinc-800 text-zinc-400 font-semibold uppercase tracking-wider text-[10px]">
-                        <th class="py-3.5 px-4" style="width:25%;">Bahan Baku</th>
-                        <th class="py-3.5 px-4" style="width:17%;">Kategori</th>
+                        <th class="py-3.5 px-4" style="width:22%;">Bahan Baku</th>
+                        <th class="py-3.5 px-4" style="width:14%;">Kategori</th>
+                        <th class="py-3.5 px-4" style="width:14%;">Lokasi Penyimpanan</th>
                         <th class="py-3.5 px-4 text-center" style="width:12%;">Stok Saat Ini</th>
-                        <th class="py-3.5 px-4 text-center" style="width:12%;">Batas Min</th>
-                        <th class="py-3.5 px-4 text-center" style="width:10%;">Status</th>
-                        <th class="py-3.5 px-4 text-right" style="width:13%;">Harga Beli</th>
-                        <th class="py-3.5 px-4 text-right" style="width:11%;">Aksi</th>
+                        <th class="py-3.5 px-4 text-center" style="width:11%;">Batas Min</th>
+                        <th class="py-3.5 px-4 text-center" style="width:9%;">Status</th>
+                        <th class="py-3.5 px-4 text-right" style="width:10%;">Harga Beli</th>
+                        <th class="py-3.5 px-4 text-right" style="width:8%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-zinc-800/60">
@@ -114,6 +193,17 @@
                         @php
                             $isOut = $item->current_stock <= 0;
                             $isLow = $item->current_stock <= $item->minimum_stock && !$isOut;
+                            // Format desimal konsisten (mendukung 0,5 dan 2,25 tanpa paksa digit trailing zero)
+                            $fmtCurrentStock = (float)$item->current_stock == (int)$item->current_stock 
+                                ? number_format($item->current_stock, 0, ',', '.') 
+                                : rtrim(rtrim(number_format($item->current_stock, 2, ',', '.'), '0'), ',');
+                            $fmtMinStock = (float)$item->minimum_stock == (int)$item->minimum_stock 
+                                ? number_format($item->minimum_stock, 0, ',', '.') 
+                                : rtrim(rtrim(number_format($item->minimum_stock, 2, ',', '.'), '0'), ',');
+
+                            // Penentuan lokasi item untuk tampilan per lokasi
+                            $itemLocation = $selectedLocation !== 'all' ? $selectedLocation : ($item->location ?? 'Gudang Utama (Pusat)');
+                            $isMainWarehouse = str_contains($itemLocation, 'Utama');
                         @endphp
                         <tr class="hover:bg-zinc-850/50 transition-colors">
                             <!-- Name -->
@@ -131,20 +221,28 @@
                                 </span>
                             </td>
 
-                            <!-- Current Stock -->
+                            <!-- Lokasi Penyimpanan -->
+                            <td class="py-4 px-4" style="max-width:0;">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold {{ $isMainWarehouse ? 'bg-amber-500/10 text-amber-400 border border-amber-500/25' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25' }} overflow-hidden text-ellipsis whitespace-nowrap max-w-full">
+                                    <span>{{ $isMainWarehouse ? '🏢' : '☕' }}</span>
+                                    <span>{{ $itemLocation }}</span>
+                                </span>
+                            </td>
+
+                            <!-- Current Stock (Mendukung Desimal) -->
                             <td class="py-4 px-4 text-center">
                                 <div class="font-mono font-bold text-sm text-zinc-200">
-                                    {{ number_format($item->current_stock, 1, ',', '.') }}
+                                    {{ $fmtCurrentStock }}
                                 </div>
                                 <div class="text-[10px] text-zinc-500">{{ $item->unit }}</div>
                             </td>
 
-                            <!-- Min Stock -->
+                            <!-- Min Stock (Mendukung Desimal) -->
                             <td class="py-4 px-4 text-center font-mono text-zinc-400">
-                                {{ number_format($item->minimum_stock, 1, ',', '.') }} {{ $item->unit }}
+                                {{ $fmtMinStock }} {{ $item->unit }}
                             </td>
 
-                            <!-- Status Badge (Muted Slate with micro-dot) -->
+                            <!-- Status Badge -->
                             <td class="py-4 px-4 text-center">
                                 @if($isOut)
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-zinc-800 text-zinc-300 border border-zinc-700/60">

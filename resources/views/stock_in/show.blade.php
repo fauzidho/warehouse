@@ -109,7 +109,7 @@
                                 @endif
                             </td>
                             <td class="py-3 text-right font-bold text-white">
-                                {{ number_format($it->quantity, 1, ',', '.') }} {{ $it->item->unit }}
+                                {{ (float)$it->quantity == (int)$it->quantity ? number_format($it->quantity, 0, ',', '.') : rtrim(rtrim(number_format($it->quantity, 2, ',', '.'), '0'), ',') }} {{ $it->item->unit }}
                             </td>
                             <td class="py-3 text-right text-zinc-300">
                                 Rp {{ number_format($it->unit_cost, 0, ',', '.') }}

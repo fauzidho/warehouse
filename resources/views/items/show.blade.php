@@ -41,7 +41,7 @@
                 <div>
                     <div class="text-[11px] font-semibold text-zinc-500 uppercase">Stok Tersedia</div>
                     <div class="text-3xl font-black {{ $item->current_stock <= 0 ? 'text-rose-500' : ($item->isLowStock() ? 'text-amber-400' : 'text-emerald-400') }}">
-                        {{ number_format($item->current_stock, 1, ',', '.') }}
+                        {{ (float)$item->current_stock == (int)$item->current_stock ? number_format($item->current_stock, 0, ',', '.') : rtrim(rtrim(number_format($item->current_stock, 2, ',', '.'), '0'), ',') }}
                         <span class="text-sm font-semibold text-zinc-400">{{ $item->unit }}</span>
                     </div>
                 </div>
@@ -138,12 +138,17 @@
                             </td>
 
                             <td class="py-3.5 text-center font-bold text-sm">
+                                @php
+                                    $fmtQty = (float)$history->quantity == (int)$history->quantity 
+                                        ? number_format(abs($history->quantity), 0, ',', '.') 
+                                        : rtrim(rtrim(number_format(abs($history->quantity), 2, ',', '.'), '0'), ',');
+                                @endphp
                                 @if($tx->type === 'in')
-                                    <span class="text-emerald-400">+{{ number_format($history->quantity, 1, ',', '.') }} {{ $item->unit }}</span>
+                                    <span class="text-emerald-400">+{{ $fmtQty }} {{ $item->unit }}</span>
                                 @elseif($tx->type === 'out')
-                                    <span class="text-amber-400">-{{ number_format($history->quantity, 1, ',', '.') }} {{ $item->unit }}</span>
+                                    <span class="text-amber-400">-{{ $fmtQty }} {{ $item->unit }}</span>
                                 @else
-                                    <span class="text-cyan-400">{{ $history->quantity >= 0 ? '+' : '' }}{{ number_format($history->quantity, 1, ',', '.') }} {{ $item->unit }}</span>
+                                    <span class="text-cyan-400">{{ $history->quantity >= 0 ? '+' : '-' }}{{ $fmtQty }} {{ $item->unit }}</span>
                                 @endif
                             </td>
 

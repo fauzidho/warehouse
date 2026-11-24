@@ -5,6 +5,13 @@
 @section('page-subtitle', 'Ringkasan operasional dan persediaan stok bahan baku')
 
 @section('content')
+@php
+    $curUser = auth()->user();
+    $isAdminGudang = in_array($curUser->role, ['admin', 'admin_gudang']);
+    $roleName = $isAdminGudang ? 'Admin Gudang (Akses Seluruh Lokasi)' : 'Admin Outlet';
+    $locationName = $curUser->location ?? ($isAdminGudang ? 'Gudang Utama & 5 Outlet' : 'Outlet 1 - Kemang');
+@endphp
+
 <div class="dashboard-page">
 
     {{-- Welcome Banner --}}
@@ -14,14 +21,18 @@
             <div class="space-y-1.5">
                 <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium">
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
-                    Sistem Aktif &bull; Gudang Half Kopi
+                    {{ $isAdminGudang ? '🏢 Sistem Gudang Utama & Seluruh Outlet' : '☕ ' . $locationName }}
                 </div>
                 <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                    Selamat Datang, {{ auth()->user()->name }}
+                    Selamat Datang, {{ $curUser->name }}
                 </h2>
                 <p class="text-sm text-zinc-400 max-w-lg">
-                    Status akun: <strong class="text-zinc-200">{{ auth()->user()->isAdmin() ? 'Administrator' : 'Staf Pegawai' }}</strong>.
-                    Pantau persediaan bahan baku dan catat pergerakan stok harian secara real-time.
+                    Status akun: <strong class="text-zinc-200">{{ $roleName }}</strong>.
+                    @if($isAdminGudang)
+                        Memiliki akses penuh untuk memantau inventori Gudang Utama serta pergerakan stok pada seluruh 5 outlet Half Kopi.
+                    @else
+                        Memantau persediaan bahan baku dan mencatat pergerakan stok harian khusus pada <strong>{{ $locationName }}</strong>.
+                    @endif
                 </p>
             </div>
             <div class="flex flex-wrap gap-2 shrink-0">
@@ -173,8 +184,12 @@
                             </div>
                             <div class="text-right flex items-center gap-3 shrink-0">
                                 <div>
+                                    @php
+                                        $fmtCurrent = (float)$lItem->current_stock == (int)$lItem->current_stock ? number_format($lItem->current_stock, 0, ',', '.') : rtrim(rtrim(number_format($lItem->current_stock, 2, ',', '.'), '0'), ',');
+                                        $fmtMin = (float)$lItem->minimum_stock == (int)$lItem->minimum_stock ? number_format($lItem->minimum_stock, 0, ',', '.') : rtrim(rtrim(number_format($lItem->minimum_stock, 2, ',', '.'), '0'), ',');
+                                    @endphp
                                     <div class="text-xs font-bold {{ $lItem->current_stock <= 0 ? 'text-rose-400' : 'text-amber-400' }} font-mono">
-                                        {{ $lItem->current_stock }} / {{ $lItem->minimum_stock }} <span class="text-zinc-500 text-[10px] font-sans">{{ $lItem->unit }}</span>
+                                        {{ $fmtCurrent }} / {{ $fmtMin }} <span class="text-zinc-500 text-[10px] font-sans">{{ $lItem->unit }}</span>
                                     </div>
                                     <div class="text-[10px] text-zinc-500">
                                         {{ $lItem->current_stock <= 0 ? 'Habis Total' : 'Sisa ' . $percent . '%' }}

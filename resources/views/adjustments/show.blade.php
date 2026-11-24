@@ -89,8 +89,11 @@
                                 <div class="text-[11px] text-zinc-500">Kategori: {{ $it->item->category->name }}</div>
                             </td>
                             <td class="py-3 text-center font-mono">
+                                @php
+                                    $fmtAdjQty = (float)$it->quantity == (int)$it->quantity ? number_format(abs($it->quantity), 0, ',', '.') : rtrim(rtrim(number_format(abs($it->quantity), 2, ',', '.'), '0'), ',');
+                                @endphp
                                 <span class="px-2 py-0.5 rounded text-xs font-bold {{ $it->quantity >= 0 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30' }}">
-                                    {{ $it->quantity >= 0 ? '+' : '' }}{{ number_format($it->quantity, 1, ',', '.') }} {{ $it->item->unit }}
+                                    {{ $it->quantity >= 0 ? '+' : '-' }}{{ $fmtAdjQty }} {{ $it->item->unit }}
                                 </span>
                             </td>
                             <td class="py-3 text-zinc-300">

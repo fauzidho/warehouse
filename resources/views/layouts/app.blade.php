@@ -528,23 +528,34 @@
             </div>
         </div>
 
+        @php
+            $currentUser = auth()->user();
+            $isAdminGudang = in_array($currentUser->role, ['admin', 'admin_gudang']);
+            $roleTitle = $isAdminGudang ? 'Admin Gudang' : 'Admin Outlet';
+            $userLocation = $currentUser->location ?? ($isAdminGudang ? 'Gudang Utama (Pusat)' : 'Outlet 1 - Kemang');
+        @endphp
+
         {{-- User Card --}}
         <div class="sidebar-user">
             <div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0.65rem;border-radius:9px;background:rgba(0,0,0,0.25);border:1px solid rgba(217,196,171,0.25);">
                 <div style="width:30px;height:30px;border-radius:7px;background:#d9c4ab;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#3e231c;flex-shrink:0;">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    {{ strtoupper(substr($currentUser->name, 0, 1)) }}
                 </div>
                 <div style="flex:1;min-width:0;">
-                    <div style="font-size:11px;font-weight:600;color:#ffffff;overflow-wrap:anywhere;">{{ auth()->user()->name }}</div>
+                    <div style="font-size:11px;font-weight:600;color:#ffffff;overflow-wrap:anywhere;">{{ $currentUser->name }}</div>
                     <div style="font-size:10px;color:#d9c4ab;display:flex;align-items:center;gap:3px;margin-top:1px;">
-                        <span style="width:5px;height:5px;border-radius:50%;background:#34d399;display:inline-block;flex-shrink:0;"></span>
-                        {{ auth()->user()->isAdmin() ? 'Administrator' : 'Staf Pegawai' }}
+                        <span style="width:5px;height:5px;border-radius:50%;background:{{ $isAdminGudang ? '#fbbf24' : '#34d399' }};display:inline-block;flex-shrink:0;"></span>
+                        {{ $roleTitle }}
+                    </div>
+                    <div style="font-size:9px;color:rgba(217,196,171,0.85);margin-top:2px;display:flex;align-items:center;gap:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                        <span>📍</span>
+                        <span>{{ $userLocation }}</span>
                     </div>
                 </div>
-                @if(auth()->user()->isAdmin())
-                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(217,196,171,0.2);color:#d9c4ab;border:1px solid #d9c4ab;font-weight:700;flex-shrink:0;">ADMIN</span>
+                @if($isAdminGudang)
+                    <span style="font-size:8px;padding:2px 4px;border-radius:4px;background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.4);font-weight:700;flex-shrink:0;">GUDANG</span>
                 @else
-                    <span style="font-size:9px;padding:2px 5px;border-radius:4px;background:rgba(52,211,153,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.4);font-weight:700;flex-shrink:0;">STAF</span>
+                    <span style="font-size:8px;padding:2px 4px;border-radius:4px;background:rgba(52,211,153,0.2);color:#34d399;border:1px solid rgba(52,211,153,0.4);font-weight:700;flex-shrink:0;">OUTLET</span>
                 @endif
             </div>
         </div>
@@ -557,7 +568,7 @@
             <a href="{{ route('dashboard') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Dasbor
+                Dasbor {{ $isAdminGudang ? 'Utama' : 'Outlet' }}
             </a>
 
             <a href="{{ route('items.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
@@ -565,14 +576,14 @@
                style="justify-content:space-between;">
                 <span style="display:flex;align-items:center;gap:0.6rem;">
                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-                    Katalog Bahan Baku
+                    {{ $isAdminGudang ? 'Katalog Bahan Baku' : 'Stok Bahan Outlet' }}
                 </span>
                 @if(($globalLowStockCount ?? 0) > 0)
                     <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:9999px;background:rgba(244,63,94,0.15);color:#fb7185;border:1px solid rgba(244,63,94,0.3);">{{ $globalLowStockCount }} Restock</span>
                 @endif
             </a>
 
-            <div class="nav-section-label">Operasional Gudang</div>
+            <div class="nav-section-label">{{ $isAdminGudang ? 'Operasional Gudang' : 'Operasional Outlet' }}</div>
 
             <a href="{{ route('stock-in.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('stock-in.*') ? 'active' : '' }}" style="justify-content:space-between;">
@@ -606,11 +617,11 @@
             <a href="{{ route('reports.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                Laporan Mutasi Stok
+                {{ $isAdminGudang ? 'Laporan Mutasi Stok' : 'Laporan Stok Outlet' }}
             </a>
 
-            @if(auth()->user()->isAdmin())
-            <div class="nav-section-label" style="color:rgba(217,119,6,0.65);border-top:1px solid rgba(63,63,70,0.4);padding-top:0.875rem;margin-top:0.5rem;">Pengaturan Admin</div>
+            @if($isAdminGudang)
+            <div class="nav-section-label" style="color:rgba(217,119,6,0.65);border-top:1px solid rgba(63,63,70,0.4);padding-top:0.875rem;margin-top:0.5rem;">Pengaturan Admin Gudang</div>
 
             <a href="{{ route('categories.index') }}" onclick="if(window.innerWidth<1024)closeSidebar()"
                class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
@@ -844,6 +855,20 @@
     }
     updateRealtimeClock();
     setInterval(updateRealtimeClock, 1000);
+
+    // Dukungan Input Desimal Koma (cth: 0,5 dan 2,25 otomatis dinormalisasi ke format desimal)
+    document.addEventListener('keydown', function(e) {
+        if (e.target && e.target.type === 'number' && (e.key === ',' || e.key === 'Decimal')) {
+            const start = e.target.selectionStart;
+            const end = e.target.selectionEnd;
+            if (!e.target.value.includes('.')) {
+                e.preventDefault();
+                const val = e.target.value;
+                e.target.value = val.substring(0, start) + '.' + val.substring(end);
+                e.target.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        }
+    }, true);
 </script>
 
 @stack('scripts')

@@ -13,9 +13,11 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
         <div class="text-xs text-zinc-300">
-            <span class="font-bold text-white">Panduan Hak Akses:</span>
-            <span class="text-amber-400 font-semibold">Administrator</span> dapat mengelola semua data termasuk harga, supplier, dan pengaturan sistem.
-            <span class="text-emerald-400 font-semibold">Pegawai</span> hanya dapat mencatat stok masuk, pemakaian, dan melihat katalog bahan.
+            <span class="font-bold text-white">Panduan Hak Akses Sistem:</span>
+            <div class="mt-1 space-y-0.5">
+                <div><span class="text-amber-400 font-semibold">Admin Gudang:</span> Memiliki akses penuh ke Gudang Utama dan seluruh 5 outlet, mengelola seluruh stok, laporan, serta akun Admin Outlet.</div>
+                <div><span class="text-emerald-400 font-semibold">Admin Outlet:</span> Hanya dapat melihat dan mengelola stok pada outlet yang ditugaskan; tidak dapat mengakses gudang utama atau outlet lain.</div>
+            </div>
         </div>
     </div>
 
@@ -30,8 +32,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-white">Tambah Pengguna Baru</h3>
-                    <p class="text-[11px] text-zinc-500">Buat akun untuk staf baru</p>
+                    <h3 class="text-sm font-bold text-white">Tambah Akun Pengguna</h3>
+                    <p class="text-[11px] text-zinc-500">Buat akun staf baru (tanpa email)</p>
                 </div>
             </div>
 
@@ -51,31 +53,59 @@
                 </div>
 
                 <div>
-                    <label for="email" class="block text-xs font-semibold text-zinc-300 mb-1.5">
-                        Alamat Email <span class="text-rose-400">*</span>
+                    <label for="username" class="block text-xs font-semibold text-zinc-300 mb-1.5">
+                        Username <span class="text-rose-400">*</span>
                     </label>
-                    <input type="email" name="email" id="email"
-                        placeholder="nama@halfkopi.com"
-                        value="{{ old('email') }}"
+                    <input type="text" name="username" id="username"
+                        placeholder="Cth: admin_kemang / spv_gudang"
+                        value="{{ old('username') }}"
                         required
                         class="w-full bg-zinc-950 border border-zinc-700/60 rounded-xl px-3.5 py-2.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-amber-500 transition-all">
-                    @error('email') <p class="text-rose-400 text-[11px] mt-1">{{ $message }}</p> @enderror
+                    @error('username') <p class="text-rose-400 text-[11px] mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label for="role" class="block text-xs font-semibold text-zinc-300 mb-1.5">
-                        Hak Akses <span class="text-rose-400">*</span>
+                        Hak Akses (Role) <span class="text-rose-400">*</span>
                     </label>
                     <select name="role" id="role" required
                         class="w-full bg-zinc-950 border border-zinc-700/60 rounded-xl px-3.5 py-2.5 text-xs text-zinc-100 focus:outline-none focus:border-amber-500 transition-all">
-                        <option value="pegawai" {{ old('role') == 'pegawai' ? 'selected' : '' }}>
-                            Pegawai &mdash; Barista / Staff Gudang
+                        <option value="admin_outlet" {{ old('role') == 'admin_outlet' ? 'selected' : '' }}>
+                            Admin Outlet &mdash; Khusus Outlet Ditugaskan
                         </option>
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>
-                            Administrator &mdash; Akses Penuh
+                        <option value="admin_gudang" {{ old('role') == 'admin_gudang' || old('role') == 'admin' ? 'selected' : '' }}>
+                            Admin Gudang &mdash; Akses Gudang Utama & Seluruh Outlet
                         </option>
                     </select>
                     @error('role') <p class="text-rose-400 text-[11px] mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label for="location" class="block text-xs font-semibold text-zinc-300 mb-1.5">
+                        Lokasi Penugasan <span class="text-rose-400">*</span>
+                    </label>
+                    <select name="location" id="location" required
+                        class="w-full bg-zinc-950 border border-zinc-700/60 rounded-xl px-3.5 py-2.5 text-xs text-zinc-100 focus:outline-none focus:border-amber-500 transition-all">
+                        <option value="Gudang Utama (Pusat)" {{ old('location') == 'Gudang Utama (Pusat)' ? 'selected' : '' }}>
+                            🏢 Gudang Utama (Pusat)
+                        </option>
+                        <option value="Outlet 1 - Kemang" {{ old('location') == 'Outlet 1 - Kemang' ? 'selected' : '' }}>
+                            ☕ Outlet 1 - Kemang
+                        </option>
+                        <option value="Outlet 2 - Sudirman" {{ old('location') == 'Outlet 2 - Sudirman' ? 'selected' : '' }}>
+                            ☕ Outlet 2 - Sudirman
+                        </option>
+                        <option value="Outlet 3 - Senopati" {{ old('location') == 'Outlet 3 - Senopati' ? 'selected' : '' }}>
+                            ☕ Outlet 3 - Senopati
+                        </option>
+                        <option value="Outlet 4 - Bintaro" {{ old('location') == 'Outlet 4 - Bintaro' ? 'selected' : '' }}>
+                            ☕ Outlet 4 - Bintaro
+                        </option>
+                        <option value="Outlet 5 - Kelapa Gading" {{ old('location') == 'Outlet 5 - Kelapa Gading' ? 'selected' : '' }}>
+                            ☕ Outlet 5 - Kelapa Gading
+                        </option>
+                    </select>
+                    @error('location') <p class="text-rose-400 text-[11px] mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
@@ -114,8 +144,8 @@
             {{-- Summary --}}
             <div class="grid grid-cols-3 gap-3">
                 @php
-                    $adminCount = $users->where('role', 'admin')->count();
-                    $staffCount = $users->where('role', 'pegawai')->count();
+                    $adminCount = $users->filter(fn($u) => in_array($u->role, ['admin', 'admin_gudang']))->count();
+                    $staffCount = $users->filter(fn($u) => in_array($u->role, ['pegawai', 'admin_outlet']))->count();
                     $activeCount = $users->where('is_active', true)->count();
                 @endphp
                 <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800 text-center">
@@ -124,11 +154,11 @@
                 </div>
                 <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800 text-center">
                     <div class="text-2xl font-black text-amber-400">{{ $adminCount }}</div>
-                    <div class="text-[11px] text-zinc-500 mt-0.5">Administrator</div>
+                    <div class="text-[11px] text-zinc-500 mt-0.5">Admin Gudang</div>
                 </div>
                 <div class="p-4 rounded-xl bg-zinc-900/70 border border-zinc-800 text-center">
                     <div class="text-2xl font-black text-emerald-400">{{ $staffCount }}</div>
-                    <div class="text-[11px] text-zinc-500 mt-0.5">Pegawai</div>
+                    <div class="text-[11px] text-zinc-500 mt-0.5">Admin Outlet</div>
                 </div>
             </div>
 
@@ -140,23 +170,28 @@
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-xs" style="min-width:500px;">
+                    <table class="w-full text-xs" style="min-width:600px;">
                         <thead>
                             <tr class="border-b border-zinc-800 text-zinc-500 font-semibold uppercase tracking-wider text-[10px]">
-                                <th class="py-3 px-4 text-left" style="width:35%;">Pengguna</th>
-                                <th class="py-3 px-4 text-center" style="width:15%;">Role</th>
-                                <th class="py-3 px-4 text-left hidden sm:table-cell" style="width:20%;">Kontak</th>
-                                <th class="py-3 px-4 text-center" style="width:15%;">Status</th>
-                                <th class="py-3 px-4 text-right" style="width:15%;">Aksi</th>
+                                <th class="py-3 px-4 text-left" style="width:30%;">Pengguna</th>
+                                <th class="py-3 px-4 text-center" style="width:20%;">Role</th>
+                                <th class="py-3 px-4 text-left" style="width:25%;">Lokasi Penugasan</th>
+                                <th class="py-3 px-4 text-center" style="width:12%;">Status</th>
+                                <th class="py-3 px-4 text-right" style="width:13%;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-800/50">
                             @forelse($users as $u)
+                                @php
+                                    $isAdminGudang = in_array($u->role, ['admin', 'admin_gudang']);
+                                    $uname = $u->username ?? strtolower(str_replace(' ', '_', $u->name));
+                                    $assignedLoc = $u->location ?? ($isAdminGudang ? 'Gudang Utama (Pusat)' : 'Outlet 1 - Kemang');
+                                @endphp
                                 <tr class="hover:bg-zinc-800/20 transition-colors">
                                     <td class="py-3.5 px-4" style="max-width:0;">
                                         <div class="flex items-center gap-2.5">
                                             <div class="w-7 h-7 rounded-lg bg-zinc-800 flex items-center justify-center text-xs font-bold
-                                                {{ $u->role === 'admin' ? 'text-amber-400' : 'text-emerald-400' }} shrink-0 border border-zinc-700">
+                                                {{ $isAdminGudang ? 'text-amber-400' : 'text-emerald-400' }} shrink-0 border border-zinc-700">
                                                 {{ strtoupper(substr($u->name, 0, 1)) }}
                                             </div>
                                             <div class="min-w-0">
@@ -166,25 +201,28 @@
                                                         <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold shrink-0">Anda</span>
                                                     @endif
                                                 </div>
-                                                <div class="text-[11px] text-zinc-500 overflow-hidden text-ellipsis whitespace-nowrap">{{ $u->email }}</div>
+                                                <div class="text-[11px] text-zinc-400 font-mono overflow-hidden text-ellipsis whitespace-nowrap">{{ '@' . $uname }}</div>
                                             </div>
                                         </div>
                                     </td>
 
                                     <td class="py-3.5 px-4 text-center">
-                                        @if($u->role === 'admin')
+                                        @if($isAdminGudang)
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/25">
-                                                ADMIN
+                                                ADMIN GUDANG
                                             </span>
                                         @else
                                             <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
-                                                PEGAWAI
+                                                ADMIN OUTLET
                                             </span>
                                         @endif
                                     </td>
 
-                                    <td class="py-3.5 px-4 hidden sm:table-cell">
-                                        <span class="text-zinc-400 text-[11px]">{{ $u->phone ?: '&mdash;' }}</span>
+                                    <td class="py-3.5 px-4">
+                                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-medium bg-zinc-800/90 text-zinc-200 border border-zinc-700/60">
+                                            <span>{{ $isAdminGudang ? '🏢' : '☕' }}</span>
+                                            <span>{{ $assignedLoc }}</span>
+                                        </div>
                                     </td>
 
                                     <td class="py-3.5 px-4 text-center">

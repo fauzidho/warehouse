@@ -156,7 +156,12 @@
                         <strong>{{ $rec->item->name }}</strong>
                     </td>
                     <td class="text-center font-bold">
-                        @if($tx->type === 'in')+{{ $rec->quantity }}@elseif($tx->type === 'out')-{{ $rec->quantity }}@else{{ $rec->quantity >= 0 ? '+' : '' }}{{ $rec->quantity }}@endif {{ $rec->item->unit }}
+                        @php
+                            $fmtPrintQty = (float)$rec->quantity == (int)$rec->quantity 
+                                ? number_format(abs($rec->quantity), 0, ',', '.') 
+                                : rtrim(rtrim(number_format(abs($rec->quantity), 2, ',', '.'), '0'), ',');
+                        @endphp
+                        @if($tx->type === 'in')+{{ $fmtPrintQty }}@elseif($tx->type === 'out')-{{ $fmtPrintQty }}@else{{ $rec->quantity >= 0 ? '+' : '-' }}{{ $fmtPrintQty }}@endif {{ $rec->item->unit }}
                     </td>
                     <td class="text-right">Rp {{ number_format($rec->unit_cost, 0, ',', '.') }}</td>
                     <td class="text-right font-bold">Rp {{ number_format($rec->subtotal, 0, ',', '.') }}</td>
