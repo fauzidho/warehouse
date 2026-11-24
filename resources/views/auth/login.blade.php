@@ -31,8 +31,6 @@
     <div class="absolute inset-0 overflow-hidden pointer-events-none" style="background: radial-gradient(ellipse at 85% 10%, rgba(62,35,28,0.12), transparent 45%), radial-gradient(ellipse at 15% 90%, rgba(62,35,28,0.14), transparent 45%), #d9c4ab;">
         <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-3xl" style="background:rgba(62,35,28,0.1);"></div>
         <div class="absolute -bottom-40 -right-40 w-[30rem] h-[30rem] rounded-full blur-3xl" style="background:rgba(62,35,28,0.12);"></div>
-        {{-- Subtle grid pattern --}}
-        <div class="absolute inset-0 opacity-[0.035]" style="background-image: linear-gradient(#3e231c 1px, transparent 1px), linear-gradient(90deg, #3e231c 1px, transparent 1px); background-size: 36px 36px;"></div>
     </div>
 
     <div class="w-full max-w-md relative z-10 login-card">

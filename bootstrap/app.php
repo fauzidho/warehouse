@@ -17,6 +17,18 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, \Illuminate\Http\Request $request) {
+            if ($request->is('logout')) {
+                return redirect()->route('login');
+            }
+        });
+
+        $exceptions->render(function (\Illuminate\View\ViewException $e, \Illuminate\Http\Request $request) {
+            if (str_contains($e->getMessage(), 'styles.css') || str_contains($e->getMessage(), 'Renderer')) {
+                return redirect()->route('login');
+            }
+        });
+
         $exceptions->render(function (\Throwable $e, \Illuminate\Http\Request $request) {
             if (! app()->bound('view')) {
                 return response(

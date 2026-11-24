@@ -1,0 +1,7 @@
+/* Laravel 12 Exception Renderer Styles */
+*, *::before, *::after { box-sizing: border-box; }
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; font-family: ui-sans-serif, system-ui, sans-serif; }
+body { margin: 0; padding: 0; background-color: #0f172a; color: #f8fafc; }
+pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.shiki { overflow-x: auto; }
+[x-cloak] { display: none !important; }
