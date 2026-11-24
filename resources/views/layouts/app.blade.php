@@ -17,7 +17,7 @@
         html, body {
             height: 100%;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #efe6da !important;
+            background: #d9c4ab !important;
             color: #3e231c !important;
         }
 
@@ -29,7 +29,7 @@
             overflow: hidden;
             width: 100%;
             position: relative;
-            background: #efe6da !important;
+            background: #d9c4ab !important;
         }
 
         /* ─── SIDEBAR (WARNA COKELAT #3E231C) ─── */
@@ -233,7 +233,7 @@
         .nav-link svg { flex-shrink: 0; }
         .nav-link .sub { margin-left: auto; font-size: 10px; color: #3e231c; opacity: 0.85; }
 
-        /* ─── MAIN AREA (WARNA BEIGE #EFE6DA / #D9C4AB) ─── */
+        /* ─── MAIN AREA (WARNA BEIGE #D9C4AB) ─── */
         .main-area {
             flex: 1;
             min-width: 0;
@@ -242,7 +242,7 @@
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
-            background: #efe6da !important;
+            background: #d9c4ab !important;
         }
 
         /* ─── TOPBAR ─── */
@@ -254,8 +254,8 @@
             height: 64px;
             min-height: 64px;
             max-height: 64px;
-            background: #efe6da !important;
-            border-bottom: 1px solid #d9c4ab !important;
+            background: #d9c4ab !important;
+            border-bottom: 1.5px solid #c4ac91 !important;
             backdrop-filter: blur(12px);
             flex-shrink: 0;
             box-sizing: border-box;
@@ -267,11 +267,11 @@
             min-height: 0;
             overflow-y: auto;
             overflow-x: auto;
-            background: #efe6da !important;
+            background: #d9c4ab !important;
         }
         .content-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
-        .content-scroll::-webkit-scrollbar-thumb { background: #d9c4ab; border-radius: 9999px; }
-        .content-scroll::-webkit-scrollbar-thumb:hover { background: #c4ac91; }
+        .content-scroll::-webkit-scrollbar-thumb { background: #c4ac91; border-radius: 9999px; }
+        .content-scroll::-webkit-scrollbar-thumb:hover { background: #b58d7c; }
 
         /* ─── GLOBAL PALET COKELAT #3E231C & BEIGE #D9C4AB ─── */
         /* Semua Kartu & Container di Main */
@@ -345,25 +345,25 @@
         }
         .layout main table thead,
         .layout main table thead tr {
-            background-color: #efe6da !important;
+            background-color: #d9c4ab !important;
         }
         .layout main table thead th,
         .layout main table th {
-            background-color: #efe6da !important;
+            background-color: #d9c4ab !important;
             color: #3e231c !important;
-            border-bottom: 2px solid #d9c4ab !important;
+            border-bottom: 2px solid #c4ac91 !important;
             font-weight: 700 !important;
         }
         .layout main table tbody tr {
             background-color: #ffffff !important;
-            border-bottom: 1px solid #efe6da !important;
+            border-bottom: 1px solid #d9c4ab !important;
         }
         .layout main table tbody tr:hover {
             background-color: #f8f3ed !important;
         }
         .layout main table tbody td {
             color: #3e231c !important;
-            border-bottom: 1px solid #efe6da !important;
+            border-bottom: 1px solid #d9c4ab !important;
         }
 
         /* Dashboard Welcome Banner */
@@ -394,7 +394,7 @@
         }
         .layout main a:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):hover,
         .layout main button:where([class*="bg-zinc-800"], [class*="bg-zinc-900"]):hover {
-            background-color: #efe6da !important;
+            background-color: #c4ac91 !important;
             color: #3e231c !important;
         }
 
@@ -405,7 +405,7 @@
             border: 1px solid #d9c4ab !important;
         }
         nav[role="navigation"] a:hover {
-            background: #efe6da !important;
+            background: #d9c4ab !important;
             color: #3e231c !important;
             border-color: #3e231c !important;
         }
@@ -732,7 +732,7 @@
             <main class="page-body page-content" style="padding:1.75rem 2rem;max-width:1440px;width:100%;margin:0 auto;">
                 @yield('content')
             </main>
-            <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid #d9c4ab;font-size:11px;color:#633b30;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#efe6da;">
+            <footer class="no-print page-footer" style="padding:0.75rem 2rem;border-top:1px solid #c4ac91;font-size:11px;color:#633b30;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#d9c4ab;">
                 <div style="display:flex;align-items:center;gap:8px;">
                     <span style="font-weight:700;color:#3e231c;">HALF KOPI WMS</span>
                     <span>&bull;</span>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-zinc-950 text-zinc-100 antialiased">
+<html lang="id" class="h-full antialiased" style="background:#d9c4ab;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #d9c4ab !important;
+            color: #3e231c !important;
+            margin: 0;
+            min-height: 100vh;
+        }
         .login-card { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px) scale(0.98); }
@@ -18,51 +25,51 @@
         }
     </style>
 </head>
-<body class="h-full bg-zinc-950 flex items-center justify-center p-4 relative overflow-hidden selection:bg-amber-600 selection:text-white">
+<body class="h-full flex items-center justify-center p-4 relative overflow-hidden" style="background:#d9c4ab !important;">
 
-    {{-- Ambient Background --}}
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-        <div class="absolute -top-40 -left-40 w-96 h-96 bg-amber-600/8 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-40 -right-40 w-[30rem] h-[30rem] bg-amber-800/6 rounded-full blur-3xl"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-96 bg-amber-900/5 rounded-full blur-3xl"></div>
+    {{-- Ambient Coffee Background Pattern --}}
+    <div class="absolute inset-0 overflow-hidden pointer-events-none" style="background: radial-gradient(ellipse at 85% 10%, rgba(62,35,28,0.12), transparent 45%), radial-gradient(ellipse at 15% 90%, rgba(62,35,28,0.14), transparent 45%), #d9c4ab;">
+        <div class="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-3xl" style="background:rgba(62,35,28,0.1);"></div>
+        <div class="absolute -bottom-40 -right-40 w-[30rem] h-[30rem] rounded-full blur-3xl" style="background:rgba(62,35,28,0.12);"></div>
         {{-- Subtle grid pattern --}}
-        <div class="absolute inset-0 opacity-[0.015]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="absolute inset-0 opacity-[0.035]" style="background-image: linear-gradient(#3e231c 1px, transparent 1px), linear-gradient(90deg, #3e231c 1px, transparent 1px); background-size: 36px 36px;"></div>
     </div>
 
     <div class="w-full max-w-md relative z-10 login-card">
 
-        {{-- Logo & Header --}}
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 shadow-2xl shadow-amber-950/60 border border-amber-400/20 mb-4">
-                <svg class="w-9 h-9 text-zinc-950" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+        {{-- Logo & Header (Deep Brown #3E231C - 100% Kontras Tinggi) --}}
+        <div class="text-center mb-7">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl shadow-xl mb-4" style="background:#3e231c; border: 2px solid #d9c4ab; box-shadow: 0 8px 24px rgba(62,35,28,0.25);">
+                <svg class="w-9 h-9" style="color:#d9c4ab;" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3" />
                 </svg>
             </div>
-            <h1 class="text-2xl font-black tracking-tight text-white">
-                HALF KOPI <span class="text-xs px-2 py-0.5 rounded-md bg-amber-500/12 text-amber-400 font-bold border border-amber-500/25 align-middle">WMS</span>
+            <h1 class="text-2xl font-black tracking-tight" style="color:#3e231c !important; font-size:1.75rem; line-height:1.2;">
+                HALF KOPI
+                <span class="text-xs px-2.5 py-0.5 rounded-md font-bold align-middle" style="background:#3e231c; color:#d9c4ab; border:1px solid #3e231c; margin-left:4px;">WMS</span>
             </h1>
-            <p class="text-xs text-zinc-400 mt-1.5">Sistem Manajemen Inventori Gudang</p>
+            <p class="text-xs font-medium mt-1.5" style="color:#633b30 !important;">Sistem Manajemen Inventori Gudang</p>
         </div>
 
-        {{-- Login Card --}}
-        <div class="bg-zinc-900/80 backdrop-blur-2xl rounded-2xl border border-zinc-800 shadow-2xl shadow-black/50 p-7">
+        {{-- Login Card (Putih Bersih dengan Border Cokelat Beige) --}}
+        <div class="rounded-2xl p-7 shadow-2xl" style="background:#ffffff !important; border: 2px solid #c4ac91 !important; box-shadow: 0 16px 36px -6px rgba(62,35,28,0.22) !important;">
             <div class="mb-5">
-                <h2 class="text-base font-bold text-white">Selamat Datang</h2>
-                <p class="text-xs text-zinc-400 mt-0.5">Silakan masuk dengan akun terdaftar untuk melanjutkan</p>
+                <h2 class="text-lg font-extrabold" style="color:#3e231c !important;">Selamat Datang</h2>
+                <p class="text-xs mt-1" style="color:#633b30 !important;">Silakan masuk dengan akun terdaftar untuk melanjutkan</p>
             </div>
 
             @if(session('success'))
-                <div class="mb-4 p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/25 text-emerald-300 text-xs flex items-center gap-2">
-                    <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <div class="mb-4 p-3 rounded-xl flex items-center gap-2 text-xs" style="background:#ecfdf5; border:1px solid #a7f3d0; color:#047857;">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
 
             @if($errors->any())
-                <div class="mb-4 p-3 rounded-xl bg-rose-950/40 border border-rose-500/25 text-rose-300 text-xs space-y-1">
+                <div class="mb-4 p-3 rounded-xl text-xs space-y-1" style="background:#fff1f2; border:1px solid #fecdd3; color:#be123c;">
                     @foreach($errors->all() as $error)
                         <div class="flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0"></span>
+                            <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:#e11d48;"></span>
                             <span>{{ $error }}</span>
                         </div>
                     @endforeach
@@ -74,12 +81,12 @@
 
                 {{-- Email --}}
                 <div>
-                    <label for="email" class="block text-xs font-semibold text-zinc-300 mb-1.5">
+                    <label for="email" class="block text-xs font-bold mb-1.5" style="color:#3e231c !important;">
                         Alamat Email
                     </label>
                     <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                            <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none" style="color:#7d5245;">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
                             </svg>
                         </div>
@@ -87,26 +94,28 @@
                             value="{{ old('email') }}"
                             required
                             placeholder="nama@halfkopi.com"
-                            class="w-full bg-zinc-950/80 border border-zinc-700/60 rounded-xl pl-10 pr-4 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/40 transition-all">
+                            class="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm font-medium transition-all"
+                            style="background:#fdfbf9 !important; border:1.5px solid #d9c4ab !important; color:#3e231c !important;">
                     </div>
                 </div>
 
                 {{-- Password --}}
                 <div>
-                    <label for="password" class="block text-xs font-semibold text-zinc-300 mb-1.5">
+                    <label for="password" class="block text-xs font-bold mb-1.5" style="color:#3e231c !important;">
                         Kata Sandi
                     </label>
                     <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                            <svg class="w-4 h-4 text-zinc-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none" style="color:#7d5245;">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
                         </div>
                         <input type="password" name="password" id="password"
                             required
                             placeholder="••••••••"
-                            class="w-full bg-zinc-950/80 border border-zinc-700/60 rounded-xl pl-10 pr-11 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500/40 transition-all">
-                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-zinc-500 hover:text-zinc-300 transition-colors">
+                            class="w-full rounded-xl pl-10 pr-11 py-2.5 text-sm font-medium transition-all"
+                            style="background:#fdfbf9 !important; border:1.5px solid #d9c4ab !important; color:#3e231c !important;">
+                        <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3.5 flex items-center transition-colors" style="color:#7d5245;" onmouseover="this.style.color='#3e231c'" onmouseout="this.style.color='#7d5245'">
                             <svg id="eyeIcon" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -118,12 +127,16 @@
                 {{-- Remember Me --}}
                 <div class="flex items-center gap-2">
                     <input type="checkbox" name="remember" id="remember"
-                        class="w-3.5 h-3.5 rounded bg-zinc-950 border-zinc-700 text-amber-600 focus:ring-amber-500 focus:ring-offset-0">
-                    <label for="remember" class="text-xs text-zinc-400 cursor-pointer">Ingat saya di perangkat ini</label>
+                        class="w-4 h-4 rounded cursor-pointer" style="accent-color:#3e231c;">
+                    <label for="remember" class="text-xs font-medium cursor-pointer" style="color:#633b30 !important;">Ingat saya di perangkat ini</label>
                 </div>
 
+                {{-- Submit Button (Warna Cokelat Kopi #3E231C Mewah & Kontras) --}}
                 <button type="submit" id="submitBtn"
-                    class="w-full py-2.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-zinc-950 btn-primary-glow flex items-center justify-center gap-2">
+                    class="w-full py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg active:scale-95"
+                    style="background:#3e231c !important; color:#ffffff !important; border:1px solid #2a1712 !important; box-shadow:0 4px 16px rgba(62,35,28,0.3) !important;"
+                    onmouseover="this.style.background='#2a1712';"
+                    onmouseout="this.style.background='#3e231c';">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                     </svg>
@@ -133,9 +146,9 @@
         </div>
 
         {{-- Footer --}}
-        <div class="text-center mt-6 text-xs text-zinc-600">
-            <div class="flex items-center justify-center gap-1.5 text-emerald-500/60 text-[11px] mb-1">
-                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <div class="text-center mt-6 text-xs" style="color:#633b30 !important;">
+            <div class="flex items-center justify-center gap-1.5 text-[11px] mb-1 font-semibold" style="color:#3e231c !important;">
+                <svg class="w-3.5 h-3.5 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
                 <span>Koneksi aman & terenkripsi</span>
@@ -154,6 +167,7 @@
         document.getElementById('loginForm').addEventListener('submit', function() {
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
+            btn.style.opacity = '0.85';
             btn.innerHTML = `<svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Memproses...`;
         });
     </script>
